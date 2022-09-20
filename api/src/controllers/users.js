@@ -28,10 +28,10 @@ exports.signIn = async (req, res, next) => {
     if (getUser.length) {
       let isMatchedPassword = await bcrypt.compare(
         postData.password,
-        getUser[0].password
+        getUser[0].pwd
       );
       if (isMatchedPassword) {
-        delete getUser[0].password;
+        delete getUser[0].pwd;
 
         const tokenUser = getUser[0];
         const token = jwt.sign(tokenUser, config.secret, {
@@ -40,7 +40,6 @@ exports.signIn = async (req, res, next) => {
         var response = {
           success: true,
           message: "Login successfully",
-          user: tokenUser,
           token: token,
         };
         res.status(201).json(response);
@@ -65,6 +64,12 @@ exports.signIn = async (req, res, next) => {
   }
 };
 
+exports.demo = async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    message: "Success",
+  });
+};
 exports.fobiddenRoute = function (req, res, next) {
   res.status(403).json({ message: "forbidden" });
 };
