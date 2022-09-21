@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ROUTER_UTILS } from 'src/app/@core/utils/router.utils';
+import { AreaCityComponent } from './area-city/area-city.component';
+import { AreaDistrictComponent } from './area-district/area-district.component';
+import { AreaRegionComponent } from './area-region/area-region.component';
 import { BuildingPricingComponent } from './building-pricing/building-pricing.component';
 import { ConditionComponent } from './condition/condition.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -27,6 +30,18 @@ const routes: Routes = [
   {
     path: ROUTER_UTILS.config.admin.land,
     component: LandPricingComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.region,
+    component: AreaRegionComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.city,
+    component: AreaCityComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.district,
+    component: AreaDistrictComponent,
   },
 ];
 

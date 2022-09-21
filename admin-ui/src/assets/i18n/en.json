@@ -8,6 +8,10 @@
   "delete": "Delete",
   "submit": "Submit",
   "logout": "Logout",
+  "area": "Manage Areas",
+  "city": "City",
+  "region": "Region",
+  "district": "District",
   "purposemanage": {
     "title": "Purpose Title",
     "titlear": "Purpose Title (Arabic)",
@@ -20,8 +24,8 @@
     "addnew": "Add New Purpose"
   },
   "building": {
-    "managebuildingpricing":"Manage Building Pricing",
-    "managelandricing":"Manage Land Pricing",
+    "managebuildingpricing": "Manage Building Pricing",
+    "managelandricing": "Manage Land Pricing",
     "title": "Price Class",
     "titlear": "Price Class (Arabic)",
     "area": "Area m2",
@@ -29,7 +33,7 @@
     "titleerr": "Title is required",
     "titlearerr": "Title in Arabic is required",
     "areaerr": "Area is required",
-    "priceerr":"Price is required",
+    "priceerr": "Price is required",
     "addnew": "Add New Pricing"
   }
 }

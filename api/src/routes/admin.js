@@ -103,4 +103,98 @@ router.post(
   adminController.deletelandpricing
 );
 
+/* Region List */
+
+router.get(
+  "/region/list",
+  authUtil.ensureAuthenticated,
+  adminController.getregionlist
+);
+
+/* Region Add */
+router.post(
+  "/region/add",
+  authUtil.ensureAuthenticated,
+  adminController.addregion
+);
+
+/* Region Update */
+router.put(
+  "/region/update",
+  authUtil.ensureAuthenticated,
+  adminController.updateregion
+);
+
+/* Region Delete */
+
+router.post(
+  "/region/delete",
+  authUtil.ensureAuthenticated,
+  adminController.deleteregion
+);
+
+//----------------------------------------------------------------
+
+/* City List */
+
+router.get(
+  "/city/list",
+  authUtil.ensureAuthenticated,
+  adminController.getcitylist
+);
+
+/* City Add */
+router.post(
+  "/city/add",
+  authUtil.ensureAuthenticated,
+  adminController.addnewcity
+);
+
+/* City Update */
+router.put(
+  "/city/update",
+  authUtil.ensureAuthenticated,
+  adminController.updatecity
+);
+
+/* City Delete */
+
+router.post(
+  "/city/delete",
+  authUtil.ensureAuthenticated,
+  adminController.deletecity
+);
+
+//----------------------------------------------------------------
+
+/* District List */
+
+router.get(
+  "/district/list",
+  authUtil.ensureAuthenticated,
+  adminController.getdistrictlist
+);
+
+/* District Add */
+router.post(
+  "/district/add",
+  authUtil.ensureAuthenticated,
+  adminController.addnewdistrict
+);
+
+/* District Update */
+router.put(
+  "/district/update",
+  authUtil.ensureAuthenticated,
+  adminController.updatedistrict
+);
+
+/* District Delete */
+
+router.post(
+  "/district/delete",
+  authUtil.ensureAuthenticated,
+  adminController.deletedistrict
+);
+
 module.exports = router;

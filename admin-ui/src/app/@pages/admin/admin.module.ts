@@ -11,6 +11,9 @@ import { BuildingPricingComponent } from './building-pricing/building-pricing.co
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AreaRegionComponent } from './area-region/area-region.component';
+import { AreaCityComponent } from './area-city/area-city.component';
+import { AreaDistrictComponent } from './area-district/area-district.component';
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PurposeComponent,
     ConditionComponent,
     LandPricingComponent,
-    BuildingPricingComponent
+    BuildingPricingComponent,
+    AreaRegionComponent,
+    AreaCityComponent,
+    AreaDistrictComponent
   ],
   imports: [
     CommonModule,

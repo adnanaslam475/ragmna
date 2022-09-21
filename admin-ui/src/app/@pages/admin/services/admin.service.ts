@@ -119,6 +119,100 @@ export class AdminService {
   }
   //#endregion
 
+  //#region REGION MASTER
+  getregionList() {
+    return this.http
+      .get(environment.apiUrl + 'admin/region/list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  saveRegion(postData: any) {
+    return this.http
+      .post(environment.apiUrl + 'admin/region/add', postData, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateRegion(postData: any) {
+    return this.http
+      .put(
+        environment.apiUrl + 'admin/region/update',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  deleteRegion(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/region/delete',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
+
+  //#region CITY MASTER
+  getCityList() {
+    return this.http
+      .get(environment.apiUrl + 'admin/city/list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  saveCity(postData: any) {
+    return this.http
+      .post(environment.apiUrl + 'admin/city/add', postData, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateCity(postData: any) {
+    return this.http
+      .put(environment.apiUrl + 'admin/city/update', postData, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  deleteCity(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/city/delete',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
+
+  //#region DISTRICT MASTER
+  getDistrictList() {
+    return this.http
+      .get(environment.apiUrl + 'admin/district/list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  saveDistrict(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/district/add',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateDistrict(postData: any) {
+    return this.http
+      .put(
+        environment.apiUrl + 'admin/district/update',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  deleteDistrict(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/district/delete',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
+
+  //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -135,4 +229,5 @@ export class AdminService {
       return errorMessage;
     });
   }
+  //#endregion
 }
