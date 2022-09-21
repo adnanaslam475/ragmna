@@ -34,21 +34,9 @@ export class AuthService {
     }),
   };
 
-  signIn(signin: any): Observable<Isignin> {
-    // const token = Array(4)
-    //   .fill(0)
-    //   .map(() => Math.random() * 99)
-    //   .join('-');
-
-    // setItem(StorageItem.Auth, token);
-    // this.isLoggedIn$.next(true);
-
+  signIn(signin: any): Observable<any> {
     return this.http
-      .post<Isignin>(
-        environment.apiUrl + 'login',
-        JSON.stringify(signin),
-        this.httpOptions
-      )
+      .post<any>(environment.apiUrl + 'users/login', signin, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
@@ -57,74 +45,6 @@ export class AuthService {
     this.isLoggedIn$.next(false);
   }
 
-  signUpCreate(signup: any): Observable<Isignup> {
-    return this.http
-      .post<Isignup>(
-        environment.apiUrl + 'signup',
-        JSON.stringify(signup),
-        this.httpOptions
-      )
-      .pipe(retry(1), catchError(this.handleError));
-  }
-
-  emailOTPSend(forgotpwd: any): Observable<IForgotPwd> {
-    console.log(environment.apiUrl + 'fp/email-send-otp');
-    return this.http
-      .post<IForgotPwd>(
-        environment.apiUrl + 'fp/email-send-otp',
-        JSON.stringify(forgotpwd),
-        this.httpOptions
-      )
-      .pipe(retry(1), catchError(this.handleError));
-  }
-
-  VerifyOTP(forgotpwd: any): Observable<IForgotPwd> {
-    return this.http
-      .post<IForgotPwd>(
-        environment.apiUrl + 'fp/email-verify-otp',
-        JSON.stringify(forgotpwd),
-        this.httpOptions
-      )
-      .pipe(retry(1), catchError(this.handleError));
-  }
-
-  updateUserPassword(forgotpwd: any): Observable<IForgotPwd> {
-    return this.http
-      .post<IForgotPwd>(
-        environment.apiUrl + 'fp/update-user-pwd',
-        JSON.stringify(forgotpwd),
-        this.httpOptions
-      )
-      .pipe(retry(1), catchError(this.handleError));
-  }
-  getauthSubscriptionPlan() {
-    return this.http
-      .get(environment.apiUrl + 'common/subscription-plan', this.httpOptions)
-      .pipe(retry(1), catchError(this.handleError));
-  }
-  getPackageMenuListByAdmin() {
-    return this.http
-      .get(
-        environment.apiUrl + 'signin/get-package-menu-list',
-        this.httpOptions
-      )
-      .pipe(retry(1), catchError(this.handleError));
-  }
-
-  getUserProfileById(id: number) {
-    return this.http
-      .get(environment.apiUrl + 'get-profile-data/' + id, this.httpOptions)
-      .pipe(retry(1), catchError(this.handleError));
-  }
-  paymentUpdateByUserId(postData: any,id:number) {
-    return this.http
-      .post(
-        environment.apiUrl + 'pay/process-update-payment/'+ id,
-        postData,
-        this.httpOptions
-      )
-      .pipe(retry(1), catchError(this.handleError));
-  }
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

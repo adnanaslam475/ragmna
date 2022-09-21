@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -8,8 +9,16 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
+  lang: string = 'ar';
+  constructor(
+    public translate: TranslateService
+  ) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+   
+  }
+  switchLang(lang: string) {
+    this.translate.use(lang);
+    localStorage.setItem('clang', lang);
   }
   
 }

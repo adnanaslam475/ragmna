@@ -15,6 +15,7 @@ import { FooterModule } from './ui/footer/footer.module';
 import { HeaderModule } from './ui/header/header.module';
 import { LayoutModule } from './ui/layout/layout.module';
 import { NotFoundPage } from './ui/not-found/not-found.page';
+import { SidebarModule } from './ui/sidebar/sidebar.module';
 
 const APP_ROUTES: Routes = [
   {
@@ -23,12 +24,12 @@ const APP_ROUTES: Routes = [
       (await import('../@pages/auth/auth.module')).AuthModule,
     canLoad: [NoAuthGuard],
   },
-  // {
-  //   path: ROUTER_UTILS.config.base.home,
-  //   loadChildren: async () =>
-  //     (await import('../@pages/customer/customer.module')).CustomerModule,
-  //   canLoad: [AuthGuard],
-  // },
+  {
+    path: ROUTER_UTILS.config.base.home,
+    loadChildren: async () =>
+      (await import('../@pages/admin/admin.module')).AdminModule,
+    canLoad: [AuthGuard],
+  },
 
   {
     path: '**',
@@ -46,6 +47,7 @@ const APP_ROUTES: Routes = [
     HeaderModule,
     LayoutModule,
     NotFoundModule,
+    SidebarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -60,6 +62,9 @@ const APP_ROUTES: Routes = [
     HeaderModule,
     LayoutModule,
     NotFoundModule,
+    SidebarModule
+  ],
+  declarations: [
   ],
   // providers: [
   //   // Below line is optional as default LocationStrategy is PathLocationStrategy

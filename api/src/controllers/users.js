@@ -8,13 +8,13 @@ exports.signIn = async (req, res, next) => {
   try {
     const postData = req.body;
     if (!postData.email) {
-      res.status(401).json({ success: false, message: "Email is required." });
+      res.status(201).json({ success: false, message: "Email is required." });
       return;
     }
 
     if (!postData.password) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Password is required." });
       return;
     }
@@ -48,16 +48,16 @@ exports.signIn = async (req, res, next) => {
           success: false,
           message: "Please enter correct password",
         };
-        res.status(401).json(response);
+        res.status(201).json(response);
       }
     } else {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Please enter correct email." });
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });

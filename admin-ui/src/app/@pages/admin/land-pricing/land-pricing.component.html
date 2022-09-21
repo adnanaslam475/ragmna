@@ -1,0 +1,222 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "landpricing" | translate }}
+        </h3>
+        <div class="flex-shrink-0">
+          <div class="form-check form-switch form-switch-right form-switch-md">
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="openModel(modalCenter, 0)"
+            >
+              {{ "building.addnew" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        <div class="live-preview">
+          <!-- Bordered Tables -->
+          <table class="table table-bordered table-nowrap">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ "building.title" | translate }}</th>
+                <th scope="col">{{ "building.titlear" | translate }}</th>
+                <th scope="col">
+                  {{ "building.area" | translate }}
+                </th>
+
+                <th scope="col">
+                  {{ "building.price" | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rl of buildingList; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ rl.title }}</td>
+                <td>{{ rl.title_ar }}</td>
+                <td>
+                  {{ rl.area }}
+                </td>
+                <td>
+                 SAR {{ rl.price }}
+                </td>
+                <td>
+                  <div class="dropdown">
+                    <a
+                      href="#"
+                      role="button"
+                      id="dropdownMenuLink"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i class="ri-more-2-fill"></i>
+                    </a>
+
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuLink"
+                    >
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="javascript:void(0)"
+                          (click)="openModel(modalCenter, rl.id)"
+                          >{{ "edit" | translate }}</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="javascript:void(0)"
+                          (click)="deleteRecord(rl.id)"
+                          >{{ "delete" | translate }}</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="buildingList.length == 0">
+                <span>No Record found</span>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<ng-template #modalCenter let-modal>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">
+          {{ "building.managelandricing" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.dismiss('Close')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="firstNameinput" class="form-label">
+                {{ "building.title" | translate }}</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="title"
+                [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['title'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['title'].errors['required']">
+                  {{ "building.titleerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="lastNameinput" class="form-label">{{
+                "building.titlear" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="titlear"
+                dir="rtl"
+                [ngClass]="{ 'is-invalid': submitted && f['titlear'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['titlear'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['titlear'].errors['required']">
+                  {{ "building.titlearerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="firstNameinput" class="form-label">
+                {{ "building.area" | translate }}</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                formControlName="area"
+                min="0"
+                [ngClass]="{ 'is-invalid': submitted && f['area'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['area'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['area'].errors['required']">
+                  {{ "building.areaerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="firstNameinput" class="form-label">
+                {{ "building.price" | translate }}</label
+              >
+              <input
+                type="number"
+                min="0"
+                class="form-control"
+                formControlName="price"
+                [ngClass]="{ 'is-invalid': submitted && f['price'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['price'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['price'].errors['required']">
+                  {{ "building.priceerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary" *ngIf="!isloading">
+                {{ "submit" | translate }}
+              </button>
+              <button type="button" class="btn btn-primary" *ngIf="isloading">
+                <span class="spinner-border" role="status" aria-hidden="true">
+                </span>
+              </button>
+            </div>
+          </div>
+          <!--end col-->
+        </div>
+        <!--end row-->
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </form>
+</ng-template>

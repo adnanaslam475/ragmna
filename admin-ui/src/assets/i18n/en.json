@@ -1,0 +1,35 @@
+{
+  "dashboard": "Dashboard",
+  "purpose": "Purpose",
+  "condition": "Condition",
+  "landpricing": "Land Pricing",
+  "buildingpricing": "Building Pricing",
+  "edit": "Edit",
+  "delete": "Delete",
+  "submit": "Submit",
+  "logout": "Logout",
+  "purposemanage": {
+    "title": "Purpose Title",
+    "titlear": "Purpose Title (Arabic)",
+    "isrestricted": "Is this Restricted?",
+    "restricted": "Restricted",
+    "notrestricted": "Not Restricted",
+    "managepurpose": "Purpose Manage",
+    "titleerr": "Title is required",
+    "titlearerr": "Title in Arabic is required",
+    "addnew": "Add New Purpose"
+  },
+  "building": {
+    "managebuildingpricing":"Manage Building Pricing",
+    "managelandricing":"Manage Land Pricing",
+    "title": "Price Class",
+    "titlear": "Price Class (Arabic)",
+    "area": "Area m2",
+    "price": "Price",
+    "titleerr": "Title is required",
+    "titlearerr": "Title in Arabic is required",
+    "areaerr": "Area is required",
+    "priceerr":"Price is required",
+    "addnew": "Add New Pricing"
+  }
+}

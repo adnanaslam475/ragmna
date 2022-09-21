@@ -7,11 +7,13 @@ export const ROUTER_UTILS = {
       root: 'auth',
       signIn: 'sign-in',
       signUp: 'sign-up',
-     
     },
-    customer: {
-      root: 'cust',
-      
+    admin: {
+      root: 'dashboard',
+      building: 'building-pricing',
+      condition: 'condition',
+      land: 'land-pricing',
+      purpose: 'purpose',
     },
     errorResponse: {
       notFound: '404',

@@ -21,12 +21,14 @@ exports.getpurposelist = async (req, res, next) => {
       table: "purpose_master",
       select: "id, title,title_ar,isrestricted",
       pagination: pagination,
+      orderBy: { field: "id", order: "desc" },
     });
 
     let resultCount = await CommonModel.getRecords({
       whereCon: whenCondtion,
       table: "purpose_master",
       select: "count(1) as count",
+      orderBy: { field: "id", order: "desc" },
     });
     resultCount = resultCount[0].count;
     const totalPages = resultCount / getParams.pageSize;
@@ -41,7 +43,7 @@ exports.getpurposelist = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -53,14 +55,14 @@ exports.addpurpose = async (req, res, next) => {
     const postData = req.body;
     if (!postData.title) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Purpose name is required." });
       return;
     }
 
     if (!postData.title_ar) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Purpose in arabic is required." });
       return;
     }
@@ -80,14 +82,14 @@ exports.addpurpose = async (req, res, next) => {
         message: "purpose added successfully.",
       });
     } else {
-      res.status(401).json({
+      res.status(201).json({
         success: false,
         message: "There is some problem, please try again later.",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -99,14 +101,14 @@ exports.updatepurpose = async (req, res, next) => {
     const postData = req.body;
     if (!postData.title) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Purpose name is required." });
       return;
     }
 
     if (!postData.title_ar) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Purpose in arabic is required." });
       return;
     }
@@ -119,9 +121,8 @@ exports.updatepurpose = async (req, res, next) => {
     if (postData.title_ar) {
       updateData.title_ar = postData.title_ar;
     }
-    if (postData.isrestricted) {
-      updateData.isrestricted = postData.isrestricted;
-    }
+
+    updateData.isrestricted = postData.isrestricted;
 
     let updatedDataResult = await CommonModel.updateRecords(
       {
@@ -144,7 +145,7 @@ exports.updatepurpose = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -157,7 +158,7 @@ exports.deletepurpose = async (req, res, next) => {
 
     if (!postData.id) {
       return res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "ID is required." });
     }
     let getData = await CommonModel.getRecords({
@@ -171,7 +172,7 @@ exports.deletepurpose = async (req, res, next) => {
 
     if (!getData.length) {
       return res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Purpose already deleted." });
     }
 
@@ -191,14 +192,14 @@ exports.deletepurpose = async (req, res, next) => {
         message: "Purpose deleted successfully.",
       });
     } else {
-      res.status(401).json({
+      res.status(201).json({
         success: false,
         message: "There is some problem, please try again later.",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -247,7 +248,7 @@ exports.getConditionlist = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -258,7 +259,7 @@ exports.updateConditionList = async (req, res, next) => {
   try {
     const postData = req.body;
     if (postData.length == 0) {
-      res.status(401).json({ success: false, message: "Data is required." });
+      res.status(201).json({ success: false, message: "Data is required." });
       return;
     }
 
@@ -282,7 +283,7 @@ exports.updateConditionList = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -312,12 +313,14 @@ exports.getbuildingpricinglist = async (req, res, next) => {
       table: "pricing_building_master",
       select: "id,	title,	title_ar,	area,	price",
       pagination: pagination,
+      orderBy: { field: "id", order: "desc" },
     });
 
     let resultCount = await CommonModel.getRecords({
       whereCon: whenCondtion,
       table: "pricing_building_master",
       select: "count(1) as count",
+      orderBy: { field: "id", order: "desc" },
     });
     resultCount = resultCount[0].count;
     const totalPages = resultCount / getParams.pageSize;
@@ -332,7 +335,7 @@ exports.getbuildingpricinglist = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -344,14 +347,14 @@ exports.addbuildingpricing = async (req, res, next) => {
     const postData = req.body;
     if (!postData.title) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing name is required." });
       return;
     }
 
     if (!postData.title_ar) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing in arabic is required." });
       return;
     }
@@ -372,14 +375,14 @@ exports.addbuildingpricing = async (req, res, next) => {
         message: "pricing added successfully.",
       });
     } else {
-      res.status(401).json({
+      res.status(201).json({
         success: false,
         message: "There is some problem, please try again later.",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -391,14 +394,14 @@ exports.updatebuildingpricing = async (req, res, next) => {
     const postData = req.body;
     if (!postData.title) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing name is required." });
       return;
     }
 
     if (!postData.title_ar) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing in arabic is required." });
       return;
     }
@@ -438,7 +441,7 @@ exports.updatebuildingpricing = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -451,7 +454,7 @@ exports.deletebuildingpricing = async (req, res, next) => {
 
     if (!postData.id) {
       return res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "ID is required." });
     }
     let getData = await CommonModel.getRecords({
@@ -465,7 +468,7 @@ exports.deletebuildingpricing = async (req, res, next) => {
 
     if (!getData.length) {
       return res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Purpose already deleted." });
     }
 
@@ -485,14 +488,14 @@ exports.deletebuildingpricing = async (req, res, next) => {
         message: "Bulding pricing deleted successfully.",
       });
     } else {
-      res.status(401).json({
+      res.status(201).json({
         success: false,
         message: "There is some problem, please try again later.",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -522,12 +525,14 @@ exports.getlandpricinglist = async (req, res, next) => {
       table: "pricing_land_master",
       select: "id,	title,	title_ar,	area,	price",
       pagination: pagination,
+      orderBy: { field: "id", order: "desc" },
     });
 
     let resultCount = await CommonModel.getRecords({
       whereCon: whenCondtion,
       table: "pricing_land_master",
       select: "count(1) as count",
+      orderBy: { field: "id", order: "desc" },
     });
     resultCount = resultCount[0].count;
     const totalPages = resultCount / getParams.pageSize;
@@ -542,7 +547,7 @@ exports.getlandpricinglist = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -554,14 +559,14 @@ exports.addlandpricing = async (req, res, next) => {
     const postData = req.body;
     if (!postData.title) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing name is required." });
       return;
     }
 
     if (!postData.title_ar) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing in arabic is required." });
       return;
     }
@@ -582,14 +587,14 @@ exports.addlandpricing = async (req, res, next) => {
         message: "pricing added successfully.",
       });
     } else {
-      res.status(401).json({
+      res.status(201).json({
         success: false,
         message: "There is some problem, please try again later.",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -601,14 +606,14 @@ exports.updatelandpricing = async (req, res, next) => {
     const postData = req.body;
     if (!postData.title) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing name is required." });
       return;
     }
 
     if (!postData.title_ar) {
       res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Pricing in arabic is required." });
       return;
     }
@@ -648,7 +653,7 @@ exports.updatelandpricing = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });
@@ -661,7 +666,7 @@ exports.deletelandpricing = async (req, res, next) => {
 
     if (!postData.id) {
       return res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "ID is required." });
     }
     let getData = await CommonModel.getRecords({
@@ -675,7 +680,7 @@ exports.deletelandpricing = async (req, res, next) => {
 
     if (!getData.length) {
       return res
-        .status(401)
+        .status(201)
         .json({ success: false, message: "Purpose already deleted." });
     }
 
@@ -695,14 +700,14 @@ exports.deletelandpricing = async (req, res, next) => {
         message: "Bulding pricing deleted successfully.",
       });
     } else {
-      res.status(401).json({
+      res.status(201).json({
         success: false,
         message: "There is some problem, please try again later.",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(201).json({
       success: false,
       message: "There is some problem, please try again later.",
     });

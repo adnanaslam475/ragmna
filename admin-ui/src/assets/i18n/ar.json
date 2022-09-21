@@ -1,0 +1,22 @@
+{
+  "dashboard": "لوحة القيادة",
+  "purpose": "الغرض",
+  "condition": "الشروط",
+  "landpricing": "تسعيرة الاراضي",
+  "buildingpricing": "تسعيرة المباني",
+  "edit": "Edit",
+  "delete": "Delete",
+  "submit":"Submit",
+  "logout":"Logout",
+  "purposemanage": {
+    "title": "الغرض",
+    "titlear": "الغرض(عربي)",
+    "isrestricted": "Is this Restricted?",
+    "restricted": "Restricted",
+    "notrestricted": "Not Restricted",
+    "managepurpose": "Purpose Manage",
+    "titleerr": "Title is required",
+    "titlearerr": "Title in Arabic is required",
+    "addnew":"Add New Purpose"
+  }
+}
