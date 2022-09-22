@@ -6,9 +6,9 @@
   "buildingpricing": "تسعيرة المباني",
   "edit": "تعديل",
   "delete": "حذف",
-  "submit": "Submit",
-  "logout": "Logout",
-  "area": "Manage Areas",
+  "submit": "تقديم النموذج",
+  "logout": "تسجيل خروج",
+  "area": "إدارة المنطقة",
   "city": "المدينة",
   "region": "المنطقة",
   "district": "الحي",
@@ -43,5 +43,38 @@
     "buildingerr": "Building area is required",
     "landerr": "Land area is required",
     "propertyerr": "Number of Property required"
+  },
+  "regions": {
+    "title": "Region Name",
+    "titlear": "Region Name (Arabic)",
+    "addnew": "Add New Region",
+    "titleerr": "Title is required",
+    "titlearerr": "Title in Arabic is required",
+    "manageregion": "Manage Region"
+  },
+  "cities": {
+    "title": "City Name",
+    "titlear": "City Name (Arabic)",
+    "region": "Region Name",
+    "regionar": "Region Name (Arabic)",
+    "addnew": "Add New City",
+    "titleerr": "City Name is required",
+    "titlearerr": "City Name in Arabic is required",
+    "managecity": "Manage City",
+    "isrestricted": "Is this Restricted?",
+    "restricted": "Restricted",
+    "notrestricted": "Not Restricted",
+    "regionerr": "Region is required"
+  },
+  "districts": {
+    "title": "District Name",
+    "titlear": "District Name (Arabic)",
+    "city": "City Name",
+    "cityar": "City Name (Arabic)",
+    "addnew": "Add New District",
+    "titleerr": "District is required",
+    "titlearerr": "District in Arabic is required",
+    "cityerr": "City is required",
+    "managedistrict": "Manage District"
   }
 }

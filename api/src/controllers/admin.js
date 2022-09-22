@@ -207,6 +207,7 @@ exports.deletepurpose = async (req, res, next) => {
 };
 //#endregion
 //---------------------------------------------------------------
+
 //#region Condition
 exports.getConditionlist = async (req, res, next) => {
   try {
@@ -949,7 +950,7 @@ exports.getcitylist = async (req, res, next) => {
       whereCon: whenCondtion,
       table: "city_master cm",
       select:
-        "cm.id, cm.title,cm.title_ar,rm.title as region,rm.title_ar as region_ar",
+        "cm.id, cm.title,cm.title_ar,cm.fk_region_id,rm.title as region,rm.title_ar as region_ar,cm.isrestricted",
       join: [
         {
           joinType: "INNER JOIN",
@@ -1070,9 +1071,8 @@ exports.updatecity = async (req, res, next) => {
     if (postData.regionid) {
       updateData.fk_region_id = postData.regionid;
     }
-    if (postData.isrestricted) {
-      updateData.isrestricted = postData.isrestricted;
-    }
+
+    updateData.isrestricted = postData.isrestricted;
 
     let updatedDataResult = await CommonModel.updateRecords(
       {
@@ -1183,7 +1183,7 @@ exports.getdistrictlist = async (req, res, next) => {
       whereCon: whenCondtion,
       table: "district_master dm",
       select:
-        "dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar",
+        "dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar,dm.fk_city_id",
       join: [
         {
           joinType: "INNER JOIN",

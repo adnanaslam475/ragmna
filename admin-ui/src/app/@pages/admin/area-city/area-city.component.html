@@ -1,1 +1,229 @@
-<p>area-city works!</p>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "city" | translate }}
+        </h3>
+        <div class="flex-shrink-0">
+          <div class="form-check form-switch form-switch-right form-switch-md">
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="openModel(modalCenter, 0)"
+            >
+              {{ "cities.addnew" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        <div class="live-preview">
+          <!-- Bordered Tables -->
+          <table class="table table-bordered table-nowrap">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ "cities.title" | translate }}</th>
+                <th scope="col">{{ "cities.titlear" | translate }}</th>
+                <th scope="col">
+                  {{ "cities.restricted" | translate }}
+                </th>
+                <th scope="col">{{ "cities.region" | translate }}</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rl of cityList; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ rl.title }}</td>
+                <td>{{ rl.title_ar }}</td>
+                <td>
+                  <span class="badge bg-danger" *ngIf="rl.isrestricted == 1">
+                    {{ "cities.restricted" | translate }}
+                  </span>
+                  <span
+                    class="badge badge-soft-primary"
+                    *ngIf="rl.isrestricted == 0"
+                  >
+                    {{ "cities.notrestricted" | translate }}
+                  </span>
+                </td>
+                <td>{{ rl.region }} ({{ rl.region_ar }})</td>
+
+                <td>
+                  <div class="dropdown">
+                    <a
+                      href="#"
+                      role="button"
+                      id="dropdownMenuLink"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i class="ri-more-2-fill"></i>
+                    </a>
+
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuLink"
+                    >
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="javascript:void(0)"
+                          (click)="openModel(modalCenter, rl.id)"
+                          >{{ "edit" | translate }}</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="javascript:void(0)"
+                          (click)="deleteRecord(rl.id)"
+                          >{{ "delete" | translate }}</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="regionList.length == 0">
+                <span>No Record found</span>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<ng-template #modalCenter let-modal>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">
+          {{ "regions.manageregion" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.dismiss('Close')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <div
+                class="form-check form-switch form-switch-right form-switch-md"
+              >
+                <label for="bordered-tables-showcode" class="form-label">{{
+                  "cities.region" | translate
+                }}</label>
+                <select
+                  class="form-control form-select"
+                  formControlName="regionid"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['regionid'].errors
+                  }"
+                >
+                  <option value="">Select Region</option>
+                  <option *ngFor="let al of regionList" value="{{ al.id }}">
+                    {{ al.title }} ({{ al.title_ar }})
+                  </option>
+                </select>
+                <div
+                  *ngIf="submitted && f['regionid'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['regionid'].errors['required']">
+                    {{ "cities.regionerr" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="firstNameinput" class="form-label">
+                {{ "cities.title" | translate }}</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="title"
+                [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['title'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['title'].errors['required']">
+                  {{ "cities.titleerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="lastNameinput" class="form-label">{{
+                "cities.titlear" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="titlear"
+                dir="rtl"
+                [ngClass]="{ 'is-invalid': submitted && f['titlear'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['titlear'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['titlear'].errors['required']">
+                  {{ "cities.titlearerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+              <div
+                class="form-check form-switch form-switch-right form-switch-md"
+              >
+                <label for="bordered-tables-showcode" class="form-label">{{
+                  "cities.isrestricted" | translate
+                }}</label>
+                <input
+                  class="form-check-input code-switcher"
+                  type="checkbox"
+                  formControlName="isrestricted"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary" *ngIf="!isloading">
+                {{ "submit" | translate }}
+              </button>
+              <button type="button" class="btn btn-primary" *ngIf="isloading">
+                <span class="spinner-border" role="status" aria-hidden="true">
+                </span>
+              </button>
+            </div>
+          </div>
+          <!--end col-->
+        </div>
+        <!--end row-->
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </form>
+</ng-template>
