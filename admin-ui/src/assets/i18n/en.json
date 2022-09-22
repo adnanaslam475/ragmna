@@ -35,5 +35,13 @@
     "areaerr": "Area is required",
     "priceerr": "Price is required",
     "addnew": "Add New Pricing"
+  },
+  "conditions": {
+    "maxbuilding": "Max Building Area",
+    "maxland": "Max Land Area",
+    "maxproperty": "Max Property to evaluate",
+    "buildingerr": "Building area is required",
+    "landerr": "Land area is required",
+    "propertyerr": "Number of Property required"
   }
 }

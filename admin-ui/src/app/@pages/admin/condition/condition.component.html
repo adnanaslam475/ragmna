@@ -1,1 +1,117 @@
-<p>condition works!</p>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "condition" | translate }}
+        </h3>
+        <div class="flex-shrink-0"></div>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        <div class="live-preview">
+          <form [formGroup]="form" (ngSubmit)="submitData()">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "conditions.maxbuilding" | translate }}</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    min="0"
+                    formControlName="maxbuilding"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['maxbuilding'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['maxbuilding'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['maxbuilding'].errors['required']">
+                      {{ "conditions.buildingerr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "conditions.maxland" | translate }}</label
+                  >
+                  <input
+                    type="number"
+                    min="0"
+                    class="form-control"
+                    formControlName="maxlanding"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['maxlanding'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['maxlanding'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['maxlanding'].errors['required']">
+                      {{ "conditions.buildingerr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "conditions.maxproperty" | translate }}</label
+                  >
+                  <input
+                    type="number"
+                    min="0"
+                    class="form-control"
+                    formControlName="maxproperty"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['maxproperty'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['maxproperty'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['maxproperty'].errors['required']">
+                      {{ "conditions.propertyerr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="text-end">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    *ngIf="!isloading"
+                  >
+                    {{ "submit" | translate }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    *ngIf="isloading"
+                  >
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    >
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

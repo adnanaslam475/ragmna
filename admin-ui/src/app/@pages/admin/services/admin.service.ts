@@ -212,6 +212,18 @@ export class AdminService {
   }
   //#endregion
 
+  //#region CONDITIONS
+  getConditionList() {
+    return this.http
+      .get(environment.apiUrl + 'admin/condition/list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  saveCondition(postData: any) {
+    return this.http
+      .put(environment.apiUrl + 'admin/condition/update', postData, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

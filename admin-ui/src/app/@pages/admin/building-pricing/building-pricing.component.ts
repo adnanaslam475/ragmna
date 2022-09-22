@@ -79,7 +79,6 @@ export class BuildingPricingComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.value);
     this.isloading = true;
 
     let _reqbody = {

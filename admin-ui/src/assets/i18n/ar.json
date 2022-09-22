@@ -4,19 +4,44 @@
   "condition": "الشروط",
   "landpricing": "تسعيرة الاراضي",
   "buildingpricing": "تسعيرة المباني",
-  "edit": "Edit",
-  "delete": "Delete",
-  "submit":"Submit",
-  "logout":"Logout",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "submit": "Submit",
+  "logout": "Logout",
+  "area": "Manage Areas",
+  "city": "المدينة",
+  "region": "المنطقة",
+  "district": "الحي",
   "purposemanage": {
     "title": "الغرض",
-    "titlear": "الغرض(عربي)",
+    "titlear": "الغرض(Arabic)",
     "isrestricted": "Is this Restricted?",
     "restricted": "Restricted",
     "notrestricted": "Not Restricted",
     "managepurpose": "Purpose Manage",
     "titleerr": "Title is required",
     "titlearerr": "Title in Arabic is required",
-    "addnew":"Add New Purpose"
+    "addnew": "Add New Purpose"
+  },
+  "building": {
+    "managebuildingpricing": "Manage Building Pricing",
+    "managelandricing": "Manage Land Pricing",
+    "title": "Price Class",
+    "titlear": "Price Class (Arabic)",
+    "area": "Area m2",
+    "price": "Price",
+    "titleerr": "Title is required",
+    "titlearerr": "Title in Arabic is required",
+    "areaerr": "Area is required",
+    "priceerr": "Price is required",
+    "addnew": "Add New Pricing"
+  },
+  "conditions": {
+    "maxbuilding": "الحد الاعلى لمساحة المباني",
+    "maxland": "الحد الاعلى لمساحة الارض",
+    "maxproperty": "الحد الاعلى للعقارات",
+    "buildingerr": "Building area is required",
+    "landerr": "Land area is required",
+    "propertyerr": "Number of Property required"
   }
 }
