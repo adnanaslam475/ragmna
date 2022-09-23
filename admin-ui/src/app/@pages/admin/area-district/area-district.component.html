@@ -28,6 +28,7 @@
                 <th scope="col">{{ "districts.title" | translate }}</th>
                 <th scope="col">{{ "districts.titlear" | translate }}</th>
                 <th scope="col">{{ "districts.city" | translate }}</th>
+                <th scope="col">{{ "districts.region" | translate }}</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -37,6 +38,7 @@
                 <td>{{ rl.title }}</td>
                 <td>{{ rl.title_ar }}</td>
                 <td>{{ rl.city }} ({{ rl.city_ar }})</td>
+                <td>{{ rl.region }} ({{ rl.region_ar }})</td>
                 <td>
                   <div class="dropdown">
                     <a
@@ -103,31 +105,57 @@
         <div class="row">
           <div class="col-md-12">
             <div class="mb-3">
-              <div
-                class="form-check form-switch form-switch-right form-switch-md"
-              >
+             
                 <label for="bordered-tables-showcode" class="form-label">{{
-                  "cities.region" | translate
+                  "districts.region" | translate
                 }}</label>
                 <select
                   class="form-control form-select"
-                  formControlName="cityid"
+                  formControlName="regionid"
                   [ngClass]="{
-                    'is-invalid': submitted && f['cityid'].errors
+                    'is-invalid': submitted && f['regionid'].errors
                   }"
+                  (change)="getCity()"
                 >
                   <option value="">Select Region</option>
-                  <option *ngFor="let al of cityList" value="{{ al.id }}">
+                  <option *ngFor="let al of regionList" value="{{ al.id }}">
                     {{ al.title }} ({{ al.title_ar }})
                   </option>
                 </select>
                 <div
-                  *ngIf="submitted && f['cityid'].errors"
+                  *ngIf="submitted && f['regionid'].errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="f['cityid'].errors['required']">
-                    {{ "districts.cityerr" | translate }}
+                  <div *ngIf="f['regionid'].errors['required']">
+                    {{ "districts.regionerr" | translate }}
                   </div>
+                </div>
+            
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="cityList.length > 0">
+            <div class="mb-3">
+              <label for="bordered-tables-showcode" class="form-label">{{
+                "districts.city" | translate
+              }}</label>
+              <select
+                class="form-control form-select"
+                formControlName="cityid"
+                [ngClass]="{
+                  'is-invalid': submitted && f['cityid'].errors
+                }"
+              >
+                <option value="">Select City</option>
+                <option *ngFor="let al of cityList" value="{{ al.id }}">
+                  {{ al.title }} ({{ al.title_ar }})
+                </option>
+              </select>
+              <div
+                *ngIf="submitted && f['cityid'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['cityid'].errors['required']">
+                  {{ "districts.cityerr" | translate }}
                 </div>
               </div>
             </div>
@@ -177,7 +205,7 @@
             </div>
           </div>
           <!--end col-->
-      
+
           <div class="col-lg-12">
             <div class="text-end">
               <button type="submit" class="btn btn-primary" *ngIf="!isloading">

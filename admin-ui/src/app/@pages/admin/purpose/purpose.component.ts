@@ -41,7 +41,7 @@ export class PurposeComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       titlear: ['', Validators.required],
-      isrestricted: ['', Validators.required],
+      isrestricted: [''],
     });
   }
   get f(): { [key: string]: AbstractControl } {

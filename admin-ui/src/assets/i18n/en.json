@@ -70,11 +70,13 @@
     "title": "District Name",
     "titlear": "District Name (Arabic)",
     "city": "City Name",
+    "region": "Region Name",
     "cityar": "City Name (Arabic)",
     "addnew": "Add New District",
     "titleerr": "District is required",
     "titlearerr": "District in Arabic is required",
     "cityerr": "City is required",
+    "regionerr": "Region is required",
     "managedistrict": "Manage District"
   }
 }

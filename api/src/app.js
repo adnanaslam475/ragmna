@@ -40,7 +40,9 @@ app.use(function (req, res, next) {
  */
 const users = require("./routes/users");
 const admin = require("./routes/admin");
+const customer = require("./routes/customer");
 
 app.use("/users", users);
 app.use("/admin", admin);
+app.use("/cust", customer);
 module.exports = app;

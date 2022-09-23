@@ -65,8 +65,10 @@ exports.signIn = async (req, res, next) => {
 };
 
 exports.demo = async (req, res, next) => {
+  let getNextVal = await CommonModel.getNextVal("quote_number");
   res.status(200).json({
     success: true,
+    data: getNextVal,
     message: "Success",
   });
 };

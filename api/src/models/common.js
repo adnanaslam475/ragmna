@@ -419,3 +419,37 @@ module.exports.sendEmail = function (mailOptions) {
     });
   });
 };
+
+module.exports.getNextVal = function (seq_name) {
+  return new Promise(async (resolve, reject) => {
+
+    let result = await this.getRecords({
+      whereCon: { field: "name", value: seq_name },
+      table: "sequence",
+      select: "cur_value,increment",
+    });
+    console.log(result);
+    let current_val = result[0]["cur_value"];
+
+    if (result) {
+      current_val =
+        parseInt(result[0]["cur_value"]) + parseInt(result[0]["increment"]);
+
+      let updateData = {};
+      updateData.cur_value = current_val;
+
+      let updatedDataResult = await this.updateRecords(
+        {
+          table: "sequence",
+          whereCon: [{ field: "name", value: seq_name }],
+        },
+        updateData
+      );
+
+      if (updatedDataResult) {
+        resolve(current_val);
+      }
+    }
+    resolve(current_val);
+  });
+};

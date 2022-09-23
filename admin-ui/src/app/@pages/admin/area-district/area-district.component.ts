@@ -20,13 +20,15 @@ export class AreaDistrictComponent implements OnInit {
     title: new FormControl(''),
     titlear: new FormControl(''),
     cityid: new FormControl(''),
+    regionid: new FormControl(''),
   });
   submitted = false;
   isloading: boolean = false;
   currentId: number = 0;
-
   cityList: any = [];
+  citytempList: any = [];
   districtList: any = [];
+  regionList: any = [];
   constructor(
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -38,17 +40,20 @@ export class AreaDistrictComponent implements OnInit {
     this.setForm();
     this.getCityListData();
     this.getDistrictList();
+    this.getRegionList();
   }
   setForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       titlear: ['', Validators.required],
-      cityid: ['', Validators.required]
+      cityid: ['', Validators.required],
+      regionid: ['', Validators.required],
     });
   }
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
+
   getDistrictList() {
     this.adminService.getDistrictList().subscribe((data: any) => {
       if (data && data.success) {
@@ -59,21 +64,36 @@ export class AreaDistrictComponent implements OnInit {
   getCityListData() {
     this.adminService.getCityList().subscribe((data: any) => {
       if (data && data.success) {
-        this.cityList = data['items'];
+        this.citytempList = data['items'];
       }
     });
+  }
+  getRegionList() {
+    this.adminService.getregionList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.regionList = data['items'];
+      }
+    });
+  }
+  getCity() {
+    this.cityList = this.citytempList.filter(
+      (f: any) => f.fk_region_id == this.form.value.regionid
+    );
   }
   openModel(data: any, id: number) {
     this.setForm();
     this.currentId = id;
     if (id > 0) {
-      debugger
       let _existingData = this.districtList.find((f: any) => f.id === id);
       this.form.patchValue({
         title: _existingData['title'],
         titlear: _existingData['title_ar'],
         cityid: _existingData['fk_city_id'],
+        regionid: _existingData['fk_region_id'],
       });
+      this.cityList = this.citytempList.filter(
+        (f: any) => f.fk_region_id == this.form.value.regionid
+      );
     }
     this.modalService.open(data, {
       size: 'lg',
@@ -93,6 +113,7 @@ export class AreaDistrictComponent implements OnInit {
       title: this.form.value.title,
       title_ar: this.form.value.titlear,
       cityid: this.form.value.cityid,
+      regionid: this.form.value.regionid,
       id: this.currentId,
     };
     if (this.currentId > 0) {
@@ -103,6 +124,8 @@ export class AreaDistrictComponent implements OnInit {
           this.modalService.dismissAll();
           this.getDistrictList();
           this.currentId = 0;
+          this.submitted = false;
+          this.cityList = [];
         } else {
           this.toastr.error(data.message);
         }
@@ -115,6 +138,8 @@ export class AreaDistrictComponent implements OnInit {
           this.modalService.dismissAll();
           this.getDistrictList();
           this.currentId = 0;
+          this.submitted = false;
+          this.cityList = [];
         } else {
           this.toastr.error(data.message);
         }

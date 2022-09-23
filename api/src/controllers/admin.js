@@ -1183,12 +1183,17 @@ exports.getdistrictlist = async (req, res, next) => {
       whereCon: whenCondtion,
       table: "district_master dm",
       select:
-        "dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar,dm.fk_city_id",
+        "dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar,dm.fk_city_id,dm.fk_region_id,rm.title region,rm.title_ar as region_ar",
       join: [
         {
           joinType: "INNER JOIN",
           joinWith: "city_master cm",
           joinCondition: "cm.id = dm.fk_city_id",
+        },
+        {
+          joinType: "INNER JOIN",
+          joinWith: "region_master rm",
+          joinCondition: "rm.id = dm.fk_region_id",
         },
       ],
       pagination: pagination,
@@ -1249,6 +1254,7 @@ exports.addnewdistrict = async (req, res, next) => {
         title: postData.title,
         title_ar: postData.title_ar,
         fk_city_id: postData.cityid,
+        fk_region_id: postData.regionid,
         isdeleted: 0,
       },
       "district_master"
@@ -1303,7 +1309,9 @@ exports.updatedistrict = async (req, res, next) => {
     if (postData.cityid) {
       updateData.fk_city_id = postData.cityid;
     }
-
+    if (postData.regionid) {
+      updateData.fk_region_id = postData.regionid;
+    }
     let updatedDataResult = await CommonModel.updateRecords(
       {
         table: "district_master",
