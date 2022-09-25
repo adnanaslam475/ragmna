@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ROUTER_UTILS } from 'src/app/@core/utils/router.utils';
 import { AreaCityComponent } from './area-city/area-city.component';
+import { AreaCountryComponent } from './area-country/area-country.component';
 import { AreaDistrictComponent } from './area-district/area-district.component';
 import { AreaRegionComponent } from './area-region/area-region.component';
 import { BuildingPricingComponent } from './building-pricing/building-pricing.component';
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: ROUTER_UTILS.config.admin.district,
     component: AreaDistrictComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.country,
+    component: AreaCountryComponent,
   },
 ];
 

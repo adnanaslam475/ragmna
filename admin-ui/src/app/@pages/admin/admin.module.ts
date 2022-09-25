@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AreaRegionComponent } from './area-region/area-region.component';
 import { AreaCityComponent } from './area-city/area-city.component';
 import { AreaDistrictComponent } from './area-district/area-district.component';
+import { AreaCountryComponent } from './area-country/area-country.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AreaDistrictComponent } from './area-district/area-district.component';
     BuildingPricingComponent,
     AreaRegionComponent,
     AreaCityComponent,
-    AreaDistrictComponent
+    AreaDistrictComponent,
+    AreaCountryComponent
   ],
   imports: [
     CommonModule,

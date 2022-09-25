@@ -17,6 +17,7 @@ export const ROUTER_UTILS = {
       city: 'city-master',
       region: 'region-master',
       district: 'district-master',
+      country: 'country-master',
     },
     errorResponse: {
       notFound: '404',

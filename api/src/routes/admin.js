@@ -103,6 +103,40 @@ router.post(
   adminController.deletelandpricing
 );
 
+//-------------------------------------------
+
+/* Country List */
+
+router.get(
+  "/country/list",
+  authUtil.ensureAuthenticated,
+  adminController.getcountrylist
+);
+
+/* Country Add */
+router.post(
+  "/country/add",
+  authUtil.ensureAuthenticated,
+  adminController.addcountry
+);
+
+/* Country Update */
+router.put(
+  "/country/update",
+  authUtil.ensureAuthenticated,
+  adminController.updatecountry
+);
+
+/* Country Delete */
+
+router.post(
+  "/country/delete",
+  authUtil.ensureAuthenticated,
+  adminController.deletecountry
+);
+
+//----------------------------------------------------------------
+
 /* Region List */
 
 router.get(

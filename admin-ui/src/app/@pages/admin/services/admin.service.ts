@@ -119,6 +119,41 @@ export class AdminService {
   }
   //#endregion
 
+  //#region COUNTRY MASTER
+  getCountryList() {
+    return this.http
+      .get(environment.apiUrl + 'admin/country/list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  saveCountry(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/country/add',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateCountry(postData: any) {
+    return this.http
+      .put(
+        environment.apiUrl + 'admin/country/update',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  deleteCountry(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/country/delete',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
+
   //#region REGION MASTER
   getregionList() {
     return this.http
@@ -220,7 +255,11 @@ export class AdminService {
   }
   saveCondition(postData: any) {
     return this.http
-      .put(environment.apiUrl + 'admin/condition/update', postData, this.httpOptions)
+      .put(
+        environment.apiUrl + 'admin/condition/update',
+        postData,
+        this.httpOptions
+      )
       .pipe(retry(1), catchError(this.handleError));
   }
   //#endregion

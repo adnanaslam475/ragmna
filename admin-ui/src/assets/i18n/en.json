@@ -12,6 +12,7 @@
   "city": "City",
   "region": "Region",
   "district": "District",
+  "country": "Country",
   "purposemanage": {
     "title": "Purpose Title",
     "titlear": "Purpose Title (Arabic)",
@@ -78,5 +79,13 @@
     "cityerr": "City is required",
     "regionerr": "Region is required",
     "managedistrict": "Manage District"
+  },
+  "countries": {
+    "title": "Country Name",
+    "titlear": "Country Name (Arabic)",
+    "addnew": "Add New Country",
+    "titleerr": "Country Name is required",
+    "titlearerr": "Country Name in Arabic is required",
+    "managecountry": "Manage Country"
   }
 }
