@@ -1,1 +1,60 @@
-<p>home works!</p>
+<section class="top-screen">
+  <div class="top-screen__inner">
+    <h1 class="top-screen__title hidden-mobile">
+      {{ "title1" | translate }}
+    </h1>
+    <!-- <h3 class="top-screen__title hidden-desktop">
+    {{"title2" | translate}}
+  </h3> -->
+    <div class="top-screen__buttons">
+      <a href="javascript:void(0)" routerLink="/prop-cal" class="top-screen__button">
+        <i class="fas fa-building fa-3x"></i>
+        {{ "realestate" | translate }}
+      </a>
+      <a href="javascript:void(0)" class="top-screen__button">
+        <i class="fas fa-synagogue fa-3x"></i>
+        {{ "instit" | translate }}
+      </a>
+      <a href="javascript:void(0)" class="top-screen__button">
+        <i class="fas fa-cash-register fa-3x"></i>
+        {{ "machine" | translate }}
+      </a>
+      <a href="javascript:void(0)" class="top-screen__button">
+        <i class="fas fa-car fa-3x"></i>
+        {{ "vehcleacc" | translate }}
+      </a>
+    </div>
+  </div>
+</section>
+<section class="section step-one">
+  <div class="section__inner">
+    <div class="step-one__grid">
+      <div class="step-one__grid-col">
+        <!-- <div class="step-one__mobile-image">
+            <picture>
+              <source data-srcset="/Assets/images/p/screenshot.webp 1x, /Assets/images/p/screenshot@2x.webp 2x" type="image/webp" srcset="/Assets/images/p/screenshot.webp 1x, /Assets/images/p/screenshot@2x.webp 2x">
+              <source data-srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x" type="image/png" srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x">
+              <img data-src="/Assets/images/p/screenshot.png" alt="Get insurance quotes online" data-srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x" src="/Assets/images/p/screenshot.png" srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x">
+            </picture>
+          </div>
+          <div class="step-one__image">
+            <picture>
+              <source data-srcset="/Assets/images/p/screenshot.webp 1x, /Assets/images/p/screenshot@2x.webp 2x" type="image/webp" srcset="/Assets/images/p/screenshot.webp 1x, /Assets/images/p/screenshot@2x.webp 2x">
+              <source data-srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x" type="image/png" srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x">
+              <img data-src="/Assets/images/p/screenshot.png" alt="Get insurance quotes online" data-srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x" src="/Assets/images/p/screenshot.png" srcset="/Assets/images/p/screenshot.png 1x, /Assets/images/p/screenshot@2x.png 2x">
+            </picture>
+          </div> -->
+      </div>
+      <div class="step-one__grid-col">
+        <div class="step-one__content">
+          <h3 class="step-one__title">
+            {{"lets" | translate}}
+          </h3>
+          <p class="step-one__text">
+            {{"letsdetail" | translate}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

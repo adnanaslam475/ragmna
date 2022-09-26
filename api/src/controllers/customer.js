@@ -15,6 +15,7 @@ exports.createUniqueQuote = async (req, res, next) => {
       {
         quote_number: "Q" + getNextVal.toString(),
         service_type: postData.title,
+        categorycode: postData.category
       },
       "quote_master"
     );

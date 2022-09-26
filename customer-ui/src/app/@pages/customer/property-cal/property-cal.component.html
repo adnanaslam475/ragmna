@@ -1,1 +1,282 @@
-<p>property-cal works!</p>
+<section class="insurance-top">
+  <div class="insurance-top__inner">
+    <div class="insurance-top__heading">
+      <h1 class="insurance-top__heading-title">
+        {{ "eval" | translate }} <br />
+        {{ "qt" | translate }}!
+      </h1>
+      <h2 class="top-screen__subtitle_car">Join Millions of People Saving:</h2>
+      <h2 class="top-screen__subtitle_car_mobile">
+        {{ "join" | translate }}
+      </h2>
+    </div>
+
+    <div class="insurance-top__form">
+      <div class="main-form">
+        <div class="main-form__group" *ngIf="currentstep == 'STEP1'">
+          <button
+            type="button"
+            class="btn btn--big"
+            (click)="createNewQuote('LAND')"
+          >
+            {{ "land" | translate }}
+            <svg
+              width="12px"
+              height="19px"
+              viewBox="0 0 12 19"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-1129.000000, -420.000000)"
+                  fill="#FFFFFF"
+                  fill-rule="nonzero"
+                >
+                  <polygon
+                    points="1129.495 436.12 1136.215 429.4 1129.495 422.715 1131.56 420.65 1140.31 429.4 1131.56 438.15"
+                  ></polygon>
+                </g>
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div class="main-form__group" *ngIf="currentstep == 'STEP1'">
+          <button
+            type="button"
+            class="btn btn--big"
+            (click)="createNewQuote('BUILDING')"
+          >
+            {{ "building" | translate }}
+            <svg
+              width="12px"
+              height="19px"
+              viewBox="0 0 12 19"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-1129.000000, -420.000000)"
+                  fill="#FFFFFF"
+                  fill-rule="nonzero"
+                >
+                  <polygon
+                    points="1129.495 436.12 1136.215 429.4 1129.495 422.715 1131.56 420.65 1140.31 429.4 1131.56 438.15"
+                  ></polygon>
+                </g>
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div class="main-form__group" *ngIf="quoteno != ''">
+          <button type="button" class="btn btn--big">
+            Your Quote # {{ quoteno }}
+          </button>
+        </div>
+        <div class="main-form__cta">
+          <div class="main-form__cta-arrow">
+            <svg
+              width="33px"
+              height="53px"
+              viewBox="0 0 33 53"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-660.000000, -368.000000)"
+                  fill="#00CCFF"
+                >
+                  <path
+                    d="M675.795292,395.672233 C675.957807,402.350577 678.328299,408.261003 682.906769,413.40351 C686.995914,417.99641 692.651986,420.344018 699.874986,420.446332 C700.325788,420.452718 700.716572,420.759967 700.829149,421.196533 C700.967056,421.731325 700.645317,422.276655 700.110524,422.414558 C698.022091,422.953103 695.430217,423.259966 692.3349,423.335147 C682.187574,422.878819 674.889755,418.122621 669.943491,411.365286 C666.770037,407.029874 664.8557,401.798856 664.200481,395.672233 L656.797978,395.672233 C656.245694,395.672233 655.797978,395.224517 655.797978,394.672233 C655.797978,394.433105 655.883668,394.201893 656.03951,394.020522 L669.458516,378.403326 C669.818446,377.984436 670.449804,377.936639 670.868694,378.296569 C670.907533,378.329941 670.943752,378.366247 670.97703,378.405167 L684.33036,394.022363 C684.689273,394.442125 684.639946,395.073365 684.220184,395.432278 C684.03907,395.587138 683.808608,395.672233 683.570314,395.672233 L675.795292,395.672233 Z"
+                    id="Combined-Shape"
+                    transform="translate(675.638361, 400.658721) scale(-1, 1) rotate(-120.000000) translate(-675.638361, -400.658721) "
+                  ></path>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div class="main-form__cta-mobile"></div>
+        </div>
+      </div>
+    </div>
+    <section
+      class="section section--inner section--nomargin"
+      *ngIf="currentstep == 'STEP2'"
+    >
+      <div class="what-we-do__grid what-we-do">
+        <div class="what-we-do__image">
+          <form
+            class="contact-form-container contact-form"
+            [formGroup]="form"
+            (ngSubmit)="savePersonalInfo()"
+          >
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input
+                name="firstName"
+                type="text"
+                placeholder="First Name"
+                formControlName="fname"
+                [ngClass]="{
+                  'is-invalid': submitted && f['fname'].errors
+                }"
+              />
+              <div
+                *ngIf="submitted && f['fname'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['fname'].errors['required']">
+                  First Name is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input
+                name="lastName"
+                type="text"
+                formControlName="lname"
+                placeholder="Last Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                name="email"
+                type="email"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid': submitted && f['email'].errors
+                }"
+                placeholder="Email Address"
+              />
+              <div
+                *ngIf="submitted && f['email'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['email'].errors['required']">
+                  Email is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phone-number">Phone Number</label>
+              <input
+                name="phone"
+                type="text"
+                formControlName="phone"
+                [ngClass]="{
+                  'is-invalid': submitted && f['phone'].errors
+                }"
+                placeholder="Phone Number"
+              />
+              <div
+                *ngIf="submitted && f['phone'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['phone'].errors['required']">
+                  Phone is required
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-button-wrapper">
+              <button class="contact-button btn btn--big" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="what-we-do__content">
+          <h3 class="what-we-do__title">
+            Please provide your personal information
+          </h3>
+          <div class="what-we-do__text">
+            <p>
+              We then match the consumer with the most compatible options to
+              make sure we maintain value and affordability.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="section section--inner section--nomargin"
+      *ngIf="currentstep == 'STEP3'"
+    >
+      <div class="what-we-do__grid what-we-do">
+        <div class="what-we-do__image">
+          <form
+            class="contact-form-container contact-form"
+            [formGroup]="form2"
+            (ngSubmit)="saveCompanyInfo()"
+          >
+            <div class="form-group">
+              <label for="first-name">Company Name</label>
+              <input
+                name="firstName"
+                type="text"
+                placeholder="Company Name"
+                formControlName="companyname"
+                [ngClass]="{
+                  'is-invalid': submitted && f2['companyname'].errors
+                }"
+              />
+              <div
+                *ngIf="submitted && f2['companyname'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f2['companyname'].errors['required']">
+                  Company Name is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Company Address</label>
+              <input
+                name="lastName"
+                type="text"
+                formControlName="companyaddress"
+                placeholder="Company Address"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone-number">Company Phone Number</label>
+              <input
+                name="phone"
+                type="text"
+                formControlName="phone"
+                placeholder="Phone Number"
+              />
+            </div>
+
+            <div class="contact-button-wrapper">
+              <button class="contact-button btn btn--big" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="what-we-do__content">
+          <h3 class="what-we-do__title">
+            Please provide your company information
+          </h3>
+          <div class="what-we-do__text">
+            <p>
+              We then match the consumer with the most compatible options to
+              make sure we maintain value and affordability.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

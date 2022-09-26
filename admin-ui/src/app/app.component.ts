@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(
     private authService: AuthService,
     public translate: TranslateService
-  ) {
+  ) { 
     if (
       localStorage.getItem('clang') != null &&
       localStorage.getItem('clang') != undefined &&

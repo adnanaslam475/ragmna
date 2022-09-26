@@ -10,6 +10,7 @@ export const ROUTER_UTILS = {
     },
     customer: {
       root: 'home',
+      homecal:"prop-cal"
      
     },
     errorResponse: {

@@ -36,7 +36,7 @@ import { AreaCountryComponent } from './area-country/area-country.component';
     TranslateModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule, 
   ]
 })
 export class AdminModule { }

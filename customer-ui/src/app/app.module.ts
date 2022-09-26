@@ -7,8 +7,9 @@ import { AppComponent } from './app.component';
 import { WebShellModule } from './@shell/web-shell.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { ServerErrorInterceptor } from './@core/interceptors';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,14 @@ import { ToastrModule } from 'ngx-toastr';
       },
     }),
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
 export function httpTranslateLoader(http: HttpClient) {
