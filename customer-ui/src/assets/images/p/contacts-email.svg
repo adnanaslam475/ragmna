@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="14px" viewBox="0 0 18 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>mail_outline - material</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="contact" transform="translate(-452.000000, -1747.000000)" fill="#C8C8C8">
+            <g id="Group-4" transform="translate(451.000000, 1742.000000)">
+                <path d="M10,11.18 L16.68,7 L3.32,7 L10,11.18 Z M16.68,17 L16.68,8.68 L10,12.82 L3.32,8.68 L3.32,17 L16.68,17 Z M16.68,5.32 C17.1333356,5.32 17.5199984,5.486665 17.84,5.82 C18.1600016,6.153335 18.32,6.5466644 18.32,7 L18.32,17 C18.32,17.4533356 18.1600016,17.846665 17.84,18.18 C17.5199984,18.513335 17.1333356,18.68 16.68,18.68 L3.32,18.68 C2.8666644,18.68 2.4800016,18.513335 2.16,18.18 C1.8399984,17.846665 1.68,17.4533356 1.68,17 L1.68,7 C1.68,6.5466644 1.8399984,6.153335 2.16,5.82 C2.4800016,5.486665 2.8666644,5.32 3.32,5.32 L16.68,5.32 Z" id="mail_outline---material"></path>
+            </g>
+        </g>
+    </g>
+</svg>

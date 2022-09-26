@@ -23,9 +23,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/p/style_main.mina271.css",
+              "src/assets/css/p/footer.mina271.css"              
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/p/app_main.mina271.js",
+              "src/assets/js/p/waypoints.min.js",
+              "src/assets/js/p/lottie_svg.min.js"
+            ]
           },
           "configurations": {
             "production": {

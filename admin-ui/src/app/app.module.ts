@@ -15,7 +15,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule, 
     CoreModule,
     WebShellModule,
     BrowserAnimationsModule,

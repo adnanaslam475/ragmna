@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="15px" viewBox="0 0 9 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow_drop_down - material</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="button-desk" transform="translate(-253.000000, -28.000000)" fill="#FFFFFF">
+            <g id="Group-3">
+                <g id="Group-2" transform="translate(110.000000, 13.000000)">
+                    <polygon id="arrow_drop_down---material" transform="translate(147.500000, 22.467500) rotate(-90.000000) translate(-147.500000, -22.467500) " points="140.185 18.81 154.815 18.81 147.5 26.125"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
