@@ -29,6 +29,7 @@
                 <th scope="col">{{ "districts.titlear" | translate }}</th>
                 <th scope="col">{{ "districts.city" | translate }}</th>
                 <th scope="col">{{ "districts.region" | translate }}</th>
+                <th scope="col">{{ "districts.country" | translate }}</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -39,6 +40,7 @@
                 <td>{{ rl.title_ar }}</td>
                 <td>{{ rl.city }} ({{ rl.city_ar }})</td>
                 <td>{{ rl.region }} ({{ rl.region_ar }})</td>
+                <td>{{ rl.country }} ({{ rl.country_ar }})</td>
                 <td>
                   <div class="dropdown">
                     <a
@@ -105,6 +107,38 @@
         <div class="row">
           <div class="col-md-12">
             <div class="mb-3">
+              <div
+                class="form-check form-switch form-switch-right form-switch-md"
+              >
+                <label for="bordered-tables-showcode" class="form-label">{{
+                  "districts.country" | translate
+                }}</label>
+                <select
+                  class="form-control form-select"
+                  formControlName="countryid"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['countryid'].errors
+                  }"
+                  (change)="getRegionByCountry()"
+                >
+                  <option value="">Select Country</option>
+                  <option *ngFor="let al of countryList" value="{{ al.id }}">
+                    {{ al.title }} ({{ al.title_ar }})
+                  </option>
+                </select>
+                <div
+                  *ngIf="submitted && f['countryid'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['countryid'].errors['required']">
+                    {{ "districts.countryerr" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" >
+            <div class="mb-3">
              
                 <label for="bordered-tables-showcode" class="form-label">{{
                   "districts.region" | translate
@@ -133,7 +167,7 @@
             
             </div>
           </div>
-          <div class="col-md-12" *ngIf="cityList.length > 0">
+          <div class="col-md-12" >
             <div class="mb-3">
               <label for="bordered-tables-showcode" class="form-label">{{
                 "districts.city" | translate

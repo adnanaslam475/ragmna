@@ -51,7 +51,10 @@
     "addnew": "Add New Region",
     "titleerr": "Title is required",
     "titlearerr": "Title in Arabic is required",
-    "manageregion": "Manage Region"
+    "manageregion": "Manage Region",
+    "countryerr": "Country is required",
+    "country": "Country",
+    "countrytitle":"Country Name"
   },
   "cities": {
     "title": "City Name",
@@ -65,7 +68,10 @@
     "isrestricted": "Is this Restricted?",
     "restricted": "Restricted",
     "notrestricted": "Not Restricted",
-    "regionerr": "Region is required"
+    "regionerr": "Region is required",
+    "countryerr": "Country is required",
+    "country": "Country",
+    "countrytitle":"Country Name"
   },
   "districts": {
     "title": "District Name",
@@ -78,7 +84,9 @@
     "titlearerr": "District in Arabic is required",
     "cityerr": "City is required",
     "regionerr": "Region is required",
-    "managedistrict": "Manage District"
+    "managedistrict": "Manage District",
+    "country":"Country Name",
+    "countryerr": "Country is required"
   },
   "countries": {
     "title": "Country Name",

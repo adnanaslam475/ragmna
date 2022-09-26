@@ -28,7 +28,9 @@ export class AreaDistrictComponent implements OnInit {
   cityList: any = [];
   citytempList: any = [];
   districtList: any = [];
+  regionTempList: any = [];
   regionList: any = [];
+  countryList: any = [];
   constructor(
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -41,11 +43,13 @@ export class AreaDistrictComponent implements OnInit {
     this.getCityListData();
     this.getDistrictList();
     this.getRegionList();
+    this.getCountryListData();
   }
   setForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       titlear: ['', Validators.required],
+      countryid: ['', Validators.required],
       cityid: ['', Validators.required],
       regionid: ['', Validators.required],
     });
@@ -53,7 +57,13 @@ export class AreaDistrictComponent implements OnInit {
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
-
+  getCountryListData() {
+    this.adminService.getCountryList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.countryList = data['items'];
+      }
+    });
+  }
   getDistrictList() {
     this.adminService.getDistrictList().subscribe((data: any) => {
       if (data && data.success) {
@@ -71,9 +81,14 @@ export class AreaDistrictComponent implements OnInit {
   getRegionList() {
     this.adminService.getregionList().subscribe((data: any) => {
       if (data && data.success) {
-        this.regionList = data['items'];
+        this.regionTempList = data['items'];
       }
     });
+  }
+  getRegionByCountry(){
+    this.regionList = this.regionTempList.filter(
+      (f: any) => f.fk_country_id == this.form.value.countryid
+    );
   }
   getCity() {
     this.cityList = this.citytempList.filter(
@@ -90,7 +105,12 @@ export class AreaDistrictComponent implements OnInit {
         titlear: _existingData['title_ar'],
         cityid: _existingData['fk_city_id'],
         regionid: _existingData['fk_region_id'],
+        countryid: _existingData['fk_country_id'],
       });
+      this.regionList = this.regionTempList.filter(
+        (f: any) => f.fk_country_id == this.form.value.countryid
+      );
+
       this.cityList = this.citytempList.filter(
         (f: any) => f.fk_region_id == this.form.value.regionid
       );
@@ -114,6 +134,7 @@ export class AreaDistrictComponent implements OnInit {
       title_ar: this.form.value.titlear,
       cityid: this.form.value.cityid,
       regionid: this.form.value.regionid,
+      countryid: this.form.value.countryid,
       id: this.currentId,
     };
     if (this.currentId > 0) {

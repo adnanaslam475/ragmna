@@ -941,21 +941,38 @@ exports.getregionlist = async (req, res, next) => {
       pagination.pageSize = getParams.pageSize;
     }
 
-    whenCondtion.push({ field: "isdeleted", value: 0 });
+    whenCondtion.push(
+      { field: "rm.isdeleted", value: 0 },
+      { field: "cm.isdeleted", value: 0 }
+    );
 
     let result = await CommonModel.getRecords({
       whereCon: whenCondtion,
-      table: "region_master",
-      select: "id, title,title_ar",
+      table: "region_master rm",
+      select:
+        "rm.id, rm.title,rm.title_ar,rm.fk_country_id,cm.title as country,cm.title_ar as country_ar",
       pagination: pagination,
-      orderBy: { field: "id", order: "asc" },
+      join: [
+        {
+          joinType: "INNER JOIN",
+          joinWith: "country_master cm",
+          joinCondition: "cm.id = rm.fk_country_id",
+        },
+      ],
+      orderBy: { field: "rm.id", order: "asc" },
     });
 
     let resultCount = await CommonModel.getRecords({
       whereCon: whenCondtion,
-      table: "region_master",
+      table: "region_master rm",
       select: "count(1) as count",
-      orderBy: { field: "id", order: "desc" },
+      join: [
+        {
+          joinType: "INNER JOIN",
+          joinWith: "country_master cm",
+          joinCondition: "cm.id = rm.fk_country_id",
+        },
+      ],
     });
     resultCount = resultCount[0].count;
     const totalPages = resultCount / getParams.pageSize;
@@ -997,6 +1014,7 @@ exports.addregion = async (req, res, next) => {
       {
         title: postData.title,
         title_ar: postData.title_ar,
+        fk_country_id: postData.countryid,
         isdeleted: 0,
       },
       "region_master"
@@ -1048,7 +1066,9 @@ exports.updateregion = async (req, res, next) => {
     if (postData.title_ar) {
       updateData.title_ar = postData.title_ar;
     }
-
+    if (postData.countryid) {
+      updateData.fk_country_id = postData.countryid;
+    }
     let updatedDataResult = await CommonModel.updateRecords(
       {
         table: "region_master",
@@ -1151,19 +1171,25 @@ exports.getcitylist = async (req, res, next) => {
 
     whenCondtion.push(
       { field: "cm.isdeleted", value: 0 },
-      { field: "rm.isdeleted", value: 0 }
+      { field: "rm.isdeleted", value: 0 },
+      { field: "cmm.isdeleted", value: 0 }
     );
 
     let result = await CommonModel.getRecords({
       whereCon: whenCondtion,
       table: "city_master cm",
       select:
-        "cm.id, cm.title,cm.title_ar,cm.fk_region_id,rm.title as region,rm.title_ar as region_ar,cm.isrestricted",
+        "cm.fk_country_id, cmm.title as country, cmm.title_ar as country_ar,cm.id, cm.title,cm.title_ar,cm.fk_region_id,rm.title as region,rm.title_ar as region_ar,cm.isrestricted",
       join: [
         {
           joinType: "INNER JOIN",
           joinWith: "region_master rm",
           joinCondition: "rm.id = cm.fk_region_id",
+        },
+        {
+          joinType: "INNER JOIN",
+          joinWith: "country_master cmm",
+          joinCondition: "cmm.id = cm.fk_country_id",
         },
       ],
       pagination: pagination,
@@ -1180,8 +1206,12 @@ exports.getcitylist = async (req, res, next) => {
           joinWith: "region_master rm",
           joinCondition: "rm.id = cm.fk_region_id",
         },
+        {
+          joinType: "INNER JOIN",
+          joinWith: "country_master cmm",
+          joinCondition: "cmm.id = cm.fk_country_id",
+        },
       ],
-      orderBy: { field: "cm.id", order: "desc" },
     });
     resultCount = resultCount[0].count;
     const totalPages = resultCount / getParams.pageSize;
@@ -1224,6 +1254,7 @@ exports.addnewcity = async (req, res, next) => {
         title: postData.title,
         title_ar: postData.title_ar,
         fk_region_id: postData.regionid,
+        fk_country_id: postData.countryid,
         isrestricted: postData.isrestricted,
         isdeleted: 0,
       },
@@ -1276,6 +1307,10 @@ exports.updatecity = async (req, res, next) => {
     if (postData.title_ar) {
       updateData.title_ar = postData.title_ar;
     }
+    if (postData.countryid) {
+      updateData.fk_country_id = postData.countryid;
+    }
+
     if (postData.regionid) {
       updateData.fk_region_id = postData.regionid;
     }
@@ -1384,14 +1419,15 @@ exports.getdistrictlist = async (req, res, next) => {
 
     whenCondtion.push(
       { field: "dm.isdeleted", value: 0 },
-      { field: "cm.isdeleted", value: 0 }
+      { field: "cm.isdeleted", value: 0 },
+      { field: "cmm.isdeleted", value: 0 }
     );
 
     let result = await CommonModel.getRecords({
       whereCon: whenCondtion,
       table: "district_master dm",
       select:
-        "dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar,dm.fk_city_id,dm.fk_region_id,rm.title region,rm.title_ar as region_ar",
+        "dm.fk_country_id, cmm.title as country, cmm.title_ar as country_ar,dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar,dm.fk_city_id,dm.fk_region_id,rm.title region,rm.title_ar as region_ar",
       join: [
         {
           joinType: "INNER JOIN",
@@ -1402,6 +1438,11 @@ exports.getdistrictlist = async (req, res, next) => {
           joinType: "INNER JOIN",
           joinWith: "region_master rm",
           joinCondition: "rm.id = dm.fk_region_id",
+        },
+        {
+          joinType: "INNER JOIN",
+          joinWith: "country_master cmm",
+          joinCondition: "cmm.id = dm.fk_country_id",
         },
       ],
       pagination: pagination,
@@ -1418,8 +1459,12 @@ exports.getdistrictlist = async (req, res, next) => {
           joinWith: "city_master cm",
           joinCondition: "cm.id = dm.fk_city_id",
         },
+        {
+          joinType: "INNER JOIN",
+          joinWith: "country_master cmm",
+          joinCondition: "cmm.id = dm.fk_country_id",
+        },
       ],
-      orderBy: { field: "dm.id", order: "desc" },
     });
     resultCount = resultCount[0].count;
     const totalPages = resultCount / getParams.pageSize;
@@ -1463,6 +1508,7 @@ exports.addnewdistrict = async (req, res, next) => {
         title_ar: postData.title_ar,
         fk_city_id: postData.cityid,
         fk_region_id: postData.regionid,
+        fk_country_id: postData.countryid,
         isdeleted: 0,
       },
       "district_master"
@@ -1519,6 +1565,9 @@ exports.updatedistrict = async (req, res, next) => {
     }
     if (postData.regionid) {
       updateData.fk_region_id = postData.regionid;
+    }
+    if (postData.countryid) {
+      updateData.fk_country_id = postData.countryid;
     }
     let updatedDataResult = await CommonModel.updateRecords(
       {
@@ -1602,8 +1651,6 @@ exports.deletedistrict = async (req, res, next) => {
   }
 };
 //#endregion
-
-
 
 exports.fobiddenRoute = function (req, res, next) {
   res.status(403).json({ message: "forbidden" });

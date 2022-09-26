@@ -51,7 +51,10 @@
     "addnew": "اضف منطقةاخرى",
     "titleerr": "خانة العنوان اجبارية",
     "titlearerr": "خانة العنوان بالعربي اجبارية",
-    "manageregion": "ادارة المناطق"
+    "manageregion": "ادارة المناطق",
+    "countryerr": "Country is required",
+    "country": "Country",
+    "countrytitle":"Country Name"
   },
   "cities": {
     "title": "اسم المدينة",
@@ -65,7 +68,10 @@
     "isrestricted": "هل هذه منطقة حرم؟",
     "restricted": "نعم - منطقة الحرم",
     "notrestricted": "لا - ليست منطقة الحرم",
-    "regionerr": "المنطقة اجبارية"
+    "regionerr": "المنطقة اجبارية",
+    "countryerr": "Country is required",
+    "country": "Country",
+    "countrytitle":"Country Name"
   },
   "districts": {
     "title": "اسم الحي",
@@ -77,7 +83,9 @@
     "titlearerr": "ترجمة خانة الحي الزامية",
     "cityerr": "خانة المدينة الزامية",
     "managedistrict": "ادارة الاحياء",
-    "region": "المنطقة"
+    "region": "المنطقة",
+    "country":"Country",
+    "countryerr": "Country is required"
   },
   "countries": {
     "title": "Country Name",

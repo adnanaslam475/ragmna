@@ -26,7 +26,10 @@ export class AreaCityComponent implements OnInit {
   isloading: boolean = false;
   currentId: number = 0;
   regionList: any = [];
+  regionTempList: any = [];
   cityList: any = [];
+  countryList: any = [];
+
   constructor(
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -38,12 +41,14 @@ export class AreaCityComponent implements OnInit {
     this.setForm();
     this.getRegionList();
     this.getCityListData();
+    this.getCountryListData();
   }
   setForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       titlear: ['', Validators.required],
       regionid: ['', Validators.required],
+      countryid: ['', Validators.required],
       isrestricted: [''],
     });
   }
@@ -53,7 +58,7 @@ export class AreaCityComponent implements OnInit {
   getRegionList() {
     this.adminService.getregionList().subscribe((data: any) => {
       if (data && data.success) {
-        this.regionList = data['items'];
+        this.regionTempList = data['items'];
       }
     });
   }
@@ -61,6 +66,13 @@ export class AreaCityComponent implements OnInit {
     this.adminService.getCityList().subscribe((data: any) => {
       if (data && data.success) {
         this.cityList = data['items'];
+      }
+    });
+  }
+  getCountryListData() {
+    this.adminService.getCountryList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.countryList = data['items'];
       }
     });
   }
@@ -73,8 +85,12 @@ export class AreaCityComponent implements OnInit {
         title: _existingData['title'],
         titlear: _existingData['title_ar'],
         regionid: _existingData['fk_region_id'],
+        countryid: _existingData['fk_country_id'],
         isrestricted: _existingData['isrestricted'],
       });
+      this.regionList = this.regionTempList.filter(
+        (f: any) => f.fk_country_id === this.form.value.countryid
+      );
     }
     this.modalService.open(data, {
       size: 'lg',
@@ -94,6 +110,7 @@ export class AreaCityComponent implements OnInit {
       title: this.form.value.title,
       title_ar: this.form.value.titlear,
       regionid: this.form.value.regionid,
+      countryid: this.form.value.countryid,
       isrestricted: this.form.value.isrestricted ? 1 : 0,
       id: this.currentId,
     };
@@ -148,5 +165,12 @@ export class AreaCityComponent implements OnInit {
       } else {
       }
     });
+  }
+  getRegionByCountry() {
+   
+    this.regionList = this.regionTempList.filter(
+      (f: any) => f.fk_country_id == this.form.value.countryid
+    );
+    console.log(this.regionList);
   }
 }

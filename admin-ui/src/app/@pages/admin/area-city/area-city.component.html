@@ -27,6 +27,7 @@
                 <th scope="col">#</th>
                 <th scope="col">{{ "cities.title" | translate }}</th>
                 <th scope="col">{{ "cities.titlear" | translate }}</th>
+                <th scope="col">{{ "cities.countrytitle" | translate }}</th>
                 <th scope="col">
                   {{ "cities.restricted" | translate }}
                 </th>
@@ -39,6 +40,7 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ rl.title }}</td>
                 <td>{{ rl.title_ar }}</td>
+                <td>{{ rl.country }} ( {{ rl.country_ar }} )</td>
                 <td>
                   <span class="badge bg-danger" *ngIf="rl.isrestricted == 1">
                     {{ "cities.restricted" | translate }}
@@ -88,7 +90,7 @@
                   </div>
                 </td>
               </tr>
-              <tr *ngIf="regionList.length == 0">
+              <tr *ngIf="cityList.length == 0">
                 <span>No Record found</span>
               </tr>
             </tbody>
@@ -116,6 +118,38 @@
       </div>
       <div class="modal-body">
         <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <div
+                class="form-check form-switch form-switch-right form-switch-md"
+              >
+                <label for="bordered-tables-showcode" class="form-label">{{
+                  "cities.country" | translate
+                }}</label>
+                <select
+                  class="form-control form-select"
+                  formControlName="countryid"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['countryid'].errors
+                  }"
+                  (change)="getRegionByCountry()"
+                >
+                  <option value="">Select Country</option>
+                  <option *ngFor="let al of countryList" value="{{ al.id }}">
+                    {{ al.title }} ({{ al.title_ar }})
+                  </option>
+                </select>
+                <div
+                  *ngIf="submitted && f['regionid'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['regionid'].errors['required']">
+                    {{ "cities.countryerr" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="col-md-12">
             <div class="mb-3">
               <div

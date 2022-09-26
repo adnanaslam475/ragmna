@@ -25,6 +25,8 @@ export class AreaRegionComponent implements OnInit {
   isloading: boolean = false;
   currentId: number = 0;
   regionList: any = [];
+  countryList:any=[];
+
   constructor(
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -35,11 +37,13 @@ export class AreaRegionComponent implements OnInit {
   ngOnInit(): void {
     this.setForm();
     this.getRegionList();
+    this.getCountryListData();
   }
   setForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       titlear: ['', Validators.required],
+      countryid: ['', Validators.required],
     });
   }
   get f(): { [key: string]: AbstractControl } {
@@ -52,6 +56,13 @@ export class AreaRegionComponent implements OnInit {
       }
     });
   }
+  getCountryListData() {
+    this.adminService.getCountryList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.countryList = data['items'];
+      }
+    });
+  }
   openModel(data: any, id: number) {
     this.setForm();
     this.currentId = id;
@@ -60,6 +71,7 @@ export class AreaRegionComponent implements OnInit {
       this.form.patchValue({
         title: _existingData['title'],
         titlear: _existingData['title_ar'],
+        countryid: _existingData['fk_country_id'],
       });
     }
     this.modalService.open(data, {
@@ -79,6 +91,7 @@ export class AreaRegionComponent implements OnInit {
     let _reqbody = {
       title: this.form.value.title,
       title_ar: this.form.value.titlear,
+      countryid: this.form.value.countryid,
       id: this.currentId,
     };
     if (this.currentId > 0) {

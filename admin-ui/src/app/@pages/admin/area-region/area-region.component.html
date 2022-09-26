@@ -27,6 +27,7 @@
                 <th scope="col">#</th>
                 <th scope="col">{{ "regions.title" | translate }}</th>
                 <th scope="col">{{ "regions.titlear" | translate }}</th>
+                <th scope="col">{{ "regions.country" | translate }}</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -35,6 +36,7 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ rl.title }}</td>
                 <td>{{ rl.title_ar }}</td>
+                <td>{{ rl.country }} ({{ rl.country_ar }})</td>
                 <td>
                   <div class="dropdown">
                     <a
@@ -99,6 +101,38 @@
       </div>
       <div class="modal-body">
         <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <div
+                class="form-check form-switch form-switch-right form-switch-md"
+              >
+                <label for="bordered-tables-showcode" class="form-label">{{
+                  "regions.country" | translate
+                }}</label>
+                <select
+                  class="form-control form-select"
+                  formControlName="countryid"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['countryid'].errors
+                  }"
+                
+                >
+                  <option value="">Select Country</option>
+                  <option *ngFor="let al of countryList" value="{{ al.id }}">
+                    {{ al.title }} ({{ al.title_ar }})
+                  </option>
+                </select>
+                <div
+                  *ngIf="submitted && f['countryid'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['countryid'].errors['required']">
+                    {{ "regions.countryerr" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="col-md-12">
             <div class="mb-3">
               <label for="firstNameinput" class="form-label">
