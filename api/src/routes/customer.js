@@ -33,4 +33,32 @@ router.post("/purpose-eve-info", customerController.savePurposeInfo);
 /* Update Purpose Info */
 router.put("/purpose-eve-info", customerController.updatePurposeInfo);
 
+/* Get Purpose */
+router.get("/purpose-list", customerController.getpurposelist);
+
+/* Get Country */
+router.get("/country-list", customerController.getcountrylist);
+
+/* Get Region */
+router.get("/region-list", customerController.getregionlist);
+
+/* Get City */
+router.get("/city-list", customerController.getcitylist);
+
+/* Get District */
+router.get("/district-list", customerController.getdistrictlist);
+
+/* GET Property Info */
+router.get("/property-list/:quoteid", customerController.getPropertyInfo);
+
+/* SAVE Property Info */
+router.post("/property-info", customerController.savePropertyInfo);
+
+/* Update Property Info */
+router.put("/property-info", customerController.updatePropertyInfo);
+
+/* Get Price Amount */
+
+router.get("/quote-price/:quoteid", customerController.getpriceCalculation);
+
 module.exports = router;

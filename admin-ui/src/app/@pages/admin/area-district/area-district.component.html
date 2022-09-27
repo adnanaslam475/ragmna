@@ -30,6 +30,9 @@
                 <th scope="col">{{ "districts.city" | translate }}</th>
                 <th scope="col">{{ "districts.region" | translate }}</th>
                 <th scope="col">{{ "districts.country" | translate }}</th>
+                <th scope="col">
+                  {{ "districts.restricted" | translate }}
+                </th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -41,6 +44,17 @@
                 <td>{{ rl.city }} ({{ rl.city_ar }})</td>
                 <td>{{ rl.region }} ({{ rl.region_ar }})</td>
                 <td>{{ rl.country }} ({{ rl.country_ar }})</td>
+                <td>
+                  <span class="badge bg-danger" *ngIf="rl.isrestricted == 1">
+                    {{ "districts.restricted" | translate }}
+                  </span>
+                  <span
+                    class="badge badge-soft-primary"
+                    *ngIf="rl.isrestricted == 0"
+                  >
+                    {{ "districts.notrestricted" | translate }}
+                  </span>
+                </td>
                 <td>
                   <div class="dropdown">
                     <a
@@ -235,6 +249,22 @@
                 <div *ngIf="f['titlear'].errors['required']">
                   {{ "districts.titlearerr" | translate }}
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <div
+                class="form-check form-switch form-switch-right form-switch-md"
+              >
+                <label for="bordered-tables-showcode" class="form-label">{{
+                  "districts.isrestricted" | translate
+                }}</label>
+                <input
+                  class="form-check-input code-switcher"
+                  type="checkbox"
+                  formControlName="isrestricted"
+                />
               </div>
             </div>
           </div>

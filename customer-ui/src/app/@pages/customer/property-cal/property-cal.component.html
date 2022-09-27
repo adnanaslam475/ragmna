@@ -224,6 +224,7 @@
                 type="text"
                 placeholder="Company Name"
                 formControlName="companyname"
+                class="form-control"
                 [ngClass]="{
                   'is-invalid': submitted && f2['companyname'].errors
                 }"
@@ -242,6 +243,7 @@
               <input
                 name="lastName"
                 type="text"
+                class="form-control"
                 formControlName="companyaddress"
                 placeholder="Company Address"
               />
@@ -251,7 +253,8 @@
               <label for="phone-number">Company Phone Number</label>
               <input
                 name="phone"
-                type="text"
+                type="number"
+                class="form-control"
                 formControlName="phone"
                 placeholder="Phone Number"
               />
@@ -278,5 +281,294 @@
         </div>
       </div>
     </section>
+
+    <section
+      class="section section--inner section--nomargin"
+      *ngIf="currentstep == 'STEP5'"
+    >
+      <div class="what-we-do__grid">
+        <div class="what-we-do__image">
+          <form
+            class="contact-form-container contact-form"
+            [formGroup]="form4"
+            (ngSubmit)="savePropertyInfo()"
+          >
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="first-name">Type of Property</label>
+
+                  <select formControlName="typecd" class="form-select">
+                    <option value="">Select Property Type</option>
+                    <option value="Land">Land</option>
+                    <option value="Building">Building</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && f4['typecd'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['typecd'].errors['required']">
+                      Type is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="first-name">Evaluation Purpose</label>
+
+                  <select formControlName="purposeid" class="form-select">
+                    <option value="">Select Purpose</option>
+                    <option *ngFor="let al of purposeList" value="{{ al.id }}">
+                      {{ al.title }} ({{ al.title_ar }})
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="submitted && f4['purposeid'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['purposeid'].errors['required']">
+                      Purpose is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="first-name">Total Property</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Total Property"
+                    formControlName="totalprop"
+                    min="0"
+                  />
+                  <div
+                    *ngIf="submitted && f4['totalprop'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['totalprop'].errors['required']">
+                      Number of Property is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="first-name">Total Evalutor needed?</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Total Evalutor"
+                    formControlName="totaleveneed"
+                    min="0"
+                  />
+                  <div
+                    *ngIf="submitted && f4['totaleveneed'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['totaleveneed'].errors['required']">
+                      Number of Evalutor is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="first-name">Select Country</label>
+                  <select
+                    class="form-select"
+                    formControlName="country"
+                    (change)="getRegionByCountry()"
+                  >
+                    <option value="">Select Country</option>
+                    <option *ngFor="let al of countryList" value="{{ al.id }}">
+                      {{ al.title }} ({{ al.title_ar }})
+                    </option>
+                  </select>
+
+                  <div
+                    *ngIf="submitted && f4['country'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['country'].errors['required']">
+                      Country is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="first-name">Select Region</label>
+                  <select
+                    class="form-select"
+                    formControlName="region"
+                    (change)="getCityByRegion()"
+                  >
+                    <option value="">Select Region</option>
+                    <option *ngFor="let al of regionList" value="{{ al.id }}">
+                      {{ al.title }} ({{ al.title_ar }})
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="submitted && f4['region'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['region'].errors['required']">
+                      Region is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6 mt-2">
+                  <label for="first-name">Select City</label>
+                  <select
+                    class="form-select"
+                    formControlName="city"
+                    (change)="getDistrictByCity()"
+                  >
+                    <option value="">Select City</option>
+                    <option *ngFor="let al of cityList" value="{{ al.id }}">
+                      {{ al.title }} ({{ al.title_ar }})
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="submitted && f4['city'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['city'].errors['required']">
+                      City is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mt-2" *ngIf="iscityrestricted">
+                  <label>Is this city restricted?</label>
+                  <select
+                    class="form-select"
+                    formControlName="cityrestrictedval"
+                  >
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mt-2">
+                  <label for="first-name">Select District</label>
+                  <select
+                    class="form-select"
+                    formControlName="district"
+                    (change)="getDistrictRestriction()"
+                  >
+                    <option value="">Select District</option>
+                    <option *ngFor="let al of districtList" value="{{ al.id }}">
+                      {{ al.title }} ({{ al.title_ar }})
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="submitted && f4['district'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f4['district'].errors['required']">
+                      District is required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mt-2" *ngIf="isdistrictrestricted">
+                  <label>Is this district restricted?</label>
+                  <select
+                    class="form-select"
+                    formControlName="districtrestrictedval"
+                  >
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="first-name">Land Size</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Total Land Size"
+                    formControlName="land_size"
+                    min="0"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="first-name">Building Size</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Total Building Size"
+                    formControlName="building_size"
+                    min="0"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="contact-button-wrapper">
+              <button class="contact-button btn btn--big mr-3" type="submit">
+                ADD
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="what-we-do__content">
+          <table class="table">
+            <thead>
+              <tr>
+                <td>#</td>
+                <td>Type</td>
+                <td>Country</td>
+                <td>Region</td>
+                <td>City</td>
+                <td>District</td>
+                <td>Land Size</td>
+                <td>Building Size</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let al of propertyList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ al.typecd }}</td>
+                <td>{{ al.country }}</td>
+                <td>{{ al.region }}</td>
+                <td>{{ al.city }}</td>
+                <td>{{ al.district }}</td>
+                <td>{{ al.land_size }}</td>
+                <td>{{ al.building_size }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <button
+            class="contact-button btn btn--big mt-3"
+            type="button"
+            *ngIf="propertyList.length > 0"
+            (click)="setOrderAndGetQuote()"
+          >
+            Order
+          </button>
+        </div>
+      </div>
+    </section>
+    <section
+      class="section section--inner section--nomargin"
+      *ngIf="currentstep == 'STEP6'"
+    >
+      <div class="what-we-do__grid">
+        <div class="what-we-do__image">
+          <button class="contact-button btn btn--big mt-3" type="button">
+            Pay Now {{payAmount}}
+          </button>
+        </div>
+      
+      </div>
+    </section>
   </div>
 </section>
+<section class="section section--inner section--nomargin"></section>

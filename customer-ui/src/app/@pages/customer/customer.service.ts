@@ -35,13 +35,58 @@ export class CustomerService {
       )
       .pipe(retry(1), catchError(this.handleError));
   }
-
+  savePurposeInfo(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'cust/purpose-eve-info',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  savePropertyInfoData(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'cust/property-info',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  getQuotationPrice(quoteId: string) {
+    return this.http
+      .get(environment.apiUrl + 'cust/quote-price/' + quoteId, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
   getCountryList() {
     return this.http
-      .get(environment.apiUrl + 'admin/country/list', this.httpOptions)
+      .get(environment.apiUrl + 'cust/country-list', this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  getPurposeList() {
+    return this.http
+      .get(environment.apiUrl + 'cust/purpose-list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getRegionList() {
+    return this.http
+      .get(environment.apiUrl + 'cust/region-list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getCityList() {
+    return this.http
+      .get(environment.apiUrl + 'cust/city-list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getDistrictList() {
+    return this.http
+      .get(environment.apiUrl + 'cust/district-list', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

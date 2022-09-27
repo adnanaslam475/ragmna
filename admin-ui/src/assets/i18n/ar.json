@@ -85,7 +85,10 @@
     "managedistrict": "ادارة الاحياء",
     "region": "المنطقة",
     "country":"Country",
-    "countryerr": "Country is required"
+    "countryerr": "Country is required",
+    "isrestricted": "هل هذه منطقة حرم؟",
+    "restricted": "نعم - منطقة الحرم",
+    "notrestricted": "لا - ليست منطقة الحرم"
   },
   "countries": {
     "title": "Country Name",

@@ -27,8 +27,41 @@ export class PropertyCalComponent implements OnInit {
     companyaddress: new FormControl(''),
     companyphone: new FormControl(''),
   });
+  form3: FormGroup = new FormGroup({
+    purposeid: new FormControl(''),
+    totalprop: new FormControl(''),
+    totaleveneed: new FormControl(''),
+  });
+  form4: FormGroup = new FormGroup({
+    typecd: new FormControl(''),
+    region: new FormControl(''),
+    country: new FormControl(''),
+    city: new FormControl(''),
+    district: new FormControl(''),
+    land_size: new FormControl(''),
+    building_size: new FormControl(''),
+    isrestricted: new FormControl(''),
+    purposeid: new FormControl(''),
+    totalprop: new FormControl(''),
+    totaleveneed: new FormControl(''),
+    districtrestrictedval: new FormControl(''),
+    cityrestrictedval:new FormControl(''),
+  });
   submitted = false;
   isloading: boolean = false;
+  purposeList: any = [];
+  countryList: any = [];
+  regionList: any = [];
+  regionTempList: any = [];
+  cityList: any = [];
+  cityTempList: any = [];
+  districtList: any = [];
+  districtTempList: any = [];
+  propertyList: any = [];
+  iscityrestricted: boolean = false;
+  isdistrictrestricted: boolean = false;
+  payAmount: any = 0;
+
   constructor(
     private custservice: CustomerService,
     private toastr: ToastrService,
@@ -38,6 +71,13 @@ export class PropertyCalComponent implements OnInit {
   ngOnInit(): void {
     this.setForm();
     this.setForm2();
+    // this.setForm3();
+    this.setForm4();
+    this.getPurpose();
+    this.getCity();
+    this.getCountry();
+    this.getDistrict();
+    this.getRegion();
   }
   setForm() {
     this.form = this.formBuilder.group({
@@ -61,6 +101,37 @@ export class PropertyCalComponent implements OnInit {
   get f2(): { [key: string]: AbstractControl } {
     return this.form2.controls;
   }
+  // setForm3() {
+  //   this.form3 = this.formBuilder.group({
+  //     purposeid: ['', Validators.required],
+  //     totalprop: ['', Validators.required],
+  //     totaleveneed: ['', Validators.required],
+  //   });
+  // }
+  // get f3(): { [key: string]: AbstractControl } {
+  //   return this.form3.controls;
+  // }
+  setForm4() {
+    this.form4 = this.formBuilder.group({
+      typecd: ['', Validators.required],
+      region: ['', Validators.required],
+      country: ['', Validators.required],
+      city: ['', Validators.required],
+      district: ['', Validators.required],
+      land_size: ['0', Validators.required],
+      building_size: ['0', Validators.required],
+      isrestricted: ['0', Validators.required],
+      purposeid: ['', Validators.required],
+      totalprop: ['', Validators.required],
+      totaleveneed: ['', Validators.required],
+      districtrestrictedval: ['0'],
+      cityrestrictedval:['0']
+    });
+  }
+  get f4(): { [key: string]: AbstractControl } {
+    return this.form4.controls;
+  }
+
   createNewQuote(type: string) {
     localStorage.setItem('quotetype', type);
     let _reqbody = {
@@ -99,7 +170,7 @@ export class PropertyCalComponent implements OnInit {
   }
   saveCompanyInfo() {
     this.submitted = true;
-    if (this.form.invalid) {
+    if (this.form2.invalid) {
       return;
     }
     let _reqbody = {
@@ -110,12 +181,150 @@ export class PropertyCalComponent implements OnInit {
     };
     this.custservice.saveCompanyInfo(_reqbody).subscribe((data: any) => {
       if (data.success) {
-        this.quoteno = data.data;
         this.toastr.success('Please continue for next step');
-        this.currentstep = 'STEP2';
+        this.currentstep = 'STEP5';
       } else {
         this.toastr.error('Something went wrong');
       }
     });
   }
+
+  saveEvePurposeInfo() {
+    this.submitted = true;
+    if (this.form3.invalid) {
+      return;
+    }
+    let _reqbody = {
+      quoteno: this.quoteno,
+      purposeid: this.form3.value.purposeid,
+      totalprop: this.form3.value.totalprop,
+      totalevalutor: this.form3.value.totaleveneed,
+    };
+    this.custservice.savePurposeInfo(_reqbody).subscribe((data: any) => {
+      if (data.success) {
+        this.toastr.success('Please continue for next step');
+        this.currentstep = 'STEP5';
+      } else {
+        this.toastr.error('Something went wrong');
+      }
+    });
+  }
+  savePropertyInfo() {
+    debugger;
+    this.submitted = true;
+    if (this.form4.invalid) {
+      return;
+    }
+    let _reqbody = {
+      quoteno: this.quoteno,
+      typecd: this.form4.value.typecd,
+      region: this.form4.value.region,
+      country: this.form4.value.country,
+      city: this.form4.value.city,
+      district: this.form4.value.district,
+      land_size: this.form4.value.land_size,
+      building_size: this.form4.value.building_size,
+      isrestricted: this.form4.value.isrestricted,
+      purposeid: this.form4.value.purposeid,
+      totalprop: this.form4.value.totalprop,
+      totalevalutor: this.form4.value.totaleveneed,
+    };
+    this.custservice.savePropertyInfoData(_reqbody).subscribe((data: any) => {
+      if (data && data.success) {
+        this.toastr.success('saved successfully');
+        this.propertyList.push({
+          typecd: this.form4.value.typecd,
+          region: this.form4.value.region,
+          country: this.form4.value.country,
+          city: this.form4.value.city,
+          district: this.form4.value.district,
+          land_size: this.form4.value.land_size,
+          building_size: this.form4.value.building_size,
+        });
+        this.setForm4();
+        this.submitted = false;
+      } else {
+        this.toastr.error('something went wrong');
+      }
+    });
+  }
+  getRegionByCountry() {
+    this.regionList = this.regionTempList.filter(
+      (f: any) => f.fk_country_id == this.form4.value.country
+    );
+  }
+  getCityByRegion() {
+    this.cityList = this.cityTempList.filter(
+      (f: any) => f.fk_region_id == this.form4.value.region
+    );
+  }
+  getDistrictByCity() {
+ 
+    let _currentCity = this.cityTempList.find((f:any)=> f.id == this.form4.value.city);
+    if (_currentCity && _currentCity['isrestricted'] == 1) {
+      this.iscityrestricted = true;
+    }else{
+      this.iscityrestricted = false;
+    }
+    this.districtList = this.districtTempList.filter(
+      (f: any) => f.fk_city_id == this.form4.value.city
+    );
+  }
+
+  getDistrictRestriction(){
+    let _district = this.districtTempList.find((f: any) => f.id == this.form4.value.district);
+    if (_district && _district['isrestricted'] == 1){
+      this.isdistrictrestricted = true;
+    }else{
+      this.isdistrictrestricted = false;
+    }
+  }
+  setOrderAndGetQuote(){
+    this.custservice.getQuotationPrice(this.quoteno).subscribe((data:any) =>{
+      if(data && data.success){
+        this.currentstep = 'STEP6';
+        this.payAmount = data['data']
+
+
+      }
+    })
+  }
+  //#region ALL GET METHODS
+
+  getPurpose() {
+    this.custservice.getPurposeList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.purposeList = data['items'];
+      }
+    });
+  }
+  getCountry() {
+    this.custservice.getCountryList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.countryList = data['items'];
+      }
+    });
+  }
+  getRegion() {
+    this.custservice.getRegionList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.regionTempList = data['items'];
+      }
+    });
+  }
+  getCity() {
+    this.custservice.getCityList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.cityTempList = data['items'];
+      }
+    });
+  }
+  getDistrict() {
+    this.custservice.getDistrictList().subscribe((data: any) => {
+      if (data && data.success) {
+        this.districtTempList = data['items'];
+      }
+    });
+  }
+  //#endregion
 }

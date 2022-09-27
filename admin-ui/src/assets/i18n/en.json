@@ -86,7 +86,10 @@
     "regionerr": "Region is required",
     "managedistrict": "Manage District",
     "country":"Country Name",
-    "countryerr": "Country is required"
+    "countryerr": "Country is required",
+    "isrestricted":"Is this Restricted?",
+    "restricted": "Restricted",
+    "notrestricted": "Not Restricted"
   },
   "countries": {
     "title": "Country Name",

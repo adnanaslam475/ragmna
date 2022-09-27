@@ -7,4 +7,5 @@
 
 .invalid-feedback {
   color: #f06548 !important;
+  display: block;
 }

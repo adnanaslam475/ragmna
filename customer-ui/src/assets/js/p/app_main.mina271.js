@@ -43,16 +43,16 @@ function GetUrlBasePath() {
   );
 }
 function createEmptyLead(n, t) {
-  var i = new XMLHttpRequest();
-  i.open(
-    "POST",
-    window.location.origin +
-      (GetUrlBasePath() != "/undefined" ? GetUrlBasePath() : "") +
-      "/CreateEmptyLead"
-  );
-  i.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  i.setRequestHeader("Cache-Control", "no-cache");
-  i.send("zip=" + encodeURI(n) + "&status=" + encodeURI(t));
+  // var i = new XMLHttpRequest();
+  // i.open(
+  //   "POST",
+  //   window.location.origin +
+  //     (GetUrlBasePath() != "/undefined" ? GetUrlBasePath() : "") +
+  //     "/CreateEmptyLead"
+  // );
+  // i.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  // i.setRequestHeader("Cache-Control", "no-cache");
+  // i.send("zip=" + encodeURI(n) + "&status=" + encodeURI(t));
 }
 window.NodeList &&
   !NodeList.prototype.forEach &&
@@ -195,185 +195,185 @@ Array.from ||
     });
   })(),
   (function () {
-    function s(n) {
-      if (r) return !0;
-      if (t !== null) return t;
-      r = !0;
-      t = null;
-      var u = new XMLHttpRequest();
-      return (
-        u.open("POST", "/data/checkzipcode/", !0),
-        u.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"),
-        u.setRequestHeader("Cache-Control", "no-cache"),
-        (u.onloadend = function () {
-          if (u.status === 200) {
-            t = u.response === "true";
-            var f = i("zip-state");
-            t &&
-              f &&
-              document
-                .querySelectorAll(".fill-zip-state")
-                .forEach(function (n) {
-                  n.innerHTML = f;
-                });
-          } else t = !1;
-          r = !1;
-          n.setCustomValidity(t ? "" : "Invalid zip code");
-        }),
-        u.send("ziptest=" + encodeURI(n.value)),
-        !0
-      );
-    }
-    function h(n, t) {
-      if (r && f > 0)
-        f--,
-          window.setTimeout(function () {
-            h(n, t);
-          }, 500),
-          t && (t.preventDefault(), t.target.classList.add("loading"));
-      else if ((t.target.classList.remove("loading"), n.reportValidity())) {
-        var i = new CustomEvent("submit");
-        n.dispatchEvent(i);
-      }
-    }
-    function c(n, t) {
-      if (u && e > 0)
-        e--,
-          window.setTimeout(function () {
-            c(n, t);
-          }, 500),
-          t && (t.preventDefault(), t.target.classList.add("loading"));
-      else if (
-        (t.target.classList.remove("loading"), n.reportValidity() && !r)
-      ) {
-        var i = new CustomEvent("submit");
-        n.dispatchEvent(i);
-      }
-    }
-    function a() {
-      var i = o(),
-        t;
-      i.pf &&
-        i.cmp === "qs" &&
-        i.spa !== "1" &&
-        ((u = !0),
-        (t = new XMLHttpRequest()),
-        t.open("POST", "/auto-insurance/GetTokenData", !0),
-        t.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"),
-        t.setRequestHeader("Cache-Control", "no-cache"),
-        (t.timeout = 5e3),
-        (t.onloadend = function () {
-          t.status === 200
-            ? (console.info("token data loaded"), n("tdl", "1"))
-            : (console.error("error loading token data"),
-              t.status !== 0 &&
-                n("cx_prefill_error", "qs_" + t.status + "_" + t.statusText));
-          u = !1;
-        }),
-        (t.ontimeout = function () {
-          n("cx_prefill_error", "qs_timeout");
-        }),
-        t.send("token=" + encodeURI(i.pf) + "&useValidator=" + i.usevalidator));
-    }
-    function i(n) {
-      for (
-        var t, r = n + "=", u = document.cookie.split(";"), i = 0;
-        i < u.length;
-        i++
-      ) {
-        for (t = u[i]; t.charAt(0) === " "; ) t = t.substring(1, t.length);
-        if (t.indexOf(r) === 0) return t.substring(r.length, t.length);
-      }
-      return null;
-    }
-    function n(n, t, i) {
-      var u = "",
-        r;
-      i &&
-        ((r = new Date()),
-        r.setTime(r.getTime() + i * 864e5),
-        (u = "; expires=" + r.toUTCString()));
-      t && (document.cookie = n + "=" + t + u + "; path=/");
-    }
-    function l(n) {
-      var t = new Date();
-      t.setTime(t.getTime() - 1e4);
-      document.cookie = n + "=;expires=" + t.toUTCString() + ";path=/";
-    }
-    function o() {
-      return (
-        document.location.search
-          .replace(/(^\?)/, "")
-          .split("&")
-          .filter(function (n) {
-            return n != "";
-          })
-          .map(
-            function (n) {
-              return (n = n.split("=")), (this[n[0]] = n[1]), this;
-            }.bind({})
-          )[0] || {}
-      );
-    }
-    function v() {
-      var t = o(),
-        f,
-        u,
-        r,
-        e;
-      for (
-        n("zip", t.zip || "", 1),
-          n("fname", t.fname || "", 1),
-          n("lname", t.lname || "", 1),
-          n("add", t.add || "", 1),
-          n("education", t.edu || "", 1),
-          n("credit_rating", t.credrate || "", 1),
-          n("od_referrer", document.referrer, 365),
-          n("od_localreferer", window.location.href, 365),
-          f = [
-            "eid",
-            "clickid",
-            "utm_source",
-            "utm_medium",
-            "utm_term",
-            "utm_campaign",
-            "s",
-            "s1",
-            "s2",
-            "device",
-            "adposition",
-            "gclid",
-            "ref",
-            "ijsbid",
-            "emailtracking",
-          ],
-          u = 0;
-        u < f.length;
-        u++
-      )
-        (r = f[u]),
-          typeof t[r] != "undefined"
-            ? ((e = t[r]),
-              t.ns && r === "s" && (e = t.ns),
-              (document.cookie = "od_" + r + "=" + e + "; path=/"))
-            : i("od_" + r) === null &&
-              i("d_od_" + r) !== null &&
-              (document.cookie = "od_" + r + "=" + i("d_od_" + r) + "; path=/");
-      t.msclkid && n("cx_msclkid", t.msclkid);
-      y();
-    }
-    function y() {
-      var t, n, i;
-      try {
-        t = o();
-        for (n in t)
-          (i = encodeURIComponent(t[n])),
-            n.indexOf("cx_") === 0 &&
-              (document.cookie = n + "=" + i + "; path=/");
-      } catch (r) {
-        console.error("error saving tracking variables", r);
-      }
-    }
+    // function s(n) {
+    //   if (r) return !0;
+    //   if (t !== null) return t;
+    //   r = !0;
+    //   t = null;
+    //   var u = new XMLHttpRequest();
+    //   return (
+    //     u.open("POST", "/data/checkzipcode/", !0),
+    //     u.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"),
+    //     u.setRequestHeader("Cache-Control", "no-cache"),
+    //     (u.onloadend = function () {
+    //       if (u.status === 200) {
+    //         t = u.response === "true";
+    //         var f = i("zip-state");
+    //         t &&
+    //           f &&
+    //           document
+    //             .querySelectorAll(".fill-zip-state")
+    //             .forEach(function (n) {
+    //               n.innerHTML = f;
+    //             });
+    //       } else t = !1;
+    //       r = !1;
+    //       n.setCustomValidity(t ? "" : "Invalid zip code");
+    //     }),
+    //     u.send("ziptest=" + encodeURI(n.value)),
+    //     !0
+    //   );
+    // }
+    // function h(n, t) {
+    //   if (r && f > 0)
+    //     f--,
+    //       window.setTimeout(function () {
+    //         h(n, t);
+    //       }, 500),
+    //       t && (t.preventDefault(), t.target.classList.add("loading"));
+    //   else if ((t.target.classList.remove("loading"), n.reportValidity())) {
+    //     var i = new CustomEvent("submit");
+    //     n.dispatchEvent(i);
+    //   }
+    // }
+    // function c(n, t) {
+    //   if (u && e > 0)
+    //     e--,
+    //       window.setTimeout(function () {
+    //         c(n, t);
+    //       }, 500),
+    //       t && (t.preventDefault(), t.target.classList.add("loading"));
+    //   else if (
+    //     (t.target.classList.remove("loading"), n.reportValidity() && !r)
+    //   ) {
+    //     var i = new CustomEvent("submit");
+    //     n.dispatchEvent(i);
+    //   }
+    // }
+    // function a() {
+    //   var i = o(),
+    //     t;
+    //   i.pf &&
+    //     i.cmp === "qs" &&
+    //     i.spa !== "1" &&
+    //     ((u = !0),
+    //     (t = new XMLHttpRequest()),
+    //     t.open("POST", "/auto-insurance/GetTokenData", !0),
+    //     t.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"),
+    //     t.setRequestHeader("Cache-Control", "no-cache"),
+    //     (t.timeout = 5e3),
+    //     (t.onloadend = function () {
+    //       t.status === 200
+    //         ? (console.info("token data loaded"), n("tdl", "1"))
+    //         : (console.error("error loading token data"),
+    //           t.status !== 0 &&
+    //             n("cx_prefill_error", "qs_" + t.status + "_" + t.statusText));
+    //       u = !1;
+    //     }),
+    //     (t.ontimeout = function () {
+    //       n("cx_prefill_error", "qs_timeout");
+    //     }),
+    //     t.send("token=" + encodeURI(i.pf) + "&useValidator=" + i.usevalidator));
+    // }
+    // function i(n) {
+    //   for (
+    //     var t, r = n + "=", u = document.cookie.split(";"), i = 0;
+    //     i < u.length;
+    //     i++
+    //   ) {
+    //     for (t = u[i]; t.charAt(0) === " "; ) t = t.substring(1, t.length);
+    //     if (t.indexOf(r) === 0) return t.substring(r.length, t.length);
+    //   }
+    //   return null;
+    // }
+    // function n(n, t, i) {
+    //   var u = "",
+    //     r;
+    //   i &&
+    //     ((r = new Date()),
+    //     r.setTime(r.getTime() + i * 864e5),
+    //     (u = "; expires=" + r.toUTCString()));
+    //   t && (document.cookie = n + "=" + t + u + "; path=/");
+    // }
+    // function l(n) {
+    //   var t = new Date();
+    //   t.setTime(t.getTime() - 1e4);
+    //   document.cookie = n + "=;expires=" + t.toUTCString() + ";path=/";
+    // }
+    // function o() {
+    //   return (
+    //     document.location.search
+    //       .replace(/(^\?)/, "")
+    //       .split("&")
+    //       .filter(function (n) {
+    //         return n != "";
+    //       })
+    //       .map(
+    //         function (n) {
+    //           return (n = n.split("=")), (this[n[0]] = n[1]), this;
+    //         }.bind({})
+    //       )[0] || {}
+    //   );
+    // }
+    // function v() {
+    //   var t = o(),
+    //     f,
+    //     u,
+    //     r,
+    //     e;
+    //   for (
+    //     n("zip", t.zip || "", 1),
+    //       n("fname", t.fname || "", 1),
+    //       n("lname", t.lname || "", 1),
+    //       n("add", t.add || "", 1),
+    //       n("education", t.edu || "", 1),
+    //       n("credit_rating", t.credrate || "", 1),
+    //       n("od_referrer", document.referrer, 365),
+    //       n("od_localreferer", window.location.href, 365),
+    //       f = [
+    //         "eid",
+    //         "clickid",
+    //         "utm_source",
+    //         "utm_medium",
+    //         "utm_term",
+    //         "utm_campaign",
+    //         "s",
+    //         "s1",
+    //         "s2",
+    //         "device",
+    //         "adposition",
+    //         "gclid",
+    //         "ref",
+    //         "ijsbid",
+    //         "emailtracking",
+    //       ],
+    //       u = 0;
+    //     u < f.length;
+    //     u++
+    //   )
+    //     (r = f[u]),
+    //       typeof t[r] != "undefined"
+    //         ? ((e = t[r]),
+    //           t.ns && r === "s" && (e = t.ns),
+    //           (document.cookie = "od_" + r + "=" + e + "; path=/"))
+    //         : i("od_" + r) === null &&
+    //           i("d_od_" + r) !== null &&
+    //           (document.cookie = "od_" + r + "=" + i("d_od_" + r) + "; path=/");
+    //   t.msclkid && n("cx_msclkid", t.msclkid);
+    //   y();
+    // }
+    // function y() {
+    //   var t, n, i;
+    //   try {
+    //     t = o();
+    //     for (n in t)
+    //       (i = encodeURIComponent(t[n])),
+    //         n.indexOf("cx_") === 0 &&
+    //           (document.cookie = n + "=" + i + "; path=/");
+    //   } catch (r) {
+    //     console.error("error saving tracking variables", r);
+    //   }
+    // }
     var r = !1,
       u = !1,
       t,

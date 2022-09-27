@@ -21,6 +21,7 @@ export class AreaDistrictComponent implements OnInit {
     titlear: new FormControl(''),
     cityid: new FormControl(''),
     regionid: new FormControl(''),
+    isrestricted: new FormControl(''),
   });
   submitted = false;
   isloading: boolean = false;
@@ -52,6 +53,7 @@ export class AreaDistrictComponent implements OnInit {
       countryid: ['', Validators.required],
       cityid: ['', Validators.required],
       regionid: ['', Validators.required],
+      isrestricted: [''],
     });
   }
   get f(): { [key: string]: AbstractControl } {
@@ -106,6 +108,7 @@ export class AreaDistrictComponent implements OnInit {
         cityid: _existingData['fk_city_id'],
         regionid: _existingData['fk_region_id'],
         countryid: _existingData['fk_country_id'],
+        isrestricted: _existingData['isrestricted'],
       });
       this.regionList = this.regionTempList.filter(
         (f: any) => f.fk_country_id == this.form.value.countryid
@@ -135,6 +138,7 @@ export class AreaDistrictComponent implements OnInit {
       cityid: this.form.value.cityid,
       regionid: this.form.value.regionid,
       countryid: this.form.value.countryid,
+      isrestricted: this.form.value.isrestricted ? 1 : 0,
       id: this.currentId,
     };
     if (this.currentId > 0) {

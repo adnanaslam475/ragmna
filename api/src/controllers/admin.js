@@ -1427,7 +1427,7 @@ exports.getdistrictlist = async (req, res, next) => {
       whereCon: whenCondtion,
       table: "district_master dm",
       select:
-        "dm.fk_country_id, cmm.title as country, cmm.title_ar as country_ar,dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar,dm.fk_city_id,dm.fk_region_id,rm.title region,rm.title_ar as region_ar",
+        "dm.isrestricted,dm.fk_country_id, cmm.title as country, cmm.title_ar as country_ar,dm.id, dm.title,dm.title_ar,cm.title as city,cm.title_ar as city_ar,dm.fk_city_id,dm.fk_region_id,rm.title region,rm.title_ar as region_ar",
       join: [
         {
           joinType: "INNER JOIN",
@@ -1509,7 +1509,9 @@ exports.addnewdistrict = async (req, res, next) => {
         fk_city_id: postData.cityid,
         fk_region_id: postData.regionid,
         fk_country_id: postData.countryid,
+        isrestricted: postData.isrestricted,
         isdeleted: 0,
+
       },
       "district_master"
     );
@@ -1568,6 +1570,9 @@ exports.updatedistrict = async (req, res, next) => {
     }
     if (postData.countryid) {
       updateData.fk_country_id = postData.countryid;
+    }
+    if (postData.isrestricted) {
+      updateData.isrestricted = postData.isrestricted;
     }
     let updatedDataResult = await CommonModel.updateRecords(
       {
