@@ -1,0 +1,182 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "emailtemp" | translate }}
+        </h3>
+        <div class="flex-shrink-0">
+          <div
+            class="form-check form-switch form-switch-right form-switch-md"
+          ></div>
+        </div>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        <div class="live-preview">
+          <!-- Bordered Tables -->
+          <table class="table table-bordered table-nowrap">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ "emailtemplate.title" | translate }}</th>
+                <th scope="col">
+                  {{ "emailtemplate.subjectline" | translate }}
+                </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rl of templateList; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ rl.title }}</td>
+                <td>{{ rl.email_subject_line }}</td>
+                <td>
+                  <div class="dropdown">
+                    <a
+                      href="#"
+                      role="button"
+                      id="dropdownMenuLink"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i class="ri-more-2-fill"></i>
+                    </a>
+
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuLink"
+                    >
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="javascript:void(0)"
+                          (click)="openModel(modalCenter, rl.code)"
+                          >{{ "edit" | translate }}</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="templateList.length == 0">
+                <span>No Record found</span>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<ng-template #modalCenter let-modal>
+  <form [formGroup]="form" (ngSubmit)="updateEmailTemplate()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">
+          {{ "emailtemplate.managetemp" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.dismiss('Close')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="firstNameinput" class="form-label">
+                {{ "emailtemplate.title" | translate }}</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="title"
+                [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['title'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['title'].errors['required']">
+                  {{ "emailtemplate.titleerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="lastNameinput" class="form-label">{{
+                "emailtemplate.subjectline" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="subjectline"
+                [ngClass]="{
+                  'is-invalid': submitted && f['subjectline'].errors
+                }"
+              />
+              <div
+                *ngIf="submitted && f['subjectline'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['subjectline'].errors['required']">
+                  {{ "emailtemplate.subjectlineerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="lastNameinput" class="form-label">{{
+                "emailtemplate.body" | translate
+              }}</label>
+              <angular-editor formControlName="body" [config]="editorConfig">
+              </angular-editor>
+              <div
+                *ngIf="submitted && f['body'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['body'].errors['required']">
+                  {{ "emailtemplate.bodyerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+                <hr/>
+              <span>{{ "emailtemplate.dynamicline" | translate }}</span>
+              <ul>
+                <li>Quote: #quoteid#</li>
+                <li>Amount: #amount#</li>
+                <li>Customer Name: #customername#</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary" *ngIf="!isloading">
+                {{ "submit" | translate }}
+              </button>
+              <button type="button" class="btn btn-primary" *ngIf="isloading">
+                <span class="spinner-border" role="status" aria-hidden="true">
+                </span>
+              </button>
+            </div>
+          </div>
+          <!--end col-->
+        </div>
+        <!--end row-->
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </form>
+</ng-template>

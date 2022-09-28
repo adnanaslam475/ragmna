@@ -82,7 +82,7 @@
             <ul class="nav nav-sm flex-column">
               <li class="nav-item">
                 <span
-                class="nav-link cp"
+                  class="nav-link cp"
                   routerLink="/country-master"
                   class="nav-link"
                   data-key="t-horizontal"
@@ -91,7 +91,7 @@
               </li>
               <li class="nav-item">
                 <span
-                class="nav-link cp"
+                  class="nav-link cp"
                   routerLink="/region-master"
                   class="nav-link"
                   data-key="t-horizontal"
@@ -100,7 +100,7 @@
               </li>
               <li class="nav-item">
                 <span
-                class="nav-link cp"
+                  class="nav-link cp"
                   routerLink="/city-master"
                   class="nav-link"
                   data-key="t-detached"
@@ -118,6 +118,20 @@
               </li>
             </ul>
           </div>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link cp" routerLink="/email-template">
+            <i class="mdi mdi-email text-muted fs-16 align-middle me-1"></i>
+            <span data-key="t-dashboards">{{ "emailtemp" | translate }}</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link cp" routerLink="/msg-on-screen">
+            <i class="mdi mdi-bell text-muted fs-16 align-middle me-1"></i>
+            <span data-key="t-dashboards">{{
+              "notification" | translate
+            }}</span>
+          </span>
         </li>
         <li class="nav-item">
           <span class="nav-link cp" (click)="logout()">

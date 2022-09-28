@@ -1,0 +1,155 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "notification" | translate }}
+        </h3>
+        <div class="flex-shrink-0">
+          <div
+            class="form-check form-switch form-switch-right form-switch-md"
+          ></div>
+        </div>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        <div class="live-preview">
+          <!-- Bordered Tables -->
+          <table class="table table-bordered table-nowrap">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ "notifications.title" | translate }}</th>
+                <th scope="col">
+                  {{ "notifications.msg" | translate }}
+                </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rl of templateList; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ rl.title }}</td>
+                <td>{{ rl.msg }}</td>
+                <td>
+                  <div class="dropdown">
+                    <a
+                      href="#"
+                      role="button"
+                      id="dropdownMenuLink"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i class="ri-more-2-fill"></i>
+                    </a>
+
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuLink"
+                    >
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="javascript:void(0)"
+                          (click)="openModel(modalCenter, rl.code)"
+                          >{{ "edit" | translate }}</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="templateList.length == 0">
+                <span>No Record found</span>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<ng-template #modalCenter let-modal>
+  <form [formGroup]="form" (ngSubmit)="updateNotification()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">
+          {{ "notifications.managenotification" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.dismiss('Close')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="firstNameinput" class="form-label">
+                {{ "notifications.title" | translate }}</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="title"
+                [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['title'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['title'].errors['required']">
+                  {{ "notifications.titleerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="lastNameinput" class="form-label">{{
+                "notifications.msg" | translate
+              }}</label>
+              <textarea
+                class="form-control"
+                formControlName="msg"
+                [ngClass]="{
+                  'is-invalid': submitted && f['msg'].errors
+                }"
+              >
+              </textarea>
+
+              <div
+                *ngIf="submitted && f['msg'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['msg'].errors['required']">
+                  {{ "notifications.msgerr" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary" *ngIf="!isloading">
+                {{ "submit" | translate }}
+              </button>
+              <button type="button" class="btn btn-primary" *ngIf="isloading">
+                <span class="spinner-border" role="status" aria-hidden="true">
+                </span>
+              </button>
+            </div>
+          </div>
+          <!--end col-->
+        </div>
+        <!--end row-->
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </form>
+</ng-template>

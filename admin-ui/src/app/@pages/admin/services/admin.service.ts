@@ -263,6 +263,41 @@ export class AdminService {
       .pipe(retry(1), catchError(this.handleError));
   }
   //#endregion
+
+  //#region Email Templates
+  getTemplateList() {
+    return this.http
+      .get(environment.apiUrl + 'admin/email-template', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateTemplate(postData: any) {
+    return this.http
+      .put(
+        environment.apiUrl + 'admin/email-template',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
+
+  //#region Message On Screen
+  getMsgOnScreen() {
+    return this.http
+      .get(environment.apiUrl + 'admin/msg-on-screen', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateMsgOnScreen(postData: any) {
+    return this.http
+      .put(
+        environment.apiUrl + 'admin/msg-on-screen',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
+
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

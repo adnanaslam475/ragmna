@@ -8,7 +8,9 @@ import { AreaRegionComponent } from './area-region/area-region.component';
 import { BuildingPricingComponent } from './building-pricing/building-pricing.component';
 import { ConditionComponent } from './condition/condition.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
 import { LandPricingComponent } from './land-pricing/land-pricing.component';
+import { MsgonscreenComponent } from './msgonscreen/msgonscreen.component';
 import { PurposeComponent } from './purpose/purpose.component';
 
 const routes: Routes = [
@@ -47,6 +49,14 @@ const routes: Routes = [
   {
     path: ROUTER_UTILS.config.admin.country,
     component: AreaCountryComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.emaitemplate,
+    component: EmailTemplateComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.msgonscreen,
+    component: MsgonscreenComponent,
   },
 ];
 

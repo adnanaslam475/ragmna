@@ -18,6 +18,8 @@ export const ROUTER_UTILS = {
       region: 'region-master',
       district: 'district-master',
       country: 'country-master',
+      msgonscreen: 'msg-on-screen',
+      emaitemplate: 'email-template',
     },
     errorResponse: {
       notFound: '404',

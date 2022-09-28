@@ -13,6 +13,8 @@
   "region": "المنطقة",
   "district": "الحي",
   "country": "Country",
+  "emailtemp":"قوالب الايميلات",
+  "notification":"رسائل تظهر للعميل",
   "purposemanage": {
     "title": "الغرض",
     "titlear": "الغرض(Arabic)",
@@ -97,5 +99,24 @@
     "titleerr": "Country Name is required",
     "titlearerr": "Country Name in Arabic is required",
     "managecountry": "Manage Country"
+  },
+  "emailtemplate": {
+    "title": "Title",
+    "body": "Email Body",
+    "subjectline": "Subject Line",
+    "update": "Update",
+    "titleerr": "Title is required",
+    "subjectlineerr": "Subject Line is required",
+    "bodyerr": "Body is required",
+    "managetemp": "Manage Template",
+    "dynamicline":"Use these for dynamic data replace"
+  },
+  "notifications": {
+    "title": "Notification Title",
+    "msg": "Message",
+    "update": "Update",
+    "titleerr": "Title is required",
+    "msgerr": "Message is required",
+    "managenotification": "Manage Notification"
   }
 }

@@ -1511,7 +1511,6 @@ exports.addnewdistrict = async (req, res, next) => {
         fk_country_id: postData.countryid,
         isrestricted: postData.isrestricted,
         isdeleted: 0,
-
       },
       "district_master"
     );
@@ -1645,6 +1644,182 @@ exports.deletedistrict = async (req, res, next) => {
       res.status(201).json({
         success: false,
         message: "There is some problem, please try again later.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+//#endregion
+
+//----------------------------------------------------------------
+
+//#region Email Template
+
+exports.getemailtemplatelist = async (req, res) => {
+  try {
+    const getParams = req.query;
+    const pagination = { page: 1, pageSize: 500 };
+    const whenCondtion = [];
+
+    if (getParams.page) {
+      pagination.page = getParams.page;
+    }
+    if (getParams.pageSize) {
+      pagination.pageSize = getParams.pageSize;
+    }
+    let result = await CommonModel.getRecords({
+      whereCon: whenCondtion,
+      table: "email_template_master cm",
+      select: "id,code,title,email_body,email_subject_line",
+      pagination: pagination,
+      orderBy: { field: "cm.id", order: "asc" },
+    });
+    res.status(201).json({
+      success: true,
+      items: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+
+exports.updateemailtemplate = async (req, res) => {
+  try {
+    const postData = req.body;
+    if (!postData.title) {
+      res.status(201).json({ success: false, message: "title is required." });
+      return;
+    }
+    if (!postData.emailbody) {
+      res
+        .status(201)
+        .json({ success: false, message: "Email body is required." });
+      return;
+    }
+    let updateData = {};
+    if (postData.title) {
+      updateData.title = postData.title;
+    }
+
+    if (postData.emailbody) {
+      updateData.email_body = postData.emailbody;
+    }
+    if (postData.emailsubject) {
+      updateData.email_subject_line = postData.emailsubject;
+    }
+
+    let updatedDataResult = await CommonModel.updateRecords(
+      {
+        table: "email_template_master",
+        whereCon: [{ field: "code", value: postData.code }],
+      },
+      updateData
+    );
+
+    if (updatedDataResult) {
+      res.status(201).json({
+        success: true,
+        message: "email template updated successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: true,
+        message: "Record are not available to update.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+//#endregion
+
+//----------------------------------------------------------------
+
+//#region Message On Screen
+exports.getmsgonscreen = async (req, res) => {
+  try {
+    const getParams = req.query;
+    const pagination = { page: 1, pageSize: 500 };
+    const whenCondtion = [];
+
+    if (getParams.page) {
+      pagination.page = getParams.page;
+    }
+    if (getParams.pageSize) {
+      pagination.pageSize = getParams.pageSize;
+    }
+    let result = await CommonModel.getRecords({
+      whereCon: whenCondtion,
+      table: "notification_configure cm",
+      select: "id,code,title,msg",
+      pagination: pagination,
+      orderBy: { field: "cm.id", order: "asc" },
+    });
+    res.status(201).json({
+      success: true,
+      items: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+
+exports.updatemsgonscreen = async (req, res) => {
+  try {
+    const postData = req.body;
+    if (!postData.title) {
+      res.status(201).json({ success: false, message: "title is required." });
+      return;
+    }
+    if (!postData.msg) {
+      res
+        .status(201)
+        .json({ success: false, message: "Email body is required." });
+      return;
+    }
+    let updateData = {};
+    if (postData.title) {
+      updateData.title = postData.title;
+    }
+
+    if (postData.msg) {
+      updateData.msg = postData.msg;
+    }
+
+    let updatedDataResult = await CommonModel.updateRecords(
+      {
+        table: "notification_configure",
+        whereCon: [{ field: "code", value: postData.code }],
+      },
+      updateData
+    );
+
+    if (updatedDataResult) {
+      res.status(201).json({
+        success: true,
+        message: "message updated successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: true,
+        message: "Record are not available to update.",
       });
     }
   } catch (error) {

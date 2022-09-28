@@ -663,74 +663,82 @@ exports.getpriceCalculation = async (req, res) => {
       ],
     });
 
-    let i = 0;
-    await result.forEach(async (ele) => {
-      let _totalLandAmount = 0;
-      let _totalBuildingAmount = 0;
-      const whereCond2 = [];
-      whereCond2.push(
-        {
-          field: "area",
-          extraCondition: "<",
-          value: ele.land_size,
-          orderBy: { field: "plm.area", order: "desc", limit: "1" },
-        },
-        {
-          field: "isdeleted",
-          value: "0",
-        }
-      );
-      if (ele.type_code == "Land") {
-        console.log(whereCond2);
-        let _getAmount = await CommonModel.getRecords({
-          whereCon: whereCond2,
-          table: "pricing_land_master plm",
-          select: "plm.*",
-        });
-        if (_getAmount && _getAmount.length > 0) {
-          _totalLandAmount = parseFloat(_getAmount[0]["price"]);
-        }
-      }
-
-      if (ele.type_code == "Building") {
-        let _getBuildingAmount = await CommonModel.getRecords({
-          whereCon: whereCond2,
-          table: "pricing_building_master plm",
-          select: "plm.*",
-        });
-        if (_getBuildingAmount && _getBuildingAmount.length > 0) {
-          _totalBuildingAmount = parseFloat(_getBuildingAmount[0]["price"]);
-        }
-      }
-      if (_totalBuildingAmount > _totalLandAmount) {
-        _totalAmount =
-          parseFloat(_totalAmount) + parseFloat(_totalBuildingAmount);
-      } else {
-        _totalAmount = parseFloat(_totalAmount) + parseFloat(_totalLandAmount);
-      }
-
-      _totalAmount = _totalAmount * parseFloat(ele["total_eva_need"]);
-      i++;
-
-      if (result.length == i) {
-        let updateData = {};
-        updateData.amount = _totalAmount;
-
-        await CommonModel.updateRecords(
+    if (result) {
+      let i = 0;
+      await result.forEach(async (ele) => {
+        let _totalLandAmount = 0;
+        let _totalBuildingAmount = 0;
+        const whereCond2 = [];
+        whereCond2.push(
           {
-            table: "quote_master",
-            whereCon: [{ field: "quote_number", value: postData.quoteid }],
+            field: "area",
+            extraCondition: "<",
+            value: ele.land_size,
+            orderBy: { field: "plm.area", order: "desc", limit: "1" },
           },
-          updateData
+          {
+            field: "isdeleted",
+            value: "0",
+          }
         );
+        if (ele.type_code == "Land") {
+          console.log(whereCond2);
+          let _getAmount = await CommonModel.getRecords({
+            whereCon: whereCond2,
+            table: "pricing_land_master plm",
+            select: "plm.*",
+          });
+          if (_getAmount && _getAmount.length > 0) {
+            _totalLandAmount = parseFloat(_getAmount[0]["price"]);
+          }
+        }
 
-        res.status(201).json({
-          success: true,
-          data: _totalAmount,
-          message: "Data saved successfully.",
-        });
-      }
-    });
+        if (ele.type_code == "Building") {
+          let _getBuildingAmount = await CommonModel.getRecords({
+            whereCon: whereCond2,
+            table: "pricing_building_master plm",
+            select: "plm.*",
+          });
+          if (_getBuildingAmount && _getBuildingAmount.length > 0) {
+            _totalBuildingAmount = parseFloat(_getBuildingAmount[0]["price"]);
+          }
+        }
+        if (_totalBuildingAmount > _totalLandAmount) {
+          _totalAmount =
+            parseFloat(_totalAmount) + parseFloat(_totalBuildingAmount);
+        } else {
+          _totalAmount =
+            parseFloat(_totalAmount) + parseFloat(_totalLandAmount);
+        }
+
+        _totalAmount = _totalAmount * parseFloat(ele["total_eva_need"]);
+        i++;
+
+        if (result.length == i) {
+          let updateData = {};
+          updateData.amount = _totalAmount;
+
+          await CommonModel.updateRecords(
+            {
+              table: "quote_master",
+              whereCon: [{ field: "quote_number", value: postData.quoteid }],
+            },
+            updateData
+          );
+
+          res.status(201).json({
+            success: true,
+            data: _totalAmount,
+            message: "Data saved successfully.",
+          });
+        }
+      });
+    } else {
+      res.status(201).json({
+        success: false,
+        message: "There is some problem, please try again later.",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(201).json({

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AdminRoutingModule } from './admin-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CoreModule } from 'src/app/@core/core.module';
@@ -15,6 +15,8 @@ import { AreaRegionComponent } from './area-region/area-region.component';
 import { AreaCityComponent } from './area-city/area-city.component';
 import { AreaDistrictComponent } from './area-district/area-district.component';
 import { AreaCountryComponent } from './area-country/area-country.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
+import { MsgonscreenComponent } from './msgonscreen/msgonscreen.component';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { AreaCountryComponent } from './area-country/area-country.component';
     AreaRegionComponent,
     AreaCityComponent,
     AreaDistrictComponent,
-    AreaCountryComponent
+    AreaCountryComponent,
+    EmailTemplateComponent,
+    MsgonscreenComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +41,7 @@ import { AreaCountryComponent } from './area-country/area-country.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule, 
+    AngularEditorModule
   ]
 })
 export class AdminModule { }

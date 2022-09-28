@@ -13,6 +13,8 @@
   "region": "Region",
   "district": "District",
   "country": "Country",
+  "emailtemp": "Email Template",
+  "notification": "Screen Notification",
   "purposemanage": {
     "title": "Purpose Title",
     "titlear": "Purpose Title (Arabic)",
@@ -54,7 +56,7 @@
     "manageregion": "Manage Region",
     "countryerr": "Country is required",
     "country": "Country",
-    "countrytitle":"Country Name"
+    "countrytitle": "Country Name"
   },
   "cities": {
     "title": "City Name",
@@ -71,7 +73,7 @@
     "regionerr": "Region is required",
     "countryerr": "Country is required",
     "country": "Country",
-    "countrytitle":"Country Name"
+    "countrytitle": "Country Name"
   },
   "districts": {
     "title": "District Name",
@@ -85,9 +87,9 @@
     "cityerr": "City is required",
     "regionerr": "Region is required",
     "managedistrict": "Manage District",
-    "country":"Country Name",
+    "country": "Country Name",
     "countryerr": "Country is required",
-    "isrestricted":"Is this Restricted?",
+    "isrestricted": "Is this Restricted?",
     "restricted": "Restricted",
     "notrestricted": "Not Restricted"
   },
@@ -98,5 +100,24 @@
     "titleerr": "Country Name is required",
     "titlearerr": "Country Name in Arabic is required",
     "managecountry": "Manage Country"
+  },
+  "emailtemplate": {
+    "title": "Title",
+    "body": "Email Body",
+    "subjectline": "Subject Line",
+    "update": "Update",
+    "titleerr": "Title is required",
+    "subjectlineerr": "Subject Line is required",
+    "bodyerr": "Body is required",
+    "managetemp": "Manage Template",
+    "dynamicline":"Use these for dynamic data replace"
+  },
+  "notifications": {
+    "title": "Notification Title",
+    "msg": "Message",
+    "update": "Update",
+    "titleerr": "Title is required",
+    "msgerr": "Message is required",
+    "managenotification": "Manage Notification"
   }
 }

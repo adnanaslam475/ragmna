@@ -231,4 +231,34 @@ router.post(
   adminController.deletedistrict
 );
 
+/* GET Email Template List */
+
+router.get(
+  "/email-template",
+  authUtil.ensureAuthenticated,
+  adminController.getemailtemplatelist
+);
+
+/* UPDATE Email Template */
+router.put(
+  "/email-template",
+  authUtil.ensureAuthenticated,
+  adminController.updateemailtemplate
+);
+
+/* GET MESSAGE ON SCREEN */
+
+router.get(
+  "/msg-on-screen",
+  authUtil.ensureAuthenticated,
+  adminController.getmsgonscreen
+);
+
+/* UPDATE MESSAGE ON SCREEN */
+
+router.put(
+  "/msg-on-screen",
+  authUtil.ensureAuthenticated,
+  adminController.updatemsgonscreen
+);
 module.exports = router;
