@@ -61,4 +61,12 @@ router.put("/property-info", customerController.updatePropertyInfo);
 
 router.get("/quote-price/:quoteid", customerController.getpriceCalculation);
 
+/* Payment Init */
+
+router.post("/quote-payment", customerController.savepaymentinit);
+
+/* Payment Update */
+
+router.put("/quote-payment-status", customerController.updatepaystatus);
+
 module.exports = router;

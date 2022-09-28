@@ -739,6 +739,88 @@ exports.getpriceCalculation = async (req, res) => {
     });
   }
 };
+
+exports.savepaymentinit = async (req, res) => {
+  try {
+    const postData = req.body;
+
+    const whenCondtion = [];
+    whenCondtion.push({ field: "quote_number", value: postData.quoteno });
+    let getQuoteId = await CommonModel.getRecords({
+      whereCon: whenCondtion,
+      table: "quote_master",
+      select: "id",
+    });
+
+    let addData = await CommonModel.insertRecords(
+      {
+        fk_quote_id: getQuoteId[0]["id"],
+        total_amount: postData.amount,
+        trans_id: postData.transId,
+        pg_rescd: postData.statusCd,
+        pg_res_msg: postData.respmsg,
+        pg_res_data: postData.respData,
+      },
+      "quote_payment"
+    );
+
+    if (addData) {
+      res.status(201).json({
+        success: true,
+        message: "Data saved successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: false,
+        message: "There is some problem, please try again later.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+
+exports.updatepaystatus = async (req, res, next) => {
+  try {
+    const postData = req.body;
+    let updateData = {};
+
+    updateData.issuccess = postData.ispaid;
+    updateData.pg_res_msg = postData.respMsg;
+    if (postData.ispaid == 1) {
+      updateData.pg_rescd = "SUCCESS";
+    }
+
+    let updatedDataResult = await CommonModel.updateRecords(
+      {
+        table: "quote_payment",
+        whereCon: [{ field: "trans_id", value: postData.transId }],
+      },
+      updateData
+    );
+    if (updatedDataResult) {
+      res.status(201).json({
+        success: true,
+        message: "Data updated successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: false,
+        message: "There is some problem, please try again later.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
 //#endregion
 //#region GetAll Lists
 exports.getpurposelist = async (req, res, next) => {

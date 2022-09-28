@@ -87,6 +87,24 @@ export class CustomerService {
       .get(environment.apiUrl + 'cust/district-list', this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
+  savePayInit(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'cust/quote-payment',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  savePayStatus(postData: any) {
+    return this.http
+      .put(
+        environment.apiUrl + 'cust/quote-payment-status',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

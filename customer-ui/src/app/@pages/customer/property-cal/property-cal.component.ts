@@ -14,8 +14,8 @@ import {
   styleUrls: ['./property-cal.component.css'],
 })
 export class PropertyCalComponent implements OnInit {
-  currentstep: string = 'STEP1';
-  quoteno: string = '';
+  currentstep: string = 'STEP6';
+  quoteno: string = 'Q10017';
   form: FormGroup = new FormGroup({
     fname: new FormControl(''),
     lname: new FormControl(''),
@@ -45,7 +45,7 @@ export class PropertyCalComponent implements OnInit {
     totalprop: new FormControl(''),
     totaleveneed: new FormControl(''),
     districtrestrictedval: new FormControl(''),
-    cityrestrictedval:new FormControl(''),
+    cityrestrictedval: new FormControl(''),
   });
   submitted = false;
   isloading: boolean = false;
@@ -61,7 +61,7 @@ export class PropertyCalComponent implements OnInit {
   iscityrestricted: boolean = false;
   isdistrictrestricted: boolean = false;
   payAmount: any = 0;
-
+  baseUrl: string = '';
   constructor(
     private custservice: CustomerService,
     private toastr: ToastrService,
@@ -78,6 +78,9 @@ export class PropertyCalComponent implements OnInit {
     this.getCountry();
     this.getDistrict();
     this.getRegion();
+    const parsedUrl = new URL(window.location.href);
+    this.baseUrl = parsedUrl.origin;
+    this.setOrderAndGetQuote();
   }
   setForm() {
     this.form = this.formBuilder.group({
@@ -125,7 +128,7 @@ export class PropertyCalComponent implements OnInit {
       totalprop: ['', Validators.required],
       totaleveneed: ['', Validators.required],
       districtrestrictedval: ['0'],
-      cityrestrictedval:['0']
+      cityrestrictedval: ['0'],
     });
   }
   get f4(): { [key: string]: AbstractControl } {
@@ -259,11 +262,12 @@ export class PropertyCalComponent implements OnInit {
     );
   }
   getDistrictByCity() {
- 
-    let _currentCity = this.cityTempList.find((f:any)=> f.id == this.form4.value.city);
+    let _currentCity = this.cityTempList.find(
+      (f: any) => f.id == this.form4.value.city
+    );
     if (_currentCity && _currentCity['isrestricted'] == 1) {
       this.iscityrestricted = true;
-    }else{
+    } else {
       this.iscityrestricted = false;
     }
     this.districtList = this.districtTempList.filter(
@@ -271,26 +275,53 @@ export class PropertyCalComponent implements OnInit {
     );
   }
 
-  getDistrictRestriction(){
-    let _district = this.districtTempList.find((f: any) => f.id == this.form4.value.district);
-    if (_district && _district['isrestricted'] == 1){
+  getDistrictRestriction() {
+    let _district = this.districtTempList.find(
+      (f: any) => f.id == this.form4.value.district
+    );
+    if (_district && _district['isrestricted'] == 1) {
       this.isdistrictrestricted = true;
-    }else{
+    } else {
       this.isdistrictrestricted = false;
     }
   }
-  setOrderAndGetQuote(){
-    this.custservice.getQuotationPrice(this.quoteno).subscribe((data:any) =>{
-      if(data && data.success){
+  setOrderAndGetQuote() {
+    this.custservice.getQuotationPrice(this.quoteno).subscribe((data: any) => {
+      debugger
+      if (data && data.success) {
         this.currentstep = 'STEP6';
-        this.payAmount = data['data']
-
-
+        this.payAmount = data['data'];
+        let _url = encodeURI(this.baseUrl + '/pay-status/');
+        sessionStorage.setItem(
+          'moysaramount',
+          (this.payAmount * 100).toString()
+        );
+        sessionStorage.setItem('moysarcallback', _url);
+        sessionStorage.setItem('moysardesc', this.quoteno);
+        localStorage.setItem('tempid', this.quoteno);
+        this.loadMoysarJs();
       }
-    })
+    });
+  }
+  loadMoysarJs() {
+    let _version = this.getRndInteger(100, 9999);
+    let node3 = document.createElement('script');
+    node3.id = 'cutmoysar';
+    node3.src = '../../../../assets/js/moysar-api-auth.js?v=' + _version;
+    node3.type = 'text/javascript';
+    node3.async = true;
+    document.getElementsByTagName('head')[0].appendChild(node3);
+  }
+  removeMoysarJs() {
+    var linkNode = document.getElementById('cutmoysar');
+    if (linkNode) {
+      document.getElementsByTagName('head')[0].removeChild(linkNode);
+    }
   }
   //#region ALL GET METHODS
-
+  getRndInteger(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
   getPurpose() {
     this.custservice.getPurposeList().subscribe((data: any) => {
       if (data && data.success) {

@@ -6,12 +6,14 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { HomeComponent } from './home/home.component';
 import { PropertyCalComponent } from './property-cal/property-cal.component';
 import { CoreModule } from 'src/app/@core/core.module';
+import { PayProcessComponent } from './pay-process/pay-process.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    PropertyCalComponent
+    PropertyCalComponent,
+    PayProcessComponent
   ],
   imports: [
     CommonModule,

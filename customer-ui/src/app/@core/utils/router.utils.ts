@@ -10,8 +10,8 @@ export const ROUTER_UTILS = {
     },
     customer: {
       root: 'home',
-      homecal:"prop-cal"
-     
+      homecal: 'prop-cal',
+      paystatus: 'pay-status',
     },
     errorResponse: {
       notFound: '404',
