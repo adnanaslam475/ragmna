@@ -5,7 +5,7 @@
         {{ "eval" | translate }} <br />
         {{ "qt" | translate }}!
       </h1>
-      <h2 class="top-screen__subtitle_car">Join Millions of People Saving:</h2>
+      <h2 class="top-screen__subtitle_car">{{ "join" | translate }}</h2>
       <h2 class="top-screen__subtitle_car_mobile">
         {{ "join" | translate }}
       </h2>
@@ -73,7 +73,7 @@
         </div>
         <div class="main-form__group" *ngIf="quoteno != ''">
           <button type="button" class="btn btn--big">
-            Your Quote # {{ quoteno }}
+            {{ "urquote" | translate }} {{ quoteno }}
           </button>
         </div>
         <div class="main-form__cta">
@@ -116,7 +116,7 @@
             (ngSubmit)="savePersonalInfo()"
           >
             <div class="form-group">
-              <label for="first-name">First Name</label>
+              <label for="first-name">{{ "fname" | translate }}</label>
               <input
                 name="firstName"
                 type="text"
@@ -131,12 +131,12 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f['fname'].errors['required']">
-                  First Name is required
+                  {{ "fnameerr" | translate }}
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label for="last-name">Last Name</label>
+              <label for="last-name"> {{ "lname" | translate }}</label>
               <input
                 name="lastName"
                 type="text"
@@ -145,7 +145,7 @@
               />
             </div>
             <div class="form-group">
-              <label for="email">Email Address</label>
+              <label for="email"> {{ "email" | translate }}</label>
               <input
                 name="email"
                 type="email"
@@ -160,12 +160,12 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f['email'].errors['required']">
-                  Email is required
+                  {{ "emailerr" | translate }}
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label for="phone-number">Phone Number</label>
+              <label for="phone-number"> {{ "phone" | translate }}</label>
               <input
                 name="phone"
                 type="text"
@@ -180,14 +180,14 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f['phone'].errors['required']">
-                  Phone is required
+                  {{ "phoneerr" | translate }}
                 </div>
               </div>
             </div>
 
             <div class="contact-button-wrapper">
               <button class="contact-button btn btn--big" type="submit">
-                Submit
+                {{ "next" | translate }}
               </button>
             </div>
           </form>
@@ -195,12 +195,11 @@
 
         <div class="what-we-do__content">
           <h3 class="what-we-do__title">
-            Please provide your personal information
+            {{ "personal" | translate }}
           </h3>
           <div class="what-we-do__text">
             <p>
-              We then match the consumer with the most compatible options to
-              make sure we maintain value and affordability.
+              {{ "personalquote" | translate }}
             </p>
           </div>
         </div>
@@ -218,7 +217,7 @@
             (ngSubmit)="saveCompanyInfo()"
           >
             <div class="form-group">
-              <label for="first-name">Company Name</label>
+              <label for="first-name">{{ "companyname" | translate }}</label>
               <input
                 name="firstName"
                 type="text"
@@ -234,12 +233,12 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f2['companyname'].errors['required']">
-                  Company Name is required
+                  {{ "companynameerr" | translate }}
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label for="last-name">Company Address</label>
+              <label for="last-name">{{ "companyadd" | translate }}</label>
               <input
                 name="lastName"
                 type="text"
@@ -250,7 +249,7 @@
             </div>
 
             <div class="form-group">
-              <label for="phone-number">Company Phone Number</label>
+              <label for="phone-number">{{ "companyphone" | translate }}</label>
               <input
                 name="phone"
                 type="number"
@@ -262,7 +261,7 @@
 
             <div class="contact-button-wrapper">
               <button class="contact-button btn btn--big" type="submit">
-                Submit
+                {{ "next" | translate }}
               </button>
             </div>
           </form>
@@ -270,12 +269,11 @@
 
         <div class="what-we-do__content">
           <h3 class="what-we-do__title">
-            Please provide your company information
+            {{ "companyinfo" | translate }}
           </h3>
           <div class="what-we-do__text">
             <p>
-              We then match the consumer with the most compatible options to
-              make sure we maintain value and affordability.
+              {{ "personalquote" | translate }}
             </p>
           </div>
         </div>
@@ -296,24 +294,30 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-6">
-                  <label for="first-name">Type of Property</label>
+                  <label for="first-name">
+                    {{ "typeofproperty" | translate }}</label
+                  >
 
                   <select formControlName="typecd" class="form-select">
-                    <option value="">Select Property Type</option>
-                    <option value="Land">Land</option>
-                    <option value="Building">Building</option>
+                    <option value="">{{ "selectproperty" | translate }}</option>
+                    <option value="Land">{{ "land" | translate }}</option>
+                    <option value="Building">
+                      {{ "building" | translate }}
+                    </option>
                   </select>
                   <div
                     *ngIf="submitted && f4['typecd'].errors"
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['typecd'].errors['required']">
-                      Type is required
+                      {{ "typeerr" | translate }}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="first-name">Evaluation Purpose</label>
+                  <label for="first-name">{{
+                    "selectpurpose" | translate
+                  }}</label>
 
                   <select formControlName="purposeid" class="form-select">
                     <option value="">Select Purpose</option>
@@ -326,7 +330,7 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['purposeid'].errors['required']">
-                      Purpose is required
+                      {{ "purposeerr" | translate }}
                     </div>
                   </div>
                 </div>
@@ -335,7 +339,7 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-6">
-                  <label for="first-name">Total Property</label>
+                  <label for="first-name"> {{ "totalprop" | translate }}</label>
                   <input
                     type="number"
                     class="form-control"
@@ -348,12 +352,12 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['totalprop'].errors['required']">
-                      Number of Property is required
+                      {{ "noofproperr" | translate }}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="first-name">Total Evalutor needed?</label>
+                  <label for="first-name"> {{ "totaleva" | translate }}</label>
                   <input
                     type="number"
                     class="form-control"
@@ -366,7 +370,7 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['totaleveneed'].errors['required']">
-                      Number of Evalutor is required
+                      {{ "noofevaerr" | translate }}
                     </div>
                   </div>
                 </div>
@@ -376,13 +380,15 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-6">
-                  <label for="first-name">Select Country</label>
+                  <label for="first-name">
+                    {{ "selectcountry" | translate }}</label
+                  >
                   <select
                     class="form-select"
                     formControlName="country"
                     (change)="getRegionByCountry()"
                   >
-                    <option value="">Select Country</option>
+                    <option value="">{{ "selectcountry" | translate }}</option>
                     <option *ngFor="let al of countryList" value="{{ al.id }}">
                       {{ al.title }} ({{ al.title_ar }})
                     </option>
@@ -393,18 +399,20 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['country'].errors['required']">
-                      Country is required
+                      {{ "countryerr" | translate }}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="first-name">Select Region</label>
+                  <label for="first-name">{{
+                    "selectregion" | translate
+                  }}</label>
                   <select
                     class="form-select"
                     formControlName="region"
                     (change)="getCityByRegion()"
                   >
-                    <option value="">Select Region</option>
+                    <option value="">{{ "selectregion" | translate }}</option>
                     <option *ngFor="let al of regionList" value="{{ al.id }}">
                       {{ al.title }} ({{ al.title_ar }})
                     </option>
@@ -414,7 +422,7 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['region'].errors['required']">
-                      Region is required
+                      {{ "regionerr" | translate }}
                     </div>
                   </div>
                 </div>
@@ -423,13 +431,15 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-6 mt-2">
-                  <label for="first-name">Select City</label>
+                  <label for="first-name">
+                    {{ "selectcity" | translate }}</label
+                  >
                   <select
                     class="form-select"
                     formControlName="city"
                     (change)="getDistrictByCity()"
                   >
-                    <option value="">Select City</option>
+                    <option value="">{{ "selectcity" | translate }}</option>
                     <option *ngFor="let al of cityList" value="{{ al.id }}">
                       {{ al.title }} ({{ al.title_ar }})
                     </option>
@@ -439,28 +449,30 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['city'].errors['required']">
-                      City is required
+                      {{ "cityerr" | translate }}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 mt-2" *ngIf="iscityrestricted">
-                  <label>Is this city restricted?</label>
+                  <label>{{ "isthiscity" | translate }}</label>
                   <select
                     class="form-select"
                     formControlName="cityrestrictedval"
                   >
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option value="0">{{ "no" | translate }}</option>
+                    <option value="1">{{ "yes" | translate }}</option>
                   </select>
                 </div>
                 <div class="col-md-6 mt-2">
-                  <label for="first-name">Select District</label>
+                  <label for="first-name">{{
+                    "selectdistrict" | translate
+                  }}</label>
                   <select
                     class="form-select"
                     formControlName="district"
                     (change)="getDistrictRestriction()"
                   >
-                    <option value="">Select District</option>
+                    <option value="">{{ "selectdistrict" | translate }}</option>
                     <option *ngFor="let al of districtList" value="{{ al.id }}">
                       {{ al.title }} ({{ al.title_ar }})
                     </option>
@@ -470,18 +482,18 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f4['district'].errors['required']">
-                      District is required
+                      {{ "districterr" | translate }}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 mt-2" *ngIf="isdistrictrestricted">
-                  <label>Is this district restricted?</label>
+                  <label> {{ "isthisdistrict" | translate }}</label>
                   <select
                     class="form-select"
                     formControlName="districtrestrictedval"
                   >
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option value="0">{{ "no" | translate }}</option>
+                    <option value="1">{{ "yes" | translate }}</option>
                   </select>
                 </div>
               </div>
@@ -489,21 +501,21 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-6">
-                  <label for="first-name">Land Size</label>
+                  <label for="first-name">{{ "landsize" | translate }}</label>
                   <input
                     type="number"
                     class="form-control"
-                    placeholder="Total Land Size"
                     formControlName="land_size"
                     min="0"
                   />
                 </div>
                 <div class="col-md-6">
-                  <label for="first-name">Building Size</label>
+                  <label for="first-name">{{
+                    "buildingsize" | translate
+                  }}</label>
                   <input
                     type="number"
                     class="form-control"
-                    placeholder="Total Building Size"
                     formControlName="building_size"
                     min="0"
                   />
@@ -512,7 +524,7 @@
             </div>
             <div class="contact-button-wrapper">
               <button class="contact-button btn btn--big mr-3" type="submit">
-                ADD
+                {{ "add" | translate }}
               </button>
             </div>
           </form>
@@ -523,13 +535,13 @@
             <thead>
               <tr>
                 <td>#</td>
-                <td>Type</td>
-                <td>Country</td>
-                <td>Region</td>
-                <td>City</td>
-                <td>District</td>
-                <td>Land Size</td>
-                <td>Building Size</td>
+                <td>{{ "typeofproperty" | translate }}</td>
+                <td>{{ "country" | translate }}</td>
+                <td>{{ "region" | translate }}</td>
+                <td>{{ "city" | translate }}</td>
+                <td>{{ "district" | translate }}</td>
+                <td>{{ "landsize" | translate }}</td>
+                <td>{{ "buildingsize" | translate }}</td>
               </tr>
             </thead>
             <tbody>
@@ -551,7 +563,7 @@
             *ngIf="propertyList.length > 0"
             (click)="setOrderAndGetQuote()"
           >
-            Order
+            {{ "order" | translate }}
           </button>
         </div>
       </div>
@@ -567,12 +579,11 @@
             <div class="mysr-form mt-4"></div>
           </div>
           <div class="col-md-4"></div>
-        
+
           <!-- <button class="contact-button btn btn--big mt-3" type="button">
             Pay Now {{payAmount}}
           </button> -->
         </div>
-      
       </div>
     </section>
   </div>

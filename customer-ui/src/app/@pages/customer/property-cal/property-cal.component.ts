@@ -14,8 +14,8 @@ import {
   styleUrls: ['./property-cal.component.css'],
 })
 export class PropertyCalComponent implements OnInit {
-  currentstep: string = 'STEP6';
-  quoteno: string = 'Q10017';
+  currentstep: string = 'STEP1';
+  quoteno: string = '';
   form: FormGroup = new FormGroup({
     fname: new FormControl(''),
     lname: new FormControl(''),
@@ -80,7 +80,7 @@ export class PropertyCalComponent implements OnInit {
     this.getRegion();
     const parsedUrl = new URL(window.location.href);
     this.baseUrl = parsedUrl.origin;
-    this.setOrderAndGetQuote();
+   
   }
   setForm() {
     this.form = this.formBuilder.group({
