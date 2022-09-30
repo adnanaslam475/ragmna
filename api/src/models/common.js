@@ -44,6 +44,7 @@ module.exports.getRecords = function (params) {
               con = `${element.field} ${element.extraCondition} '${element.value}'`;
             }
           }
+          console.log("con",con);
           whereStr.push(con);
         });
         var str1 = whereStr.join(" AND ");
@@ -72,6 +73,7 @@ module.exports.getRecords = function (params) {
               con = `${element.field} ${element.extraCondition} '${element.value}'`;
             }
           }
+       
           whereStrOr.push(con);
         });
         var str1 = "";
@@ -90,8 +92,9 @@ module.exports.getRecords = function (params) {
       if (params.groupBy) {
         str = str + ` GROUP BY ${params.groupBy}`;
       }
-
+     
       if (params.orderBy) {
+       
         str = str + ` ORDER BY ${params.orderBy.field} ${params.orderBy.order}`;
         if (params.orderBy.limit && !params.pagination) {
           str = str + ` LIMIT ${params.orderBy.limit}`;

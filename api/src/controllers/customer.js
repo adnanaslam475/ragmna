@@ -689,9 +689,8 @@ exports.getpriceCalculation = async (req, res) => {
         whereCond2.push(
           {
             field: "area",
-            extraCondition: "<",
+            extraCondition: ">",
             value: ele.land_size,
-            orderBy: { field: "plm.area", order: "desc", limit: "1" },
           },
           {
             field: "isdeleted",
@@ -704,6 +703,7 @@ exports.getpriceCalculation = async (req, res) => {
             whereCon: whereCond2,
             table: "pricing_land_master plm",
             select: "plm.*",
+            orderBy: { field: "plm.area", order: "asc", limit: "1" },
           });
           if (_getAmount && _getAmount.length > 0) {
             _totalLandAmount = parseFloat(_getAmount[0]["price"]);
@@ -715,6 +715,7 @@ exports.getpriceCalculation = async (req, res) => {
             whereCon: whereCond2,
             table: "pricing_building_master plm",
             select: "plm.*",
+            orderBy: { field: "plm.area", order: "asc", limit: "1" },
           });
           if (_getBuildingAmount && _getBuildingAmount.length > 0) {
             _totalBuildingAmount = parseFloat(_getBuildingAmount[0]["price"]);
@@ -1023,13 +1024,12 @@ exports.getMyQuoteHistory = async (req, res) => {
   }
 };
 
-exports.getAllConditions = async(req,res) =>{
+exports.getAllConditions = async (req, res) => {
   try {
     let result = await CommonModel.getRecords({
       whereCon: [],
       table: "condition_master q",
       select: "q.*",
-      
     });
     if (result) {
       res.status(201).json({
@@ -1043,10 +1043,8 @@ exports.getAllConditions = async(req,res) =>{
         message: "There is some problem, please try again later.",
       });
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 //#region GetAll Lists
 exports.getpurposelist = async (req, res, next) => {
   try {
