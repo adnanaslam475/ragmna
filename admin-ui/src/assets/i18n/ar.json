@@ -118,5 +118,15 @@
     "titleerr": "Title is required",
     "msgerr": "Message is required",
     "managenotification": "Manage Notification"
+  },
+  "quotes": {
+    "qno": "Quote No",
+    "customer": "Customer Name",
+    "custemail": "Customer Email",
+    "custphone": "Customer Phone",
+    "servicetype": "Service Type",
+    "cat": "Category",
+    "upload": "Upload",
+    "amount": "Amount"
   }
 }

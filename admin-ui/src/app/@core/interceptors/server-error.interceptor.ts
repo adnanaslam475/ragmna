@@ -21,31 +21,31 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
+    //  catchError((error: HttpErrorResponse) => {
        
-        if ([401, 403].includes(error.status)) {
-          this.router.navigateByUrl("auth/"+ROUTER_UTILS.config.auth.signIn);
-          return throwError(error);
-        } else if (error.status === 500) {
+        // if ([401, 403].includes(error.status)) {
+        //   this.router.navigateByUrl("auth/"+ROUTER_UTILS.config.auth.signIn);
+        //   return throwError(error);
+        // } else if (error.status === 500) {
           
-          if (error.error && error.error.includes("TokenExpiredError")) {
-            this.toastr.error("Your session has been expired, please login again");
+        //   if (error.error && error.error.includes("TokenExpiredError")) {
+        //     this.toastr.error("Your session has been expired, please login again");
           
 
-            setTimeout(() => {
-              localStorage.clear();
-              sessionStorage.clear();
-              this.router.navigate(["auth/sign-in"]);
-              location.href="/auth/sign-in"
-            }, 3000);
-          }else{
-            this.toastr.error("Internal server error")
-          }
-          return throwError(error);
-        } else {
-          return throwError(error);
-        }
-      }),
+        //     // setTimeout(() => {
+        //     //   localStorage.clear();
+        //     //   sessionStorage.clear();
+        //     //   this.router.navigate(["auth/sign-in"]);
+        //     //   location.href="/auth/sign-in"
+        //     // }, 3000);
+        //   }else{
+        //     this.toastr.error("Internal server error")
+        //   }
+        //   return throwError(error);
+        // } else {
+        //   return throwError(error);
+        // }
+      //}),
     );
   }
 }

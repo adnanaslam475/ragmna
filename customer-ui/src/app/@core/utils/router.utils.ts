@@ -12,6 +12,7 @@ export const ROUTER_UTILS = {
       root: 'home',
       homecal: 'prop-cal',
       paystatus: 'pay-status',
+      myquote:'my-quote-history'
     },
     errorResponse: {
       notFound: '404',

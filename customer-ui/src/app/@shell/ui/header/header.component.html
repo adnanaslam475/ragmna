@@ -1,5 +1,5 @@
-<div class="l-content">
-  <header id="main-navbar" class="page-header">
+<div class="l-content" >
+  <header id="main-navbar" class="page-header" >
     <div class="page-header__inner">
       <div class="page-header__mobile-toggle">
         <div class="menu-toggle" id="menuToggle">
@@ -20,29 +20,64 @@
       <div class="page-header__menu">
         <ul class="main-menu">
           <li class="main-menu__item">
-            <a class="main-menu__link" href="javascript:void(0);" routerLink="/prop-cal">
-             {{"realestate" | translate}}
+            <a
+              class="main-menu__link"
+              href="javascript:void(0);"
+              routerLink="/prop-cal"
+            >
+              {{ "realestate" | translate }}
             </a>
           </li>
           <li class="main-menu__item">
-            <a class="main-menu__link" href="javascript:void(0);" routerLink="/">
-              {{"instit" | translate}}
+            <a
+              class="main-menu__link"
+              href="javascript:void(0);"
+              routerLink="/"
+            >
+              {{ "instit" | translate }}
             </a>
           </li>
           <li class="main-menu__item">
-            <a class="main-menu__link" href="javascript:void(0);" routerLink="/">
-              {{"machine" | translate}}
+            <a
+              class="main-menu__link"
+              href="javascript:void(0);"
+              routerLink="/"
+            >
+              {{ "machine" | translate }}
             </a>
           </li>
           <li class="main-menu__item">
-            <a class="main-menu__link" href="javascript:void(0);" routerLink="/">
-              {{"vehcleacc" | translate}}
+            <a
+              class="main-menu__link"
+              href="javascript:void(0);"
+              routerLink="/"
+            >
+              {{ "vehcleacc" | translate }}
             </a>
+          </li>
+          <li class="main-menu__item">
+            <a
+              class="main-menu__link"
+              href="javascript:void(0);"
+              routerLink="/my-quote-history"
+            >
+              {{ "myquotes" | translate }}
+            </a>
+          </li>
+          <li class="main-menu__item">
+            <select
+              class="form-select mt-3"
+              (change)="switchLang(selectedLang.value)"
+              #selectedLang
+            >
+              <option value="ar">عربي</option>
+              <option value="en">En</option>
+            </select>
           </li>
         </ul>
       </div>
 
-      <div class="page-header__contacts d-none" >
+      <div class="page-header__contacts d-none">
         <a
           class="page-header__phone"
           href="tel:8447738328"

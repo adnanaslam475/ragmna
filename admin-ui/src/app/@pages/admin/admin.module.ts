@@ -17,6 +17,8 @@ import { AreaDistrictComponent } from './area-district/area-district.component';
 import { AreaCountryComponent } from './area-country/area-country.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { MsgonscreenComponent } from './msgonscreen/msgonscreen.component';
+import { QuoteListComponent } from './quote-list/quote-list.component';
+import { LoaderComponent } from './loader/loader.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { MsgonscreenComponent } from './msgonscreen/msgonscreen.component';
     AreaDistrictComponent,
     AreaCountryComponent,
     EmailTemplateComponent,
-    MsgonscreenComponent
+    MsgonscreenComponent,
+    QuoteListComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,

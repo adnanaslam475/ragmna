@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "quotelist" | translate }}
+        </h3>
+        <div class="flex-shrink-0">
+          <div
+            class="form-check form-switch form-switch-right form-switch-md"
+          ></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="live-preview">
+          <table class="table table-bordered table-nowrap">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{ "quotes.qno" | translate }}</th>
+                <th>{{ "quotes.customer" | translate }}</th>
+                <th>{{ "quotes.custemail" | translate }}</th>
+                <th>{{ "quotes.custphone" | translate }}</th>
+                <th>{{ "quotes.servicetype" | translate }}</th>
+                <th>{{ "quotes.cat" | translate }}</th>
+                <th>{{ "quotes.amount" | translate }}</th>
+                <th>{{ "quotes.upload" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rl of quoteList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ rl.quote_number }}</td>
+                <td>{{ rl.fname }} {{ rl.lname }}</td>
+                <td>{{ rl.email }}</td>
+                <td>{{ rl.contact_no }}</td>
+                <td>{{ rl.service_type }}</td>
+                <td>{{ rl.categorycode }}</td>
+                <td>SAR {{ rl.amount }}</td>
+                <td>
+                  <div class="image-upload">
+                    <label for="file-input_{{rl.id}}">
+                      <i class="mdi mdi-cloud-upload mdi-24px"   title="upload"></i>
+                      &nbsp;&nbsp;
+                      <a
+                      href="{{ rl.valuation_url }}"
+                      *ngIf="rl.valuation_url"
+                      target="_blank"
+                      title="download"
+                    >
+                      <i class="mdi mdi-cloud-download ml-3 mdi-24px"> </i
+                    ></a>
+                    </label>
+
+                    <input
+                      id="file-input_{{rl.id}}"
+                      type="file"
+                      (change)="onFileSelection($event, rl.quote_number)"
+                    />
+                  </div>
+
+                 
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader *ngIf="isloading"></app-loader>

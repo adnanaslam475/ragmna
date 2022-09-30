@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent implements OnInit {
   title = 'customer-ui';
   constructor(public translate: TranslateService) {
-    debugger
+   
     if (
       localStorage.getItem('clang') != null &&
       localStorage.getItem('clang') != undefined &&
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
       }
     } else {
       translate.addLangs(['ar', 'en']);
-      translate.setDefaultLang('en');
+      translate.setDefaultLang('ar');
     }
   }
   ngOnInit(): void {}

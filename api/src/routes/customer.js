@@ -69,4 +69,21 @@ router.post("/quote-payment", customerController.savepaymentinit);
 
 router.put("/quote-payment-status", customerController.updatepaystatus);
 
+/* Update customer by quoteid */
+router.post(
+  "/update-cust-id",
+  authUtil.ensureAuthenticated,
+  customerController.updateCustomerByQuote
+);
+
+/* get all quotes by user */
+router.get(
+  "/quotes-by-user",
+  authUtil.ensureAuthenticated,
+  customerController.getMyQuoteHistory
+);
+
+/* GET Conditions */
+router.get("/condition-list", customerController.getAllConditions);
+
 module.exports = router;

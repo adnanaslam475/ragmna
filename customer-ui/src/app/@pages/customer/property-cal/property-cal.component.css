@@ -9,3 +9,7 @@
   color: #f06548 !important;
   display: block;
 }
+.dis {
+  background-color: #97929248;
+  cursor: not-allowed;
+}

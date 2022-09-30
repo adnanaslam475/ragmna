@@ -1,0 +1,80 @@
+<section class="top-screen">
+  <div class="top-screen__inner">
+    <h1 class="top-screen__title hidden-mobile">
+      {{ "signinsignup" | translate }}
+    </h1>
+  </div>
+  <div class="row col-12">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter username"
+            autofocus
+            formControlName="username"
+            [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+          />
+          <div
+            *ngIf="submitted && f['username'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['username'].errors['required']">
+              Email address is required
+            </div>
+            <div *ngIf="f['username'].errors['email']">
+              Invalid email address
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+        
+          <label class="form-label" for="password-input">Password</label>
+          <div class="position-relative auth-pass-inputgroup mb-3">
+            <input
+              type="password"
+              class="form-control pe-5"
+              placeholder="Enter password"
+              formControlName="password"
+              [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+            />
+            <div
+              *ngIf="submitted && f['password'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['password'].errors['required']">
+                Password is required
+              </div>
+            </div>
+            <!-- <button
+                  class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                  type="button"
+                  id="password-addon"
+                >
+                  <i class="ri-eye-fill align-middle"></i>
+                </button> -->
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button class="btn btn--big" type="submit" *ngIf="!isloading">
+            Sign In
+          </button>
+          <button
+            type="submit"
+            class="btn btn--big"
+            *ngIf="isloading"
+          >
+            <span class="spinner-border" role="status" aria-hidden="true">
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</section>

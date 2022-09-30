@@ -298,6 +298,40 @@ export class AdminService {
   }
   //#endregion
 
+  //#region
+  getAllQuotes() {
+    return this.http
+      .get(environment.apiUrl + 'admin/all-quotes', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  uploadFile(fileData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/upload-file',
+        fileData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateFileAgainstQuote(postData: any) {
+    return this.http
+      .post(
+        environment.apiUrl + 'admin/update-valuation-url',
+        postData,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  getName() {
+    var text = '';
+    var possible =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 10; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
+  //#endregion
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

@@ -8,6 +8,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { StorageItem } from 'src/app/@core/utils';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-property-cal',
   templateUrl: './property-cal.component.html',
@@ -47,6 +50,10 @@ export class PropertyCalComponent implements OnInit {
     districtrestrictedval: new FormControl(''),
     cityrestrictedval: new FormControl(''),
   });
+  formlogin: FormGroup = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl(''),
+  });
   submitted = false;
   isloading: boolean = false;
   purposeList: any = [];
@@ -62,10 +69,17 @@ export class PropertyCalComponent implements OnInit {
   isdistrictrestricted: boolean = false;
   payAmount: any = 0;
   baseUrl: string = '';
+  loading: boolean = false;
+  isthisbuilding: boolean = false;
+  existsmsg: string = '';
+  isrestricted: boolean = false;
+  conditionList: any = [];
+
   constructor(
     private custservice: CustomerService,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +94,8 @@ export class PropertyCalComponent implements OnInit {
     this.getRegion();
     const parsedUrl = new URL(window.location.href);
     this.baseUrl = parsedUrl.origin;
-   
+    this.setFormlogin();
+    this.getConditionData();
   }
   setForm() {
     this.form = this.formBuilder.group({
@@ -96,7 +111,7 @@ export class PropertyCalComponent implements OnInit {
 
   setForm2() {
     this.form2 = this.formBuilder.group({
-      companyname: ['', Validators.required],
+      companyname: [''],
       companyaddress: [''],
       companyphone: [''],
     });
@@ -134,14 +149,25 @@ export class PropertyCalComponent implements OnInit {
   get f4(): { [key: string]: AbstractControl } {
     return this.form4.controls;
   }
+  setFormlogin() {
+    this.formlogin = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: [''],
+    });
+  }
+  get flogin(): { [key: string]: AbstractControl } {
+    return this.formlogin.controls;
+  }
 
   createNewQuote(type: string) {
     localStorage.setItem('quotetype', type);
+    this.loading = true;
     let _reqbody = {
       title: 'Real Estate',
       category: type,
     };
     this.custservice.saveQuoteNumber(_reqbody).subscribe((data: any) => {
+      this.loading = false;
       if (data.success) {
         this.quoteno = data.data;
         localStorage.getItem(this.quoteno);
@@ -155,6 +181,7 @@ export class PropertyCalComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    this.loading = true;
     let _reqbody = {
       quoteno: this.quoteno,
       fname: this.form.value.fname,
@@ -163,6 +190,7 @@ export class PropertyCalComponent implements OnInit {
       phone: this.form.value.phone,
     };
     this.custservice.savePersonalInfo(_reqbody).subscribe((data: any) => {
+      this.loading = false;
       if (data.success) {
         this.toastr.success('Please continue to fill your information');
         this.currentstep = 'STEP3';
@@ -176,6 +204,7 @@ export class PropertyCalComponent implements OnInit {
     if (this.form2.invalid) {
       return;
     }
+    this.loading = true;
     let _reqbody = {
       quoteno: this.quoteno,
       companyname: this.form2.value.companyname,
@@ -183,6 +212,7 @@ export class PropertyCalComponent implements OnInit {
       companyphone: this.form2.value.companyphone,
     };
     this.custservice.saveCompanyInfo(_reqbody).subscribe((data: any) => {
+      this.loading = false;
       if (data.success) {
         this.toastr.success('Please continue for next step');
         this.currentstep = 'STEP5';
@@ -197,6 +227,7 @@ export class PropertyCalComponent implements OnInit {
     if (this.form3.invalid) {
       return;
     }
+    this.loading = true;
     let _reqbody = {
       quoteno: this.quoteno,
       purposeid: this.form3.value.purposeid,
@@ -204,6 +235,7 @@ export class PropertyCalComponent implements OnInit {
       totalevalutor: this.form3.value.totaleveneed,
     };
     this.custservice.savePurposeInfo(_reqbody).subscribe((data: any) => {
+      this.loading = false;
       if (data.success) {
         this.toastr.success('Please continue for next step');
         this.currentstep = 'STEP5';
@@ -213,43 +245,82 @@ export class PropertyCalComponent implements OnInit {
     });
   }
   savePropertyInfo() {
-    debugger;
     this.submitted = true;
     if (this.form4.invalid) {
       return;
     }
-    let _reqbody = {
-      quoteno: this.quoteno,
-      typecd: this.form4.value.typecd,
-      region: this.form4.value.region,
-      country: this.form4.value.country,
-      city: this.form4.value.city,
-      district: this.form4.value.district,
-      land_size: this.form4.value.land_size,
-      building_size: this.form4.value.building_size,
-      isrestricted: this.form4.value.isrestricted,
-      purposeid: this.form4.value.purposeid,
-      totalprop: this.form4.value.totalprop,
-      totalevalutor: this.form4.value.totaleveneed,
-    };
-    this.custservice.savePropertyInfoData(_reqbody).subscribe((data: any) => {
-      if (data && data.success) {
-        this.toastr.success('saved successfully');
-        this.propertyList.push({
-          typecd: this.form4.value.typecd,
-          region: this.form4.value.region,
-          country: this.form4.value.country,
-          city: this.form4.value.city,
-          district: this.form4.value.district,
-          land_size: this.form4.value.land_size,
-          building_size: this.form4.value.building_size,
-        });
-        this.setForm4();
-        this.submitted = false;
-      } else {
-        this.toastr.error('something went wrong');
+
+    let _maxProp = this.conditionList.find(
+      (f: any) => f['code'] == 'MAXPROPERTY'
+    )['val'];
+    if (_maxProp && parseInt(_maxProp) < this.form4.value.totalprop) {
+      this.toastr.error(
+        'you can not have more than ' + parseInt(_maxProp) + ' property '
+      );
+      return;
+    } else {
+      if (this.iscityrestricted && this.form4.value.cityrestrictedval == 1) {
+        this.form4.value.isrestricted = 1;
       }
-    });
+      if (this.isdistrictrestricted) {
+        this.form4.value.isrestricted = 1;
+      }
+      this.loading = true;
+      let _reqbody = {
+        quoteno: this.quoteno,
+        typecd: this.form4.value.typecd,
+        region: this.regionTempList.find(
+          (f: any) => f.id == this.form4.value.region
+        )['title'],
+        country: this.countryList.find(
+          (f: any) => f.id == this.form4.value.country
+        )['title'],
+        city: this.cityTempList.find((f: any) => f.id == this.form4.value.city)[
+          'title'
+        ],
+        district: this.districtTempList.find(
+          (f: any) => f.id == this.form4.value.district
+        )['title'],
+        land_size: this.form4.value.land_size,
+        building_size: this.form4.value.building_size,
+        isrestricted: this.form4.value.isrestricted,
+        purposeid: this.form4.value.purposeid,
+        totalprop: this.form4.value.totalprop,
+        totalevalutor: this.form4.value.totaleveneed,
+      };
+      this.custservice.savePropertyInfoData(_reqbody).subscribe((data: any) => {
+        this.loading = false;
+        if (data && data.success) {
+          this.toastr.success('saved successfully');
+          this.propertyList.push({
+            typecd: this.form4.value.typecd,
+            region: this.regionTempList.find(
+              (f: any) => f.id == this.form4.value.region
+            )['title'],
+            country: this.countryList.find(
+              (f: any) => f.id == this.form4.value.country
+            )['title'],
+            city: this.cityTempList.find(
+              (f: any) => f.id == this.form4.value.city
+            )['title'],
+            district: this.districtTempList.find(
+              (f: any) => f.id == this.form4.value.district
+            )['title'],
+            land_size: this.form4.value.land_size,
+            building_size: this.form4.value.building_size,
+          });
+          let _totalProp = this.form4.value.totalprop;
+          this.setForm4();
+          this.form4.patchValue({
+            totalprop: _totalProp,
+          });
+          this.submitted = false;
+        } else {
+          this.loading = false;
+          this.toastr.error('something went wrong');
+        }
+      });
+    }
   }
   getRegionByCountry() {
     this.regionList = this.regionTempList.filter(
@@ -281,25 +352,21 @@ export class PropertyCalComponent implements OnInit {
     );
     if (_district && _district['isrestricted'] == 1) {
       this.isdistrictrestricted = true;
+      this.form4.value.districtrestrictedval = 1;
     } else {
       this.isdistrictrestricted = false;
     }
   }
-  setOrderAndGetQuote() {
+  setOrderAndGetQuote(dataModel: any) {
     this.custservice.getQuotationPrice(this.quoteno).subscribe((data: any) => {
-      debugger
       if (data && data.success) {
-        this.currentstep = 'STEP6';
+        this.isrestricted = false;
+        this.existsmsg = data.message;
+        if (data['isrestricted']) {
+          this.isrestricted = true;
+        }
         this.payAmount = data['data'];
-        let _url = encodeURI(this.baseUrl + '/pay-status/');
-        sessionStorage.setItem(
-          'moysaramount',
-          (this.payAmount * 100).toString()
-        );
-        sessionStorage.setItem('moysarcallback', _url);
-        sessionStorage.setItem('moysardesc', this.quoteno);
-        localStorage.setItem('tempid', this.quoteno);
-        this.loadMoysarJs();
+        this.openModel(dataModel);
       }
     });
   }
@@ -357,5 +424,138 @@ export class PropertyCalComponent implements OnInit {
       }
     });
   }
+
+  getConditionData() {
+    this.custservice.getBuildingConditions().subscribe((data: any) => {
+      if (data && data.success) {
+        this.conditionList = data['items'];
+      }
+    });
+  }
   //#endregion
+  openModel(data: any) {
+    this.setFormlogin();
+    this.modalService.open(data, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false,
+    });
+  }
+  onLoginProcess() {
+    this.submitted = true;
+    if (this.formlogin.invalid) {
+      return;
+    }
+    this.loading = true;
+    let _reqbody = {
+      email: this.formlogin.value.username,
+      password: this.formlogin.value.password,
+    };
+    this.custservice.signIn(_reqbody).subscribe((data: any) => {
+  
+      this.loading = false;
+      if (data && data.success) {
+        localStorage.setItem('App/auth', data.token);
+        this.toastr.success(data.message);
+        this.loading = true;
+        this.custservice
+          .updateCustId({
+            quoteno: this.quoteno,
+          })
+          .subscribe((data: any) => {
+            this.loading = false;
+            if (data && data.success) {
+              this.currentstep = 'STEP6';
+              this.modalService.dismissAll();
+              if (this.isrestricted) {
+                this.toastr.success(this.existsmsg);
+              } else {
+                this.toastr.success(this.existsmsg);
+
+                let _url = encodeURI(this.baseUrl + '/pay-status/');
+                sessionStorage.setItem(
+                  'moysaramount',
+                  (this.payAmount * 100).toString()
+                );
+                sessionStorage.setItem('moysarcallback', _url);
+                sessionStorage.setItem('moysardesc', this.quoteno);
+                localStorage.setItem('tempid', this.quoteno);
+                this.removeMoysarJs();
+                this.loadMoysarJs();
+              }
+            } else {
+              this.toastr.error(data.message);
+            }
+          });
+      } else if (!data['isexists']) {
+        Swal.fire({
+          title: 'Email is not exists',
+          text: 'Do you want to register?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, registered it!',
+        }).then((result: { isConfirmed: boolean }) => {
+          if (result.isConfirmed) {
+            this.loading = true;
+            let _reqbody = {
+              fname: this.form.value.fname,
+              lname: this.form.value.lname,
+              email: this.formlogin.value.username,
+              password: this.formlogin.value.password,
+            };
+            this.custservice.signUP(_reqbody).subscribe((data: any) => {
+              if (data && data.success) {
+                let _reqbody = {
+                  email: this.formlogin.value.username,
+                  password: this.formlogin.value.password,
+                };
+                this.custservice.signIn(_reqbody).subscribe((data: any) => {
+                  this.loading = false;
+                  if (data && data.success) {
+                    this.toastr.success(data.message);
+                    localStorage.setItem('App/auth', data.token);
+                    this.loading = true;
+                    this.custservice
+                      .updateCustId({
+                        quoteno: this.quoteno,
+                      })
+                      .subscribe((data: any) => {
+                        this.loading = false;
+                        if (data && data.success) {
+                          this.currentstep = 'STEP6';
+                          this.modalService.dismissAll();
+                          if (data['isrestricted']) {
+                            this.toastr.success(this.existsmsg);
+                          } else {
+                            this.toastr.success(this.existsmsg);
+
+                            let _url = encodeURI(this.baseUrl + '/pay-status/');
+                            sessionStorage.setItem(
+                              'moysaramount',
+                              (this.payAmount * 100).toString()
+                            );
+                            sessionStorage.setItem('moysarcallback', _url);
+                            sessionStorage.setItem('moysardesc', this.quoteno);
+                            localStorage.setItem('tempid', this.quoteno);
+                            this.removeMoysarJs();
+                            this.loadMoysarJs();
+                          }
+                        }
+                      });
+                  }
+                });
+              }
+            });
+          }
+        });
+      } else {
+        this.toastr.error(data.message);
+      }
+    });
+  }
+  setBuildingType() {
+    this.isthisbuilding = this.form4.value.typecd == 'Building' ? true : false;
+  }
 }

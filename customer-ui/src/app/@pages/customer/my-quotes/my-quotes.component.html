@@ -1,0 +1,45 @@
+<section class="insurance-top">
+  <div class="insurance-top__inner">
+    <div class="insurance-top__heading">
+      <h1 class="insurance-top__heading-title">
+        {{ "quotelist" | translate }}
+      </h1>
+    </div>
+    <div class="insurance-top__form mt-3">
+      <div class="row col-md-12">
+        <table class="table table-bordered table-nowrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{{ "quotes.qno" | translate }}</th>
+              <th>{{ "quotes.servicetype" | translate }}</th>
+              <th>{{ "quotes.cat" | translate }}</th>
+              <th>{{ "quotes.amount" | translate }}</th>
+              <th>{{ "quotes.download" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rl of quoteList; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ rl.quote_number }}</td>             
+              <td>{{ rl.service_type }}</td>
+              <td>{{ rl.categorycode }}</td>
+              <td>SAR {{ rl.amount }}</td>
+              <td>
+                <a
+                  href="{{ rl.valuation_url }}"
+                  *ngIf="rl.valuation_url"
+                  target="_blank"
+                  title="download"
+                >
+                  <i class="mdi mdi-cloud-download ml-3 mdi-24px"> </i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<app-loader *ngIf="isloading"></app-loader>

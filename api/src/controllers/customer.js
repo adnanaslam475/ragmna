@@ -255,12 +255,12 @@ exports.saveCompanyInfo = async (req, res, next) => {
         .json({ success: false, message: "Quote Number is required." });
       return;
     }
-    if (!postData.companyname) {
-      res
-        .status(201)
-        .json({ success: false, message: "Company Name is required." });
-      return;
-    }
+    // if (!postData.companyname) {
+    //   res
+    //     .status(201)
+    //     .json({ success: false, message: "Company Name is required." });
+    //   return;
+    // }
 
     const whenCondtion = [];
     whenCondtion.push({ field: "quote_number", value: postData.quoteno });
@@ -522,6 +522,17 @@ exports.savePropertyInfo = async (req, res, next) => {
     );
 
     if (addData) {
+      if (postData.isrestricted) {
+        let updateData = {};
+        (updateData.isrestricted = postData.isrestricted),
+          await CommonModel.updateRecords(
+            {
+              table: "quote_master",
+              whereCon: [{ field: "quote_number", value: postData.quoteno }],
+            },
+            updateData
+          );
+      }
       res.status(201).json({
         success: true,
         message: "Data saved successfully.",
@@ -653,12 +664,18 @@ exports.getpriceCalculation = async (req, res) => {
     let result = await CommonModel.getRecords({
       whereCon: whenCondtion,
       table: "quote_property_info qp",
-      select: "qp.*",
+      select:
+        "qp.*,q.isrestricted as quoteres,q.quote_number,qi.fname,qi.lname",
       join: [
         {
           joinType: "INNER JOIN",
           joinWith: "quote_master q",
           joinCondition: "q.id = qp.fk_quote_id",
+        },
+        {
+          joinType: "INNER JOIN",
+          joinWith: "quote_personal_info qi",
+          joinCondition: "q.id = qi.fk_quote_id",
         },
       ],
     });
@@ -726,10 +743,57 @@ exports.getpriceCalculation = async (req, res) => {
             updateData
           );
 
+          let notification = await CommonModel.getRecords({
+            whereCon: [],
+            table: "notification_configure plm",
+            select: "plm.*",
+          });
+
+          let _manualNotifications = notification.find(
+            (f) => f["code"] == "MANUALQUOTE"
+          )["msg"];
+          let _successNotifications = notification.find(
+            (f) => f["code"] == "SUCCESSQUOTE"
+          )["msg"];
+          if (result[0]["quoteres"] == 1) {
+            const whenCondtion2 = [];
+            whenCondtion2.push({ field: "code", value: "MANUALQUOTE" });
+            let tempresult = await CommonModel.getRecords({
+              whereCon: whenCondtion2,
+              table: "email_template_master qp",
+              select: "qp.*",
+            });
+
+            let _emailbody = "";
+            const encoder = new TextDecoder("utf-8");
+            const bufferArray = new Uint8Array(
+              tempresult[0]["email_body"].data
+            );
+            _emailbody = encoder.decode(bufferArray);
+            _emailbody = _emailbody
+              .replace("#quoteid#", result[0]["quote_number"])
+              .replace("#amount#", _totalAmount)
+              .replace(
+                "#customername#",
+                result[0]["fname"] + " " + result[0]["lname"]
+              );
+            var mailOptions = {
+              from: "Quote <support@ragmna.com>",
+              to: quoteResult[0]["email"],
+              subject: tempresult[0]["email_subject_line"],
+              html: _emailbody,
+            };
+            await CommonModel.sendEmail(mailOptions);
+          }
+
           res.status(201).json({
             success: true,
             data: _totalAmount,
-            message: "Data saved successfully.",
+            isrestricted: result[0]["quoteres"] == 1 ? true : false,
+            message:
+              result[0]["quoteres"] == 1
+                ? _manualNotifications
+                : _successNotifications,
           });
         }
       });
@@ -811,6 +875,63 @@ exports.updatepaystatus = async (req, res, next) => {
       updateData
     );
     if (updatedDataResult) {
+      if (postData.ispaid == 1) {
+        console.log("I am paid");
+        const whenCondtion1 = [];
+        whenCondtion1.push({ field: "qp.trans_id", value: postData.transId });
+        let quoteResult = await CommonModel.getRecords({
+          whereCon: whenCondtion1,
+          table: "quote_payment qp",
+          select: "qi.email,q.quote_number,qp.total_amount,qi.fname,qi.lname",
+          join: [
+            {
+              joinType: "INNER JOIN",
+              joinWith: "quote_master q",
+              joinCondition: "q.id = qp.fk_quote_id",
+            },
+            {
+              joinType: "INNER JOIN",
+              joinWith: "quote_personal_info qi",
+              joinCondition: "q.id = qi.fk_quote_id",
+            },
+          ],
+        });
+
+        if (quoteResult && quoteResult.length > 0) {
+          const whenCondtion2 = [];
+          whenCondtion2.push({ field: "code", value: "PAYMENTDONE" });
+          let tempresult = await CommonModel.getRecords({
+            whereCon: whenCondtion2,
+            table: "email_template_master qp",
+            select: "qp.*",
+          });
+
+          let _emailbody = "";
+          const encoder = new TextDecoder("utf-8");
+          const bufferArray = new Uint8Array(tempresult[0]["email_body"].data);
+          _emailbody = encoder.decode(bufferArray);
+          _emailbody = _emailbody
+            .replace("#quoteid#", quoteResult[0]["quote_number"])
+            .replace("#amount#", quoteResult[0]["total_amount"])
+            .replace(
+              "#customername#",
+              quoteResult[0]["fname"] + " " + quoteResult[0]["lname"]
+            );
+          var mailOptions = {
+            from: "Quote <support@ragmna.com>",
+            to: quoteResult[0]["email"],
+            subject: tempresult[0]["email_subject_line"],
+            html: _emailbody,
+          };
+          await CommonModel.sendEmail(mailOptions);
+
+          res.status(201).json({
+            success: true,
+            message: "Data updated successfully.",
+          });
+        }
+      }
+
       res.status(201).json({
         success: true,
         message: "Data updated successfully.",
@@ -830,6 +951,102 @@ exports.updatepaystatus = async (req, res, next) => {
   }
 };
 //#endregion
+
+exports.updateCustomerByQuote = async (req, res) => {
+  try {
+    console.log(req.decoded);
+    const postData = req.body;
+    let updateData = {};
+    updateData.fk_user_id = req.decoded.id;
+
+    let updatedDataResult = await CommonModel.updateRecords(
+      {
+        table: "quote_master",
+        whereCon: [{ field: "quote_number", value: postData.quoteno }],
+      },
+      updateData
+    );
+    if (updatedDataResult) {
+      res.status(201).json({
+        success: true,
+        message: "Data updated successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: false,
+        message: "There is some problem, please try again later.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+
+exports.getMyQuoteHistory = async (req, res) => {
+  try {
+    const whenCondtion = [];
+    whenCondtion.push({ field: "fk_user_id", value: req.decoded.id });
+    let result = await CommonModel.getRecords({
+      whereCon: whenCondtion,
+      table: "quote_master q",
+      select: "q.*,qi.*",
+      join: [
+        {
+          joinType: "INNER JOIN",
+          joinWith: "quote_personal_info qi",
+          joinCondition: "q.id = qi.fk_quote_id",
+        },
+      ],
+    });
+    if (result) {
+      res.status(201).json({
+        success: true,
+        items: result,
+        message: "Fetch data successfully",
+      });
+    } else {
+      res.status(201).json({
+        success: false,
+        message: "There is some problem, please try again later.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+
+exports.getAllConditions = async(req,res) =>{
+  try {
+    let result = await CommonModel.getRecords({
+      whereCon: [],
+      table: "condition_master q",
+      select: "q.*",
+      
+    });
+    if (result) {
+      res.status(201).json({
+        success: true,
+        items: result,
+        message: "Fetch data successfully",
+      });
+    } else {
+      res.status(201).json({
+        success: false,
+        message: "There is some problem, please try again later.",
+      });
+    }
+  } catch (error) {
+    
+  }
+}
 //#region GetAll Lists
 exports.getpurposelist = async (req, res, next) => {
   try {

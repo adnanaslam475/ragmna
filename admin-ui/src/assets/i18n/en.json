@@ -15,6 +15,7 @@
   "country": "Country",
   "emailtemp": "Email Template",
   "notification": "Screen Notification",
+  "quotelist": "Quote List",
   "purposemanage": {
     "title": "Purpose Title",
     "titlear": "Purpose Title (Arabic)",
@@ -110,7 +111,7 @@
     "subjectlineerr": "Subject Line is required",
     "bodyerr": "Body is required",
     "managetemp": "Manage Template",
-    "dynamicline":"Use these for dynamic data replace"
+    "dynamicline": "Use these for dynamic data replace"
   },
   "notifications": {
     "title": "Notification Title",
@@ -119,5 +120,15 @@
     "titleerr": "Title is required",
     "msgerr": "Message is required",
     "managenotification": "Manage Notification"
+  },
+  "quotes": {
+    "qno": "Quote No",
+    "customer": "Customer Name",
+    "custemail": "Customer Email",
+    "custphone": "Customer Phone",
+    "servicetype": "Service Type",
+    "cat": "Category",
+    "upload": "Upload",
+    "amount": "Amount"
   }
 }

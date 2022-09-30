@@ -20,6 +20,7 @@ export const ROUTER_UTILS = {
       country: 'country-master',
       msgonscreen: 'msg-on-screen',
       emaitemplate: 'email-template',
+      quotelist: 'quote-list',
     },
     errorResponse: {
       notFound: '404',

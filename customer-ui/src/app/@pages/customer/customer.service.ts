@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, retry, throwError } from 'rxjs';
+import { catchError, Observable, retry, throwError } from 'rxjs';
+import { getItem, StorageItem } from 'src/app/@core/utils';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -104,6 +105,61 @@ export class CustomerService {
         this.httpOptions
       )
       .pipe(retry(1), catchError(this.handleError));
+  }
+  signIn(signin: any): Observable<any> {
+    return this.http
+      .post<any>(environment.apiUrl + 'users/login', signin, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  signUP(signup: any): Observable<any> {
+    return this.http
+      .post<any>(environment.apiUrl + 'users/signup', signup, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  getMyQuotes() {
+    const _authToken = localStorage.getItem('App/auth')?.toString();
+    if (_authToken) {
+      const httpOptions2 = {
+        headers: new HttpHeaders({
+          authorization: _authToken,
+        }),
+      };
+      return this.http
+        .get(environment.apiUrl + 'cust/quotes-by-user', httpOptions2)
+        .pipe(retry(1), catchError(this.handleError));
+    } else {
+      return this.http
+        .get(environment.apiUrl + 'cust/quotes-by-user')
+        .pipe(retry(1), catchError(this.handleError));
+    }
+  }
+  updateCustId(postData: any) {
+    debugger;
+    const _authToken = localStorage.getItem('App/auth')?.toString();
+    if (_authToken) {
+      const httpOptions2 = {
+        headers: new HttpHeaders({
+          authorization: _authToken,
+        }),
+      };
+      return this.http
+        .post(
+          environment.apiUrl + 'cust/update-cust-id',
+          postData,
+          httpOptions2
+        )
+        .pipe(retry(1), catchError(this.handleError));
+    } else {
+      return this.http
+        .post(environment.apiUrl + 'cust/update-cust-id', postData)
+        .pipe(retry(1), catchError(this.handleError));
+    }
+  }
+
+  getBuildingConditions(){
+    return this.http
+    .get(environment.apiUrl + 'cust/condition-list')
+    .pipe(retry(1), catchError(this.handleError));
   }
   //#region COMMON METHODS
   handleError(error: any) {

@@ -261,4 +261,21 @@ router.put(
   authUtil.ensureAuthenticated,
   adminController.updatemsgonscreen
 );
+router.get(
+  "/all-quotes",
+  authUtil.ensureAuthenticated,
+  adminController.getallquotes
+);
+
+router.post(
+  "/upload-file",
+  authUtil.ensureAuthenticated,
+  adminController.fileupload
+);
+
+router.post(
+  "/update-valuation-url",
+  authUtil.ensureAuthenticated,
+  adminController.updateFileToQuote
+);
 module.exports = router;

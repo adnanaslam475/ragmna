@@ -1,5 +1,10 @@
 const CommonModel = require("../models/common");
-
+const { BlobServiceClient } = require("@azure/storage-blob");
+const connStr =
+  "DefaultEndpointsProtocol=https;AccountName=gtiblob;AccountKey=S08K8SXJDEi43Ywal2NdbfrVn0TCHspNav6MOhWGsviHuAaPb7XLH+wPgnEwZNxS4al4wMzWw1w++AStJEBeGg==;EndpointSuffix=core.windows.net";
+const blobServiceClient = BlobServiceClient.fromConnectionString(connStr);
+const containerName = "h-t/upload";
+const blobURL = "https://gtiblob.blob.core.windows.net/h-t/upload";
 //#region PURPOSE
 exports.getpurposelist = async (req, res, next) => {
   try {
@@ -1744,6 +1749,35 @@ exports.updateemailtemplate = async (req, res) => {
     });
   }
 };
+
+exports.getallquotes = async (req, res) => {
+  try {
+    let resultquote = await CommonModel.getRecords({
+      whereCon: [],
+      table: "quote_master q",
+      select: "q.*,qi.fname,qi.lname,qi.contact_no,qi.email",
+      join: [
+        {
+          joinType: "INNER JOIN",
+          joinWith: "quote_personal_info qi",
+          joinCondition: "q.id = qi.fk_quote_id",
+        },
+      ],
+      orderBy: { field: "q.id", order: "desc" },
+    });
+    res.status(201).json({
+      success: true,
+      items: resultquote,
+      message: "data retrieve successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
 //#endregion
 
 //----------------------------------------------------------------
@@ -1831,7 +1865,79 @@ exports.updatemsgonscreen = async (req, res) => {
   }
 };
 //#endregion
+//#region File upload to customer
+exports.updateFileToQuote = async (req, res) => {
+  try {
+    const postData = req.body;
+    if (!postData.quoteno) {
+      res.status(201).json({ success: false, message: "Quote is required." });
+      return;
+    }
+    if (!postData.url) {
+      res
+        .status(201)
+        .json({ success: false, message: "File URL is required." });
+      return;
+    }
 
+    let updateData = {};
+
+    if (postData.url) {
+      updateData.valuation_url = postData.url;
+    }
+
+    let updatedDataResult = await CommonModel.updateRecords(
+      {
+        table: "quote_master",
+        whereCon: [{ field: "quote_number", value: postData.quoteno }],
+      },
+      updateData
+    );
+
+    if (updatedDataResult) {
+      res.status(201).json({
+        success: true,
+        message: "message updated successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: true,
+        message: "Record are not available to update.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+//#endregion
+
+exports.fileupload = async (req, res) => {
+  try {
+   
+    let _fileData = req.body.data;
+    const buf = Buffer.from(_fileData, "base64");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    const content = buf;
+    const blobName = req.body.filename;
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.upload(content, content.length);
+    res.status(201).json({
+      status: true,
+      data: blobURL + "/" + blobName,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+ 
+};
 exports.fobiddenRoute = function (req, res, next) {
   res.status(403).json({ message: "forbidden" });
 };

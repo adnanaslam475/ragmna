@@ -421,10 +421,10 @@ module.exports.sendEmail = function (mailOptions) {
 };
 
 module.exports.getNextVal = function (seq_name) {
+  console.log(seq_name)
   return new Promise(async (resolve, reject) => {
-
     let result = await this.getRecords({
-      whereCon: { field: "name", value: seq_name },
+      whereCon: [{ field: "name", value: seq_name }],
       table: "sequence",
       select: "cur_value,increment",
     });
@@ -453,3 +453,7 @@ module.exports.getNextVal = function (seq_name) {
     resolve(current_val);
   });
 };
+
+// module.exports.generateQuoteInvoice = function (invoiceModel) {
+  
+// };

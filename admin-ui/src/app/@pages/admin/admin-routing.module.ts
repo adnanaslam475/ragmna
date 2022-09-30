@@ -12,6 +12,7 @@ import { EmailTemplateComponent } from './email-template/email-template.componen
 import { LandPricingComponent } from './land-pricing/land-pricing.component';
 import { MsgonscreenComponent } from './msgonscreen/msgonscreen.component';
 import { PurposeComponent } from './purpose/purpose.component';
+import { QuoteListComponent } from './quote-list/quote-list.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: ROUTER_UTILS.config.admin.msgonscreen,
     component: MsgonscreenComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.quotelist,
+    component: QuoteListComponent,
   },
 ];
 

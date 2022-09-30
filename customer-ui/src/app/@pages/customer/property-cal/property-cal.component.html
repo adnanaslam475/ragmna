@@ -224,18 +224,7 @@
                 placeholder="Company Name"
                 formControlName="companyname"
                 class="form-control"
-                [ngClass]="{
-                  'is-invalid': submitted && f2['companyname'].errors
-                }"
               />
-              <div
-                *ngIf="submitted && f2['companyname'].errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f2['companyname'].errors['required']">
-                  {{ "companynameerr" | translate }}
-                </div>
-              </div>
             </div>
             <div class="form-group">
               <label for="last-name">{{ "companyadd" | translate }}</label>
@@ -254,7 +243,7 @@
                 name="phone"
                 type="number"
                 class="form-control"
-                formControlName="phone"
+                formControlName="companyphone"
                 placeholder="Phone Number"
               />
             </div>
@@ -298,7 +287,11 @@
                     {{ "typeofproperty" | translate }}</label
                   >
 
-                  <select formControlName="typecd" class="form-select">
+                  <select
+                    formControlName="typecd"
+                    class="form-select"
+                    (change)="setBuildingType()"
+                  >
                     <option value="">{{ "selectproperty" | translate }}</option>
                     <option value="Land">{{ "land" | translate }}</option>
                     <option value="Building">
@@ -346,6 +339,7 @@
                     placeholder="Total Property"
                     formControlName="totalprop"
                     min="0"
+                    [ngClass]="propertyList.length > 0 ? 'dis' : ''"
                   />
                   <div
                     *ngIf="submitted && f4['totalprop'].errors"
@@ -486,16 +480,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 mt-2" *ngIf="isdistrictrestricted">
-                  <label> {{ "isthisdistrict" | translate }}</label>
-                  <select
-                    class="form-select"
-                    formControlName="districtrestrictedval"
-                  >
-                    <option value="0">{{ "no" | translate }}</option>
-                    <option value="1">{{ "yes" | translate }}</option>
-                  </select>
-                </div>
               </div>
             </div>
             <div class="form-group">
@@ -509,7 +493,7 @@
                     min="0"
                   />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" *ngIf="isthisbuilding">
                   <label for="first-name">{{
                     "buildingsize" | translate
                   }}</label>
@@ -561,7 +545,7 @@
             class="contact-button btn btn--big mt-3"
             type="button"
             *ngIf="propertyList.length > 0"
-            (click)="setOrderAndGetQuote()"
+            (click)="setOrderAndGetQuote(modalCenter)"
           >
             {{ "order" | translate }}
           </button>
@@ -573,6 +557,34 @@
       *ngIf="currentstep == 'STEP6'"
     >
       <div class="what-we-do__grid">
+        <div class="row col-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <td>#</td>
+                <td>{{ "typeofproperty" | translate }}</td>
+                <td>{{ "country" | translate }}</td>
+                <td>{{ "region" | translate }}</td>
+                <td>{{ "city" | translate }}</td>
+                <td>{{ "district" | translate }}</td>
+                <td>{{ "landsize" | translate }}</td>
+                <td>{{ "buildingsize" | translate }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let al of propertyList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ al.typecd }}</td>
+                <td>{{ al.country }}</td>
+                <td>{{ al.region }}</td>
+                <td>{{ al.city }}</td>
+                <td>{{ al.district }}</td>
+                <td>{{ al.land_size }}</td>
+                <td>{{ al.building_size }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="row col-12">
           <div class="col-md-4"></div>
           <div class="col-md-4">
@@ -589,3 +601,84 @@
   </div>
 </section>
 <section class="section section--inner section--nomargin"></section>
+<ng-template #modalCenter let-modal>
+  <form [formGroup]="formlogin" (ngSubmit)="onLoginProcess()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">
+          {{ "signinsignup" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.dismiss('Close')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter username"
+              autofocus
+              formControlName="username"
+              [ngClass]="{
+                'is-invalid': submitted && flogin['username'].errors
+              }"
+            />
+            <div
+              *ngIf="submitted && flogin['username'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="flogin['username'].errors['required']">
+                Email address is required
+              </div>
+              <div *ngIf="flogin['username'].errors['email']">
+                Invalid email address
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="password-input">Password</label>
+            <div class="position-relative auth-pass-inputgroup mb-3">
+              <input
+                type="password"
+                class="form-control pe-5"
+                placeholder="Enter password"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid': submitted && flogin['password'].errors
+                }"
+              />
+              <div
+                *ngIf="submitted && flogin['password'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="flogin['password'].errors['required']">
+                  Password is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button class="btn btn--big" type="submit" *ngIf="!isloading">
+              {{ "signinsignup" | translate }}
+            </button>
+            <button type="submit" class="btn btn--big" *ngIf="isloading">
+              <span class="spinner-border" role="status" aria-hidden="true">
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </form>
+</ng-template>
+<app-loader *ngIf="loading"></app-loader>

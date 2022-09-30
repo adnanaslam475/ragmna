@@ -5,6 +5,7 @@
   "instit": "Instrititutions",
   "machine": "Machinery & Equipment",
   "vehcleacc": "Vehicle Accidents",
+  "myquotes":"My Quote",
   "lets": "Let’s Get To Know You",
   "letsdetail": "Give us some general information about yourself, your car, your home",
   "eval": "Evalue your property",
@@ -58,6 +59,20 @@
   "region": "Region",
   "district":"District",
   "city":"City",
-  "order":"Order Now"
-  
+  "order":"Order Now",
+  "login":"Login",
+  "signup":"Signup" ,
+  "signinsignup":"SignIn/SignUp",
+  "quotelist":"My Quotes",
+  "quotes": {
+    "qno": "Quote No",
+    "customer": "Customer Name",
+    "custemail": "Customer Email",
+    "custphone": "Customer Phone",
+    "servicetype": "Service Type",
+    "cat": "Category",
+    "upload": "Upload",
+    "amount": "Amount",
+    "download":"Download"
+  }
 }
