@@ -665,7 +665,7 @@ exports.getpriceCalculation = async (req, res) => {
       whereCon: whenCondtion,
       table: "quote_property_info qp",
       select:
-        "qp.*,q.isrestricted as quoteres,q.quote_number,qi.fname,qi.lname",
+        "qp.*,q.isrestricted as quoteres,q.quote_number,qi.fname,qi.lname,qi.email",
       join: [
         {
           joinType: "INNER JOIN",
@@ -780,7 +780,7 @@ exports.getpriceCalculation = async (req, res) => {
               );
             var mailOptions = {
               from: "Quote <support@ragmna.com>",
-              to: quoteResult[0]["email"],
+              to: result[0]["email"],
               subject: tempresult[0]["email_subject_line"],
               html: _emailbody,
             };

@@ -24,7 +24,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
        
         if ([401, 403].includes(error.status)) {
-          this.router.navigateByUrl("auth/"+ROUTER_UTILS.config.auth.signIn);
+          this.router.navigateByUrl("/"+ROUTER_UTILS.config.auth.signIn);
           return throwError(error);
         } else if (error.status === 500) {
           
@@ -35,8 +35,8 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             setTimeout(() => {
               localStorage.clear();
               sessionStorage.clear();
-              this.router.navigate(["auth/sign-in"]);
-              location.href="/auth/sign-in"
+              this.router.navigate(["/sign-in"]);
+              location.href="/sign-in"
             }, 3000);
           }else{
             this.toastr.error("Internal server error")

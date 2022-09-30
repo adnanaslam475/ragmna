@@ -557,6 +557,15 @@
       *ngIf="currentstep == 'STEP6'"
     >
       <div class="what-we-do__grid">
+        <div class="row col-12" *ngIf="payAmount && payAmount > 0">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn--big">
+              SAR {{ payAmount }}
+            </button>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
         <div class="row col-12">
           <table class="table">
             <thead>
@@ -585,6 +594,14 @@
             </tbody>
           </table>
         </div>
+        <div class="row col-12" *ngIf="existsmsg && existsmsg != ''">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+           <h3 style="color:#2ba92b"> {{ existsmsg }} </h3>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+       
         <div class="row col-12">
           <div class="col-md-4"></div>
           <div class="col-md-4">

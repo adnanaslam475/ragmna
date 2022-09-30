@@ -67,7 +67,7 @@ Moyasar.init({
         };
 
         const req = await fetch(
-          "http://localhost:4000/cust/quote-payment",
+          "https://dev-pvq-api.herokuapp.com/cust/quote-payment",
           requestOptions
         );
         const _result = await req.json();

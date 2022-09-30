@@ -13,6 +13,7 @@ export class MyQuotesComponent implements OnInit {
   constructor(private custservice: CustomerService, private router: Router,) {}
 
   ngOnInit(): void {
+    debugger
     if (
       localStorage.getItem('App/auth') &&
       localStorage.getItem('App/auth') != null &&

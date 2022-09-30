@@ -6,9 +6,9 @@
           {{ "quotelist" | translate }}
         </h3>
         <div class="flex-shrink-0">
-          <div
-            class="form-check form-switch form-switch-right form-switch-md"
-          ></div>
+          <div class="form-check form-switch form-switch-right form-switch-md">
+            <input type="text" class="form-control" placeholder="Search"  />
+          </div>
         </div>
       </div>
       <div class="card-body">
@@ -39,27 +39,28 @@
                 <td>SAR {{ rl.amount }}</td>
                 <td>
                   <div class="image-upload">
-                    <label for="file-input_{{rl.id}}">
-                      <i class="mdi mdi-cloud-upload mdi-24px"   title="upload"></i>
+                    <label for="file-input_{{ rl.id }}">
+                      <i
+                        class="mdi mdi-cloud-upload mdi-24px"
+                        title="upload"
+                      ></i>
                       &nbsp;&nbsp;
                       <a
-                      href="{{ rl.valuation_url }}"
-                      *ngIf="rl.valuation_url"
-                      target="_blank"
-                      title="download"
-                    >
-                      <i class="mdi mdi-cloud-download ml-3 mdi-24px"> </i
-                    ></a>
+                        href="{{ rl.valuation_url }}"
+                        *ngIf="rl.valuation_url"
+                        target="_blank"
+                        title="download"
+                      >
+                        <i class="mdi mdi-cloud-download ml-3 mdi-24px"> </i
+                      ></a>
                     </label>
 
                     <input
-                      id="file-input_{{rl.id}}"
+                      id="file-input_{{ rl.id }}"
                       type="file"
                       (change)="onFileSelection($event, rl.quote_number)"
                     />
                   </div>
-
-                 
                 </td>
               </tr>
             </tbody>

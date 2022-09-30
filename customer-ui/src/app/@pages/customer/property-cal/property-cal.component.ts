@@ -253,7 +253,13 @@ export class PropertyCalComponent implements OnInit {
     let _maxProp = this.conditionList.find(
       (f: any) => f['code'] == 'MAXPROPERTY'
     )['val'];
-    if (_maxProp && parseInt(_maxProp) < this.form4.value.totalprop) {
+    let _maxBuilding = this.conditionList.find(
+      (f: any) => f['code'] == 'MAXBUILDINGAREA'
+    )['val'];
+    let _maxLand = this.conditionList.find(
+      (f: any) => f['code'] == 'MAXLANDAREA'
+    )['val'];
+    if (_maxProp && parseInt(_maxProp) < parseInt(this.form4.value.totalprop)) {
       this.toastr.error(
         'you can not have more than ' + parseInt(_maxProp) + ' property '
       );
@@ -263,6 +269,22 @@ export class PropertyCalComponent implements OnInit {
         this.form4.value.isrestricted = 1;
       }
       if (this.isdistrictrestricted) {
+        this.form4.value.isrestricted = 1;
+      }
+      if (
+        _maxBuilding &&
+        parseInt(_maxBuilding) < parseInt(this.form4.value.building_size)
+      ) {
+        this.form4.value.isrestricted = 1;
+      }
+      if (
+        _maxBuilding &&
+        parseInt(_maxLand) < parseInt(this.form4.value.land_size)
+      ) {
+        this.form4.value.isrestricted = 1;
+      }
+      let _purposeRe = this.purposeList.find((f:any) => f.id == this.form4.value.purposeid);
+      if (_purposeRe['isrestricted'] == 1) {
         this.form4.value.isrestricted = 1;
       }
       this.loading = true;
@@ -358,15 +380,21 @@ export class PropertyCalComponent implements OnInit {
     }
   }
   setOrderAndGetQuote(dataModel: any) {
+    this.loading = true;
     this.custservice.getQuotationPrice(this.quoteno).subscribe((data: any) => {
+      this.loading = false;
       if (data && data.success) {
         this.isrestricted = false;
-        this.existsmsg = data.message;
+      
         if (data['isrestricted']) {
           this.isrestricted = true;
+          this.existsmsg = data.message;
+          this.toastr.success(data.message);
+          this.currentstep = 'STEP6';
+        } else {
+          this.payAmount = data['data'];
+          this.openModel(dataModel);
         }
-        this.payAmount = data['data'];
-        this.openModel(dataModel);
       }
     });
   }
@@ -452,7 +480,6 @@ export class PropertyCalComponent implements OnInit {
       password: this.formlogin.value.password,
     };
     this.custservice.signIn(_reqbody).subscribe((data: any) => {
-  
       this.loading = false;
       if (data && data.success) {
         localStorage.setItem('App/auth', data.token);
