@@ -1,6 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, retry, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  retry,
+  throwError,
+} from 'rxjs';
 import { getItem, StorageItem } from 'src/app/@core/utils';
 import { environment } from 'src/environments/environment';
 
@@ -156,11 +162,17 @@ export class CustomerService {
     }
   }
 
-  getBuildingConditions(){
+  getBuildingConditions() {
     return this.http
-    .get(environment.apiUrl + 'cust/condition-list')
-    .pipe(retry(1), catchError(this.handleError));
+      .get(environment.apiUrl + 'cust/condition-list')
+      .pipe(retry(1), catchError(this.handleError));
   }
+  getPGCred() {
+    return this.http
+      .get(environment.apiUrl + 'cust/pg-config')
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

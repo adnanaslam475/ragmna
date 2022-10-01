@@ -11,6 +11,7 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StorageItem } from 'src/app/@core/utils';
 import Swal from 'sweetalert2';
+import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-property-cal',
   templateUrl: './property-cal.component.html',
@@ -79,7 +80,8 @@ export class PropertyCalComponent implements OnInit {
     private custservice: CustomerService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private appService: AppService
   ) {}
 
   ngOnInit(): void {
@@ -283,7 +285,9 @@ export class PropertyCalComponent implements OnInit {
       ) {
         this.form4.value.isrestricted = 1;
       }
-      let _purposeRe = this.purposeList.find((f:any) => f.id == this.form4.value.purposeid);
+      let _purposeRe = this.purposeList.find(
+        (f: any) => f.id == this.form4.value.purposeid
+      );
       if (_purposeRe['isrestricted'] == 1) {
         this.form4.value.isrestricted = 1;
       }
@@ -385,7 +389,7 @@ export class PropertyCalComponent implements OnInit {
       this.loading = false;
       if (data && data.success) {
         this.isrestricted = false;
-      
+
         if (data['isrestricted']) {
           this.isrestricted = true;
           this.existsmsg = data.message;
@@ -399,13 +403,21 @@ export class PropertyCalComponent implements OnInit {
     });
   }
   loadMoysarJs() {
-    let _version = this.getRndInteger(100, 9999);
-    let node3 = document.createElement('script');
-    node3.id = 'cutmoysar';
-    node3.src = '../../../../assets/js/moysar-api-auth.js?v=' + _version;
-    node3.type = 'text/javascript';
-    node3.async = true;
-    document.getElementsByTagName('head')[0].appendChild(node3);
+    this.custservice.getPGCred().subscribe((data: any) => {
+      debugger
+      if (data && data.success && data['items'].length > 0) {
+        localStorage.setItem('moysarkey', data['items'][0]['publishkey']);
+        let _version = this.getRndInteger(100, 9999);
+        let node3 = document.createElement('script');
+        node3.id = 'cutmoysar';
+        node3.src = '../../../../assets/js/moysar-api-auth.js?v=' + _version;
+        node3.type = 'text/javascript';
+        node3.async = true;
+        document.getElementsByTagName('head')[0].appendChild(node3);
+      } else {
+        this.toastr.error('Payment gateway not configured');
+      }
+    });
   }
   removeMoysarJs() {
     var linkNode = document.getElementById('cutmoysar');
@@ -483,6 +495,7 @@ export class PropertyCalComponent implements OnInit {
       this.loading = false;
       if (data && data.success) {
         localStorage.setItem('App/auth', data.token);
+        this.appService.isLoggedIn = true;
         this.toastr.success(data.message);
         this.loading = true;
         this.custservice
@@ -543,6 +556,7 @@ export class PropertyCalComponent implements OnInit {
                   if (data && data.success) {
                     this.toastr.success(data.message);
                     localStorage.setItem('App/auth', data.token);
+                    this.appService.isLoggedIn = true;
                     this.loading = true;
                     this.custservice
                       .updateCustId({

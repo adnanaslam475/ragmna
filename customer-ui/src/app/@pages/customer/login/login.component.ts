@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { StorageItem } from 'src/app/@core/utils';
+import { AppService } from 'src/app/app.service';
 import { CustomerService } from '../customer.service';
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private custServices: CustomerService
+    private custServices: CustomerService,
+    private appService: AppService
   ) {}
 
   ngOnInit(): void {}
@@ -55,8 +57,10 @@ export class LoginComponent implements OnInit {
         if (data && data.success) {
           this.toastr.success(data.message);
           localStorage.setItem(StorageItem.Auth, data.token);
+          this.appService.isLoggedIn = true;
           this.router.navigate(['/']);
         } else {
+          this.appService.isLoggedIn = false;
           this.toastr.error(data.message);
         }
       },

@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "pgConfig" | translate }}
+        </h3>
+        <div class="flex-shrink-0">
+          <select class="form-select" [(ngModel)]="currentCd">
+            <option value="">{{ "pgconfig.selectpg" | translate}}</option>
+            <option *ngFor="let al of pgList" value="{{ al.pg_code }}">
+              {{ al.pg_code }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        <div class="live-preview">
+          <form [formGroup]="form" (ngSubmit)="submitData()">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "pgconfig.publishkey" | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    min="0"
+                    formControlName="publishkey"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['publishkey'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['publishkey'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['publishkey'].errors['required']">
+                      {{ "pgconfig.publisherr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-8">
+                <div class="text-start">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    *ngIf="!isloading"
+                  >
+                    {{ "submit" | translate }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    *ngIf="isloading"
+                  >
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    >
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

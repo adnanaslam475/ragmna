@@ -16,6 +16,10 @@
   "emailtemp": "Email Template",
   "notification": "Screen Notification",
   "quotelist": "Quote List",
+  "pgConfig": "Payment Gateway Configuration",
+  "pg": "Payment Gateway Config",
+  "smtp": "SMTP Config",
+
   "purposemanage": {
     "title": "Purpose Title",
     "titlear": "Purpose Title (Arabic)",
@@ -129,6 +133,32 @@
     "servicetype": "Service Type",
     "cat": "Category",
     "upload": "Upload",
-    "amount": "Amount"
+    "amount": "Amount",
+    "manual": "Quote Type",
+    "manualQ": "Manual",
+    "automated": "Automated",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "paystatus": "Pay Status"
+  },
+  "pgconfig": {
+    "pgcode": "Payment Gateway",
+    "selectpg": "Select Payment Gateway",
+    "publishkey": "Publish Key",
+    "publisherr": "Publish Key is required"
+  },
+  "smtpconfig": {
+    "host": "Host Name",
+    "port": "Port No",
+    "secure": "Secure (SSL)",
+    "username": "UserName",
+    "pwd": "Password",
+    "fromemail": "From Email",
+    "fromname": "From Name", 
+    "hosterr": "Host Name is required",
+    "porterr": "Port No is required",
+    "usernameerr": "Username is required",
+    "pwderr": "Password is required",
+    "fromemailerr": "From Email is required"
   }
 }

@@ -332,6 +332,29 @@ export class AdminService {
     return text;
   }
   //#endregion
+
+  //#region Configuration
+  getPGConfig() {
+    return this.http
+      .get(environment.apiUrl + 'admin/pg-config', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updatePGConfig(postData: any) {
+    return this.http
+      .put(environment.apiUrl + 'admin/pg-config', postData, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  getSMTPConfig() {
+    return this.http
+      .get(environment.apiUrl + 'admin/smtp-config', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  updateSMTPConfig(postData: any) {
+    return this.http
+      .put(environment.apiUrl + 'admin/smtp-config', postData, this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

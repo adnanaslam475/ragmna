@@ -142,6 +142,22 @@
           </span>
         </li>
         <li class="nav-item">
+          <span class="nav-link cp" routerLink="/pg-config">
+            <i class="mdi mdi-card-account-details text-muted fs-16 align-middle me-1"></i>
+            <span data-key="t-dashboards">{{
+              "pg" | translate
+            }}</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link cp" routerLink="/smtp-config">
+            <i class="mdi mdi-email-check text-muted fs-16 align-middle me-1"></i>
+            <span data-key="t-dashboards">{{
+              "smtp" | translate
+            }}</span>
+          </span>
+        </li>
+        <li class="nav-item">
           <span class="nav-link cp" (click)="logout()">
             <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
             <span data-key="t-dashboards">{{ "logout" | translate }}</span>

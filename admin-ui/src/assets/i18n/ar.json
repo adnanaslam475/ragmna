@@ -13,8 +13,12 @@
   "region": "المنطقة",
   "district": "الحي",
   "country": "Country",
-  "emailtemp":"قوالب الايميلات",
-  "notification":"رسائل تظهر للعميل",
+  "emailtemp": "قوالب الايميلات",
+  "notification": "رسائل تظهر للعميل",
+  "pgConfig":"Payment Gateway Configuration",
+  "pg": "Payment Gateway Config",
+  "smtp": "SMTP Config",
+
   "purposemanage": {
     "title": "الغرض",
     "titlear": "الغرض(Arabic)",
@@ -56,7 +60,7 @@
     "manageregion": "ادارة المناطق",
     "countryerr": "Country is required",
     "country": "Country",
-    "countrytitle":"Country Name"
+    "countrytitle": "Country Name"
   },
   "cities": {
     "title": "اسم المدينة",
@@ -73,7 +77,7 @@
     "regionerr": "المنطقة اجبارية",
     "countryerr": "Country is required",
     "country": "Country",
-    "countrytitle":"Country Name"
+    "countrytitle": "Country Name"
   },
   "districts": {
     "title": "اسم الحي",
@@ -86,7 +90,7 @@
     "cityerr": "خانة المدينة الزامية",
     "managedistrict": "ادارة الاحياء",
     "region": "المنطقة",
-    "country":"Country",
+    "country": "Country",
     "countryerr": "Country is required",
     "isrestricted": "هل هذه منطقة حرم؟",
     "restricted": "نعم - منطقة الحرم",
@@ -109,7 +113,7 @@
     "subjectlineerr": "Subject Line is required",
     "bodyerr": "Body is required",
     "managetemp": "Manage Template",
-    "dynamicline":"Use these for dynamic data replace"
+    "dynamicline": "Use these for dynamic data replace"
   },
   "notifications": {
     "title": "Notification Title",
@@ -127,6 +131,32 @@
     "servicetype": "Service Type",
     "cat": "Category",
     "upload": "Upload",
-    "amount": "Amount"
+    "amount": "Amount",
+    "manual": "Quote Type",
+    "manualQ": "Manual",
+    "automated": "Automated",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "paystatus":"Pay Status"
+  },
+  "pgconfig": {
+    "pgcode": "Payment Gateway",
+    "selectpg": "Select Payment Gateway",
+    "publishkey": "Publish Key",
+    "publisherr": "Publish Key is required"
+  },
+  "smtpconfig": {
+    "host": "Host Name",
+    "port": "Port No",
+    "secure": "Secure (SSL)",
+    "username": "UserName",
+    "pwd": "Password",
+    "fromemail": "From Email",
+    "fromname": "From Name",
+    "hosterr": "Host Name is required",
+    "porterr": "Port No is required",
+    "usernameerr": "Username is required",
+    "pwderr": "Password is required",
+    "fromemailerr": "From Email is required"
   }
 }

@@ -899,6 +899,21 @@ exports.updatepaystatus = async (req, res, next) => {
         });
 
         if (quoteResult && quoteResult.length > 0) {
+          let updateDataQ = {};
+          updateDataQ.ispaid = postData.ispaid;
+          await CommonModel.updateRecords(
+            {
+              table: "quote_master",
+              whereCon: [
+                {
+                  field: "quote_number",
+                  value: quoteResult[0]["quote_number"],
+                },
+              ],
+            },
+            updateDataQ
+          );
+
           const whenCondtion2 = [];
           whenCondtion2.push({ field: "code", value: "PAYMENTDONE" });
           let tempresult = await CommonModel.getRecords({
@@ -1359,6 +1374,25 @@ exports.getdistrictlist = async (req, res, next) => {
       page: getParams.page,
       pageSize: getParams.pageSize,
       totalPages: resultCount ? Math.ceil(totalPages) : 0,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+
+exports.getPGCred = async (req, res) => {
+  try {
+    let result = await CommonModel.getRecords({
+      table: "pg_config",
+      select: "id,	pg_code,publishkey",
+    });
+    res.status(201).json({
+      success: true,
+      items: result,
     });
   } catch (error) {
     console.log(error);

@@ -278,4 +278,28 @@ router.post(
   authUtil.ensureAuthenticated,
   adminController.updateFileToQuote
 );
+
+router.get(
+  "/smtp-config",
+  authUtil.ensureAuthenticated,
+  adminController.getSMTPConfig
+);
+
+router.put(
+  "/smtp-config",
+  authUtil.ensureAuthenticated,
+  adminController.updateSMTPConfig
+);
+
+router.get(
+  "/pg-config",
+  authUtil.ensureAuthenticated,
+  adminController.getPGConfig
+);
+
+router.put(
+  "/pg-config",
+  authUtil.ensureAuthenticated,
+  adminController.updatePGConfig
+);
 module.exports = router;

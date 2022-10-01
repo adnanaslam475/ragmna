@@ -63,6 +63,7 @@
   "login":"تسجيل الدخول",
   "signup":"تسجيل"  ,
   "signinsignup":"SignIn/SignUp",
+  "signout":"Logout",
   "quotes": {
     "qno": "Quote No",
     "customer": "Customer Name",

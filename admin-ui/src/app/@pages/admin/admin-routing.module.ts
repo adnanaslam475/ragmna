@@ -7,6 +7,8 @@ import { AreaDistrictComponent } from './area-district/area-district.component';
 import { AreaRegionComponent } from './area-region/area-region.component';
 import { BuildingPricingComponent } from './building-pricing/building-pricing.component';
 import { ConditionComponent } from './condition/condition.component';
+import { ConfigPgComponent } from './config-pg/config-pg.component';
+import { ConfigSmtpComponent } from './config-smtp/config-smtp.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { LandPricingComponent } from './land-pricing/land-pricing.component';
@@ -62,6 +64,14 @@ const routes: Routes = [
   {
     path: ROUTER_UTILS.config.admin.quotelist,
     component: QuoteListComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.pgconfig,
+    component: ConfigPgComponent,
+  },
+  {
+    path: ROUTER_UTILS.config.admin.smtpconfig,
+    component: ConfigSmtpComponent,
   },
 ];
 

@@ -1915,9 +1915,145 @@ exports.updateFileToQuote = async (req, res) => {
 };
 //#endregion
 
+//#region SMTP
+exports.getSMTPConfig = async (req, res) => {
+  try {
+    let result = await CommonModel.getRecords({
+      table: "smtp_configuration",
+      select: "id,	host,	port,secure,	username,	pwd	,from_email,	from_name",
+    });
+    res.status(201).json({
+      success: true,
+      items: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+
+exports.updateSMTPConfig = async (req, res) => {
+  try {
+    const postData = req.body;
+    if (!postData.host) {
+      res.status(201).json({ success: false, message: "Host is required." });
+      return;
+    }
+    if (!postData.port) {
+      res.status(201).json({ success: false, message: "Port is required." });
+      return;
+    }
+    let updateData = {};
+    if (postData.host) {
+      updateData.host = postData.host;
+    }
+
+    updateData.port = postData.port;
+
+    if (postData.secure) {
+      updateData.secure = postData.secure;
+    }
+    if (postData.username) {
+      updateData.username = postData.username;
+    }
+    if (postData.pwd) {
+      updateData.pwd = postData.pwd;
+    }
+    if (postData.fromemail) {
+      updateData.from_email = postData.fromemail;
+    }
+    if (postData.from_name) {
+      updateData.from_name = postData.from_name;
+    }
+    let updatedDataResult = await CommonModel.updateRecords(
+      {
+        table: "smtp_configuration",
+        whereCon: [{ field: "id", value: postData.id }],
+      },
+      updateData
+    );
+
+    if (updatedDataResult) {
+      res.status(201).json({
+        success: true,
+        message: "configuration updated successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: true,
+        message: "Record are not available to update.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+//#endregion
+
+//#region PG Config
+exports.getPGConfig = async (req, res) => {
+  try {
+    let result = await CommonModel.getRecords({
+      table: "pg_config",
+      select: "id,	pg_code,publishkey",
+    });
+    res.status(201).json({
+      success: true,
+      items: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+exports.updatePGConfig = async (req, res) => {
+  try {
+    const postData = req.body;
+    let updateData = {};
+    if (postData.publishkey) {
+      updateData.publishkey = postData.publishkey;
+    }
+    let updatedDataResult = await CommonModel.updateRecords(
+      {
+        table: "pg_config",
+        whereCon: [{ field: "pg_code", value: postData.code }],
+      },
+      updateData
+    );
+
+    if (updatedDataResult) {
+      res.status(201).json({
+        success: true,
+        message: "configuration updated successfully.",
+      });
+    } else {
+      res.status(201).json({
+        success: true,
+        message: "Record are not available to update.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+//#endregion
+
 exports.fileupload = async (req, res) => {
   try {
-   
     let _fileData = req.body.data;
     const buf = Buffer.from(_fileData, "base64");
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1936,7 +2072,6 @@ exports.fileupload = async (req, res) => {
       message: "There is some problem, please try again later.",
     });
   }
- 
 };
 exports.fobiddenRoute = function (req, res, next) {
   res.status(403).json({ message: "forbidden" });

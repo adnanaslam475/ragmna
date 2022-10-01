@@ -4,10 +4,13 @@
       <div class="card-header align-items-center d-flex">
         <h3 class="card-title mb-0 flex-grow-1">
           {{ "quotelist" | translate }}
+          <i class="mdi mdi-reload ml-3" (click)="getquoteList(1)"></i>
         </h3>
         <div class="flex-shrink-0">
           <div class="form-check form-switch form-switch-right form-switch-md">
-            <input type="text" class="form-control" placeholder="Search"  />
+            <input type="text" class="form-control" placeholder="Search"
+            #mysearch
+            (keyup)="searchData(mysearch.value)" />
           </div>
         </div>
       </div>
@@ -24,12 +27,14 @@
                 <th>{{ "quotes.servicetype" | translate }}</th>
                 <th>{{ "quotes.cat" | translate }}</th>
                 <th>{{ "quotes.amount" | translate }}</th>
+                <th>{{ "quotes.manual" | translate }}</th>
+                <th>{{ "quotes.paystatus" | translate }}</th>
                 <th>{{ "quotes.upload" | translate }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let rl of quoteList; let i = index">
-                <td>{{ i + 1 }}</td>
+              <tr *ngFor="let rl of unDetailsList; let i = index">
+                <td>{{ rl.rank }}</td>
                 <td>{{ rl.quote_number }}</td>
                 <td>{{ rl.fname }} {{ rl.lname }}</td>
                 <td>{{ rl.email }}</td>
@@ -37,6 +42,25 @@
                 <td>{{ rl.service_type }}</td>
                 <td>{{ rl.categorycode }}</td>
                 <td>SAR {{ rl.amount }}</td>
+                <td>
+                  <span class="badge bg-info" *ngIf="rl.isrestricted == 1">
+                    {{ "quotes.manualQ" | translate }}
+                  </span>
+                  <span
+                    class="badge bg-primary"
+                    *ngIf="rl.isrestricted == 0"
+                  >
+                    {{ "quotes.automated" | translate }}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge bg-danger" *ngIf="rl.ispaid == 0">
+                    {{ "quotes.unpaid" | translate }}
+                  </span>
+                  <span class="badge bg-success" *ngIf="rl.ispaid == 1">
+                    {{ "quotes.paid" | translate }}
+                  </span>
+                </td>
                 <td>
                   <div class="image-upload">
                     <label for="file-input_{{ rl.id }}">
@@ -65,6 +89,14 @@
               </tr>
             </tbody>
           </table>
+          <app-z-pagination
+            class="pagination pgntion-main-sec"
+            *ngIf="unDetailsList!.length > 0"
+            [totalRecords]="totalRecords"
+            [recordsPerPage]="itemPerPage"
+            (onPageChange)="DisplayActivePage($event)"
+          >
+          </app-z-pagination>
         </div>
       </div>
     </div>

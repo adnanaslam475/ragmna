@@ -44,7 +44,7 @@ module.exports.getRecords = function (params) {
               con = `${element.field} ${element.extraCondition} '${element.value}'`;
             }
           }
-          console.log("con",con);
+          console.log("con", con);
           whereStr.push(con);
         });
         var str1 = whereStr.join(" AND ");
@@ -73,7 +73,7 @@ module.exports.getRecords = function (params) {
               con = `${element.field} ${element.extraCondition} '${element.value}'`;
             }
           }
-       
+
           whereStrOr.push(con);
         });
         var str1 = "";
@@ -92,9 +92,8 @@ module.exports.getRecords = function (params) {
       if (params.groupBy) {
         str = str + ` GROUP BY ${params.groupBy}`;
       }
-     
+
       if (params.orderBy) {
-       
         str = str + ` ORDER BY ${params.orderBy.field} ${params.orderBy.order}`;
         if (params.orderBy.limit && !params.pagination) {
           str = str + ` LIMIT ${params.orderBy.limit}`;
@@ -398,17 +397,39 @@ module.exports.stringIsAValidUrl = function (urlVal) {
  * Send Email
  */
 module.exports.sendEmail = function (mailOptions) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    let resultSMTP = await this.getRecords({
+      whereCon: [],
+      table: "smtp_configuration",
+      select: "host,	port,secure,	username,	pwd	,from_email",
+    });
+
+    let _host = config.SMTP_HOST;
+    let _port = config.SMTP_PORT;
+    let _secure = false;
+    let _username = config.SMTP_USERNAME;
+    let _pwd = config.SMTP_PASSWORD;
+
+    if (resultSMTP && resultSMTP.length > 0) {
+      const _result = resultSMTP[0];
+
+      (_host = _result["host"]),
+        (_port = _result["port"]),
+        (_secure = _result["secure"] == 0 ? false : true),
+        (_username = _result["username"]),
+        (_pwd = _result["pwd"]);
+    }
+
     var transporter = nodemailer.createTransport({
-      host: config.SMTP_HOST,
-      port: config.SMTP_PORT,
-      secure: false,
+      host: _host,
+      port: _port,
+      secure: _secure,
       tls: {
         rejectUnauthorized: false,
       },
       auth: {
-        user: config.SMTP_USERNAME,
-        pass: config.SMTP_PASSWORD,
+        user: _username,
+        pass: _pwd,
       },
     });
     transporter.sendMail(mailOptions, function (err, info) {
@@ -424,14 +445,13 @@ module.exports.sendEmail = function (mailOptions) {
 };
 
 module.exports.getNextVal = function (seq_name) {
-  console.log(seq_name)
+  console.log(seq_name);
   return new Promise(async (resolve, reject) => {
     let result = await this.getRecords({
       whereCon: [{ field: "name", value: seq_name }],
       table: "sequence",
       select: "cur_value,increment",
     });
-    console.log(result);
     let current_val = result[0]["cur_value"];
 
     if (result) {
@@ -458,5 +478,5 @@ module.exports.getNextVal = function (seq_name) {
 };
 
 // module.exports.generateQuoteInvoice = function (invoiceModel) {
-  
+
 // };

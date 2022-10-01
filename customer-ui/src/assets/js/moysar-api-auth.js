@@ -15,7 +15,8 @@ Moyasar.init({
   description: sessionStorage.getItem("moysardesc"),
 
   // Required
-  publishable_api_key: "pk_test_jYdnEJ8m5WZm49qvYLZ776bUEX2UgBAWvXuuyiTy",
+  publishable_api_key: localStorage.getItem('moysarkey'),
+  //publishable_api_key: "pk_test_jYdnEJ8m5WZm49qvYLZ776bUEX2UgBAWvXuuyiTy",
   //LIVE
   // publishable_api_key: "pk_live_Xq8PiJvGvZ4wyw9KfupTfTxh8dmttTDEgiXQisrK",
 

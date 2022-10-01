@@ -21,6 +21,8 @@ export const ROUTER_UTILS = {
       msgonscreen: 'msg-on-screen',
       emaitemplate: 'email-template',
       quotelist: 'quote-list',
+      pgconfig: 'pg-config',
+      smtpconfig: 'smtp-config',
     },
     errorResponse: {
       notFound: '404',

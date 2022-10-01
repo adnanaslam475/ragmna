@@ -86,4 +86,7 @@ router.get(
 /* GET Conditions */
 router.get("/condition-list", customerController.getAllConditions);
 
+/* GET Conditions */
+router.get("/pg-config", customerController.getPGCred);
+
 module.exports = router;

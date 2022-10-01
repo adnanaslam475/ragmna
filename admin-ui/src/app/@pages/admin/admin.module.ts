@@ -19,6 +19,9 @@ import { EmailTemplateComponent } from './email-template/email-template.componen
 import { MsgonscreenComponent } from './msgonscreen/msgonscreen.component';
 import { QuoteListComponent } from './quote-list/quote-list.component';
 import { LoaderComponent } from './loader/loader.component';
+import { ZPaginationComponent } from './z-pagination/z-pagination.component';
+import { ConfigPgComponent } from './config-pg/config-pg.component';
+import { ConfigSmtpComponent } from './config-smtp/config-smtp.component';
 
 
 @NgModule({
@@ -35,7 +38,10 @@ import { LoaderComponent } from './loader/loader.component';
     EmailTemplateComponent,
     MsgonscreenComponent,
     QuoteListComponent,
-    LoaderComponent
+    LoaderComponent,
+    ZPaginationComponent,
+    ConfigPgComponent,
+    ConfigSmtpComponent
   ],
   imports: [
     CommonModule,

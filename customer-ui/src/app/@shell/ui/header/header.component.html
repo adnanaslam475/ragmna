@@ -55,13 +55,22 @@
               {{ "vehcleacc" | translate }}
             </a>
           </li>
-          <li class="main-menu__item">
+          <li class="main-menu__item" *ngIf="appservice.isLoggedIn">
             <a
               class="main-menu__link"
               href="javascript:void(0);"
               routerLink="/my-quote-history"
             >
               {{ "myquotes" | translate }}
+            </a>
+          </li>
+          <li class="main-menu__item" *ngIf="appservice.isLoggedIn">
+            <a
+              class="main-menu__link"
+              href="javascript:void(0);"
+              (click)="logout()"
+            >
+              {{ "Logout" | translate }}
             </a>
           </li>
           <li class="main-menu__item">

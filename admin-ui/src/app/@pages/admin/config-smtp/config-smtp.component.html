@@ -1,0 +1,178 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header align-items-center d-flex">
+        <h3 class="card-title mb-0 flex-grow-1">
+          {{ "smtp" | translate }}
+        </h3>
+        <div class="flex-shrink-0"></div>
+      </div>
+      <!-- end card header -->
+      <div class="card-body">
+        <div class="live-preview">
+          <form [formGroup]="form" (ngSubmit)="submitData()">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "smtpconfig.host" | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    min="0"
+                    formControlName="host"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['host'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['host'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['host'].errors['required']">
+                      {{ "smtpconfig.hosterr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "smtpconfig.port" | translate }}</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    min="0"
+                    formControlName="port"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['port'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['port'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['port'].errors['required']">
+                      {{ "smtpconfig.porterr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "smtpconfig.username" | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    min="0"
+                    formControlName="username"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['username'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['username'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['username'].errors['required']">
+                      {{ "smtpconfig.usernameerr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "smtpconfig.pwd" | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    min="0"
+                    formControlName="pwd"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['pwd'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['pwd'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['pwd'].errors['required']">
+                      {{ "smtpconfig.pwderr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "smtpconfig.fromemail" | translate }}</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    min="0"
+                    formControlName="fromemail"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['pwd'].errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f['fromemail'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['fromemail'].errors['required']">
+                      {{ "smtpconfig.fromemailerr" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="firstNameinput" class="form-label">
+                    {{ "smtpconfig.secure" | translate }}</label
+                  >
+                  <select class="form-select" formControlName="secure">
+                    <option value="0">No</option>
+                    <option value="0">Yes</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-8">
+                <div class="text-start">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    *ngIf="!isloading"
+                  >
+                    {{ "submit" | translate }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    *ngIf="isloading"
+                  >
+                    <span
+                      class="spinner-border"
+                      role="status"
+                      aria-hidden="true"
+                    >
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

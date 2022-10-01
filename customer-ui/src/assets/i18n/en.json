@@ -64,6 +64,7 @@
   "signup":"Signup" ,
   "signinsignup":"SignIn/SignUp",
   "quotelist":"My Quotes",
+  "signout":"Logout",
   "quotes": {
     "qno": "Quote No",
     "customer": "Customer Name",
