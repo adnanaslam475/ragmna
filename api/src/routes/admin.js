@@ -302,4 +302,11 @@ router.put(
   authUtil.ensureAuthenticated,
   adminController.updatePGConfig
 );
+
+router.get(
+  "/dashboard",
+  authUtil.ensureAuthenticated,
+  adminController.getDashboardData
+);
+
 module.exports = router;

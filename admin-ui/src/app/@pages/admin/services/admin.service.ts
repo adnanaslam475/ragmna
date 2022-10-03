@@ -355,6 +355,14 @@ export class AdminService {
       .pipe(retry(1), catchError(this.handleError));
   }
   //#endregion
+
+  //#region Dashboard Data
+  getDashboardData() {
+    return this.http
+      .get(environment.apiUrl + 'admin/dashboard', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  //#endregion
   //#region COMMON METHODS
   handleError(error: any) {
     let errorMessage = '';

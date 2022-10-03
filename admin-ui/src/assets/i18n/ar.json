@@ -158,5 +158,19 @@
     "usernameerr": "Username is required",
     "pwderr": "Password is required",
     "fromemailerr": "From Email is required"
+  },
+  "dashboarddata": {
+    "totquote": "Quotes",
+    "totquotedesc": "Number of Total Quotes online",
+    "totcquote": "Quotes (this month)",
+    "totcquotedesc": "Quotes this month",
+    "openorder": "Open Order",
+    "openorderdesc": "Total Open Order  (no download)",
+    "manquote": "Manual Quotes",
+    "manquotedesc": "Total Manual Quotes (restricted)",
+    "totalpay": "Payment (Overall)",
+    "totalpaydesc": "Total Payment Amount (Overall)",
+    "totalcpay": "Payment (This month)",
+    "totalcpaydesc": "Total Payment Amount (This month)"
   }
 }

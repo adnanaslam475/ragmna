@@ -2050,8 +2050,42 @@ exports.updatePGConfig = async (req, res) => {
     });
   }
 };
+
 //#endregion
 
+//#region DASHBOARD
+
+exports.getDashboardData = async (req, res) => {
+  try {
+    let result = await CommonModel.getRecords({
+      table: "sequence",
+      select: `cycle,
+      (SELECT COUNT(1) FROM quote_master) AS TotalQuote,
+      (SELECT COUNT(1) FROM quote_master WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()))
+      As TotalCQuote,
+      (SELECT COUNT(1) FROM quote_master WHERE valuation_url is null) As OpenOrder,
+      (SELECT COUNT(1) FROM quote_master WHERE isrestricted = 1) As ManualQuotes,
+      (SELECT COUNT(1) FROM quote_master WHERE isrestricted = 1 AND
+      MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())) As ManualCQuotes,
+      (SELECT SUM(total_amount) FROM quote_payment WHERE issuccess =1 ) As TotalPayment,
+      (SELECT SUM(total_amount) FROM quote_payment
+      WHERE issuccess = 1 AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())) As TotalCPayment`,
+
+      orderBy: { field: "cycle", order: "asc", limit: "1" },
+    });
+    res.status(201).json({
+      success: true,
+      items: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+//#endregion
 exports.fileupload = async (req, res) => {
   try {
     let _fileData = req.body.data;
