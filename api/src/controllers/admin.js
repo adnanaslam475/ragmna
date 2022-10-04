@@ -1755,8 +1755,7 @@ exports.getallquotes = async (req, res) => {
     let resultquote = await CommonModel.getRecords({
       whereCon: [],
       table: "quote_master q",
-      select:
-        "q.*,qi.fname,qi.lname,qi.contact_no,qi.email",
+      select: "q.*,qi.fname,qi.lname,qi.contact_no,qi.email",
       join: [
         {
           joinType: "INNER JOIN",
@@ -2094,7 +2093,7 @@ exports.getDashboardData = async (req, res) => {
       (SELECT COUNT(1) FROM quote_master) AS TotalQuote,
       (SELECT COUNT(1) FROM quote_master WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()))
       As TotalCQuote,
-      (SELECT COUNT(1) FROM quote_master WHERE valuation_url is null) As OpenOrder,
+      (SELECT COUNT(DISTINCT(fk_quote_id)) FROM quote_upload_doc) As OpenOrder,
       (SELECT COUNT(1) FROM quote_master WHERE isrestricted = 1) As ManualQuotes,
       (SELECT COUNT(1) FROM quote_master WHERE isrestricted = 1 AND
       MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())) As ManualCQuotes,

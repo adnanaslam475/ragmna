@@ -81,7 +81,7 @@
                 <div class="d-flex align-items-center mb-3">
                   <h4 class="fs-4 flex-grow-1 mb-0">
                     <span class="counter-value" data-target="7522">{{
-                      dashboardData?.OpenOrder
+                      dashboardData?.TotalQuote - dashboardData?.OpenOrder
                     }}</span>
                   </h4>
                   <!-- <span class="badge badge-soft-success fs-12"
@@ -217,9 +217,7 @@
         <h4 class="card-title mb-0 flex-grow-1">
           {{ "quotelist" | translate }}
         </h4>
-        <div class="flex-shrink-0">
-        
-        </div>
+        <div class="flex-shrink-0"></div>
       </div>
       <div class="card-body">
         <div class="table-responsive table-card">
