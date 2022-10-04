@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../services/admin.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-quote-list',
   templateUrl: './quote-list.component.html',
@@ -17,14 +19,20 @@ export class QuoteListComponent implements OnInit {
   activePage: number = 1;
   itemPerPage: number = 10;
   totalRecords: number = 0;
+  currentQuote: string = '';
+  allquotesDocList: any = [];
+  currentQuoteDocList: any = [];
 
   constructor(
     private adminService: AdminService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal,
+    private httpClient: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.getquoteList(1);
+    this.getAllQuoteDoc();
   }
   getquoteList(currentPage: number) {
     this.adminService.getAllQuotes().subscribe((data: any) => {
@@ -47,56 +55,63 @@ export class QuoteListComponent implements OnInit {
       }
     });
   }
-  onFileSelection(event: any, quoteid: string) {
-    this.base64Output = '';
-    this.fileName = '';
-    this.fileName = event.target.files[0].name;
-    this.fileext = this.fileName.slice(
-      ((this.fileName.lastIndexOf('.') - 1) >>> 0) + 2
-    );
-    this.handleUpload(event, quoteid);
-  }
-
-  handleUpload(event: any, quoteid: string) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.isloading = true;
-      this.base64Output = reader.result!.toString();
-      if (this.base64Output != '') {
-        let _req = {
-          data: this.base64Output.split(',')[1],
-          filename: this.adminService.getName() + '.' + this.fileext,
-        };
-        this.adminService.uploadFile(_req).subscribe((data: any) => {
-          this.blobURL = data['data'];
-          let _reqFile = {
-            quoteno: quoteid,
-            url: this.blobURL,
-          };
-          this.adminService
-            .updateFileAgainstQuote(_reqFile)
-            .subscribe((data: any) => {
-              this.isloading = false;
-              if (data && data.success) {
-                this.toastr.success('file upload successfully');
-                this.getquoteList(1);
-              } else {
-                this.toastr.error('Something went wrong uploading');
-              }
-            });
-        });
-      } else {
-        this.isloading = false;
+  getAllQuoteDoc() {
+    this.adminService.getAllQuotesDoc().subscribe((data: any) => {
+      if (data && data.success) {
+        this.allquotesDocList = data['items'];
       }
-    };
-    if (file.size / 1024 / 1024 > 5) {
-      this.toastr.error('file is bigger than 1MB, please upload a new file');
-      this.base64Output = '';
-      this.fileName = '';
-    }
+    });
   }
+  // onFileSelection(event: any, quoteid: string) {
+  //   this.base64Output = '';
+  //   this.fileName = '';
+  //   this.fileName = event.target.files[0].name;
+  //   this.fileext = this.fileName.slice(
+  //     ((this.fileName.lastIndexOf('.') - 1) >>> 0) + 2
+  //   );
+  //   this.handleUpload(event, quoteid);
+  // }
+
+  // handleUpload(event: any, quoteid: string) {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onload = () => {
+  //     this.isloading = true;
+  //     this.base64Output = reader.result!.toString();
+  //     if (this.base64Output != '') {
+  //       let _req = {
+  //         data: this.base64Output.split(',')[1],
+  //         filename: this.adminService.getName() + '.' + this.fileext,
+  //       };
+  //       this.adminService.uploadFile(_req).subscribe((data: any) => {
+  //         this.blobURL = data['data'];
+  //         let _reqFile = {
+  //           quoteno: quoteid,
+  //           url: this.blobURL,
+  //         };
+  //         this.adminService
+  //           .updateFileAgainstQuote(_reqFile)
+  //           .subscribe((data: any) => {
+  //             this.isloading = false;
+  //             if (data && data.success) {
+  //               this.toastr.success('file upload successfully');
+  //               this.getquoteList(1);
+  //             } else {
+  //               this.toastr.error('Something went wrong uploading');
+  //             }
+  //           });
+  //       });
+  //     } else {
+  //       this.isloading = false;
+  //     }
+  //   };
+  //   if (file.size / 1024 / 1024 > 5) {
+  //     this.toastr.error('file is bigger than 1MB, please upload a new file');
+  //     this.base64Output = '';
+  //     this.fileName = '';
+  //   }
+  // }
   getConfigList(currentPage: number) {
     let perPage = this.itemPerPage * (currentPage - 1);
     this.unDetailsList = this.quoteList.filter(
@@ -173,5 +188,86 @@ export class QuoteListComponent implements OnInit {
           x.rank >= perPage + 1 && x.rank <= perPage + this.itemPerPage
       );
     }
+  }
+
+  openFile(data: any, qNo: string) {
+    this.currentQuote = qNo;
+    this.modalService.open(data, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false,
+    });
+    this.currentQuoteDocList = this.allquotesDocList.filter(
+      (f: any) => f.qno == qNo
+    );
+  }
+  onFileSelectionM(event: any) {
+    this.base64Output = '';
+    this.fileName = '';
+    this.fileName = event.target.files[0].name;
+    this.fileext = this.fileName.slice(
+      ((this.fileName.lastIndexOf('.') - 1) >>> 0) + 2
+    );
+    this.handleUploadM(event);
+  }
+
+  handleUploadM(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.base64Output = reader.result!.toString();
+    };
+    if (file.size / 1024 / 1024 > 5) {
+      this.toastr.error('file is bigger than 5MB, please upload a new file');
+      this.base64Output = '';
+      this.fileName = '';
+    }
+  }
+  uploadTOQuote() {
+    this.isloading = true;
+
+    if (this.base64Output != '') {
+      let _req = {
+        data: this.base64Output.split(',')[1],
+        filename: this.adminService.getName() + '.' + this.fileext,
+      };
+      this.adminService.uploadFile(_req).subscribe((data: any) => {
+        this.blobURL = data['data'];
+        let _reqFile = {
+          quoteno: this.currentQuote,
+          url: this.blobURL,
+        };
+        this.adminService
+          .updateFileAgainstQuote(_reqFile)
+          .subscribe((data: any) => {
+            if (data && data.success) {
+              this.toastr.success('file upload successfully');
+              this.getAllQuoteDoc();
+              setTimeout(() => {
+                this.modalService.dismissAll();
+                this.isloading = false;
+              }, 1500);
+            } else {
+              this.toastr.error('Something went wrong uploading');
+              this.isloading = false;
+            }
+          });
+      });
+    } else {
+      this.isloading = false;
+      this.toastr.warning('Please select a file to upload');
+    }
+  }
+  viewPDF(_pdfurl: string) {
+    this.isloading = true;
+    this.httpClient
+      .get(_pdfurl, { responseType: 'arraybuffer' })
+      .subscribe((data: BlobPart) => {
+        var file = new Blob([data], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+        this.isloading = false;
+      });
   }
 }

@@ -1002,6 +1002,36 @@ exports.updateCustomerByQuote = async (req, res) => {
   }
 };
 
+exports.getMyQuoteDocs = async (req, res) => {
+  try {
+    const whenCondtion = [];
+    whenCondtion.push({ field: "fk_user_id", value: req.decoded.id });
+    let result = await CommonModel.getRecords({
+      whereCon: whenCondtion,
+      table: "quote_master q",
+      select: "q.*,qi.fileurl",
+      join: [
+        {
+          joinType: "INNER JOIN",
+          joinWith: "quote_upload_doc qi",
+          joinCondition: "q.id = qi.fk_quote_id",
+        },
+      ],
+    });
+    if (result) {
+      res.status(201).json({
+        success: true,
+        items: result,
+        message: "Fetch data successfully",
+      });
+    } else {
+      res.status(201).json({
+        success: false,
+        message: "There is some problem, please try again later.",
+      });
+    }
+  } catch (error) {}
+};
 exports.getMyQuoteHistory = async (req, res) => {
   try {
     const whenCondtion = [];

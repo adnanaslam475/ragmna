@@ -21,19 +21,23 @@
           <tbody>
             <tr *ngFor="let rl of quoteList; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ rl.quote_number }}</td>             
+              <td>{{ rl.quote_number }}</td>
               <td>{{ rl.service_type }}</td>
               <td>{{ rl.categorycode }}</td>
               <td>SAR {{ rl.amount }}</td>
               <td>
-                <a
+                <i
+                  class="fas fa-download"
+                  (click)="openFile(modalCenter, rl.quote_number)"
+                ></i>
+                <!-- <a
                   href="{{ rl.valuation_url }}"
                   *ngIf="rl.valuation_url"
                   target="_blank"
                   title="download"
                 >
                   <i class="fas fa-download"> </i
-                ></a>
+                ></a> -->
               </td>
             </tr>
           </tbody>
@@ -43,3 +47,52 @@
   </div>
 </section>
 <app-loader *ngIf="isloading"></app-loader>
+<ng-template #modalCenter let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modalCenterTitle">#{{ currentQuote }}</h4>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="modal.dismiss('Close')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <table
+            class="table table-bordered table-centered align-middle table-nowrap mb-0 text-center"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Download</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let al of currentQuoteDocList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <a href="{{ al.fileurl }}" target="_blank">
+                   <i class="fas fa-download"></i>
+                  </a>
+                </td>
+                <td>
+                  <i
+                    class="fas fa-eye"
+                    (click)="viewPDF(al.fileurl)"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-5"></div>
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+</ng-template>

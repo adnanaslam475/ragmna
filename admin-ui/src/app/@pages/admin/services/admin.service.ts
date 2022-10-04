@@ -304,6 +304,11 @@ export class AdminService {
       .get(environment.apiUrl + 'admin/all-quotes', this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
   }
+  getAllQuotesDoc() {
+    return this.http
+      .get(environment.apiUrl + 'admin/all-quotes-doc', this.httpOptions)
+      .pipe(retry(1), catchError(this.handleError));
+  }
   uploadFile(fileData: any) {
     return this.http
       .post(

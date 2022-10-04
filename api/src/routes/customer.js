@@ -83,6 +83,12 @@ router.get(
   customerController.getMyQuoteHistory
 );
 
+/* get all quotes doc*/
+router.get(
+  "/quote-docs-by-user",
+  authUtil.ensureAuthenticated,
+  customerController.getMyQuoteDocs
+);
 /* GET Conditions */
 router.get("/condition-list", customerController.getAllConditions);
 

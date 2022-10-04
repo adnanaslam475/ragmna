@@ -1755,7 +1755,8 @@ exports.getallquotes = async (req, res) => {
     let resultquote = await CommonModel.getRecords({
       whereCon: [],
       table: "quote_master q",
-      select: "q.*,qi.fname,qi.lname,qi.contact_no,qi.email",
+      select:
+        "q.*,qi.fname,qi.lname,qi.contact_no,qi.email",
       join: [
         {
           joinType: "INNER JOIN",
@@ -1764,6 +1765,34 @@ exports.getallquotes = async (req, res) => {
         },
       ],
       orderBy: { field: "q.id", order: "desc" },
+    });
+    res.status(201).json({
+      success: true,
+      items: resultquote,
+      message: "data retrieve successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(201).json({
+      success: false,
+      message: "There is some problem, please try again later.",
+    });
+  }
+};
+exports.getAllQuotesDoc = async (req, res) => {
+  try {
+    let resultquote = await CommonModel.getRecords({
+      whereCon: [],
+      table: "quote_upload_doc qi",
+      select: "qi.*,q.quote_number as qno",
+      join: [
+        {
+          joinType: "INNER JOIN",
+          joinWith: "quote_master q",
+          joinCondition: "q.id = qi.fk_quote_id",
+        },
+      ],
+      orderBy: { field: "qi.id", order: "desc" },
     });
     res.status(201).json({
       success: true,
@@ -1879,22 +1908,24 @@ exports.updateFileToQuote = async (req, res) => {
         .json({ success: false, message: "File URL is required." });
       return;
     }
+    const whenCondtion = [];
+    whenCondtion.push({ field: "quote_number", value: postData.quoteno });
 
-    let updateData = {};
+    let getQuoteId = await CommonModel.getRecords({
+      whereCon: whenCondtion,
+      table: "quote_master",
+      select: "id",
+    });
 
-    if (postData.url) {
-      updateData.valuation_url = postData.url;
-    }
-
-    let updatedDataResult = await CommonModel.updateRecords(
+    let addData = await CommonModel.insertRecords(
       {
-        table: "quote_master",
-        whereCon: [{ field: "quote_number", value: postData.quoteno }],
+        fk_quote_id: getQuoteId[0]["id"],
+        fileurl: postData.url,
       },
-      updateData
+      "quote_upload_doc"
     );
 
-    if (updatedDataResult) {
+    if (addData) {
       res.status(201).json({
         success: true,
         message: "message updated successfully.",

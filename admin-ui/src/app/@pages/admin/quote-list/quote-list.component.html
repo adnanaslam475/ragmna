@@ -8,9 +8,13 @@
         </h3>
         <div class="flex-shrink-0">
           <div class="form-check form-switch form-switch-right form-switch-md">
-            <input type="text" class="form-control" placeholder="Search"
-            #mysearch
-            (keyup)="searchData(mysearch.value)" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search"
+              #mysearch
+              (keyup)="searchData(mysearch.value)"
+            />
           </div>
         </div>
       </div>
@@ -46,10 +50,7 @@
                   <span class="badge bg-info" *ngIf="rl.isrestricted == 1">
                     {{ "quotes.manualQ" | translate }}
                   </span>
-                  <span
-                    class="badge bg-primary"
-                    *ngIf="rl.isrestricted == 0"
-                  >
+                  <span class="badge bg-primary" *ngIf="rl.isrestricted == 0">
                     {{ "quotes.automated" | translate }}
                   </span>
                 </td>
@@ -63,12 +64,12 @@
                 </td>
                 <td>
                   <div class="image-upload">
-                    <label for="file-input_{{ rl.id }}">
-                      <i
-                        class="mdi mdi-cloud-upload mdi-24px"
-                        title="upload"
-                      ></i>
-                      &nbsp;&nbsp;
+                    <i
+                      class="mdi mdi-cloud-upload mdi-24px"
+                      title="upload"
+                      (click)="openFile(modalCenter, rl.quote_number)"
+                    ></i>
+                    <!-- &nbsp;&nbsp;
                       <a
                         href="{{ rl.valuation_url }}"
                         *ngIf="rl.valuation_url"
@@ -76,14 +77,13 @@
                         title="download"
                       >
                         <i class="mdi mdi-cloud-download ml-3 mdi-24px"> </i
-                      ></a>
-                    </label>
+                      ></a> -->
 
-                    <input
+                    <!-- <input
                       id="file-input_{{ rl.id }}"
                       type="file"
                       (change)="onFileSelection($event, rl.quote_number)"
-                    />
+                    /> -->
                   </div>
                 </td>
               </tr>
@@ -103,3 +103,68 @@
   </div>
 </div>
 <app-loader *ngIf="isloading"></app-loader>
+<ng-template #modalCenter let-modal> 
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modalCenterTitle">#{{ currentQuote }}</h4>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="modal.dismiss('Close')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <input
+            type="file"
+            class="form-control"
+            (change)="onFileSelectionM($event)"
+          />
+        </div>
+        <div class="col-md-6">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="uploadTOQuote()"
+          >
+            Upload It
+          </button>
+        </div>
+      </div>
+      <div class="row mt-3">
+    
+        <div class="col-md-6">
+          <table
+            class="table table-bordered table-centered align-middle table-nowrap mb-0 text-center"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Download</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let al of currentQuoteDocList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <a href="{{ al.fileurl }}" target="_blank">
+                    <i class="mdi mdi-download mdi-24px"></i
+                  ></a>
+                </td>
+                <td>
+                  <i class="mdi mdi-eye mdi-24px" (click)="viewPDF(al.fileurl)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-5"></div>
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+</ng-template>

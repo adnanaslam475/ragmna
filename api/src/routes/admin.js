@@ -266,7 +266,11 @@ router.get(
   authUtil.ensureAuthenticated,
   adminController.getallquotes
 );
-
+router.get(
+  "/all-quotes-doc",
+  authUtil.ensureAuthenticated,
+  adminController.getAllQuotesDoc
+);
 router.post(
   "/upload-file",
   authUtil.ensureAuthenticated,

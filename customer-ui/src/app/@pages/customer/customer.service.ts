@@ -139,6 +139,17 @@ export class CustomerService {
         .pipe(retry(1), catchError(this.handleError));
     }
   }
+  getMyQuoteDocs() {
+    const _authToken = localStorage.getItem('App/auth')!.toString();
+    const httpOptions2 = {
+      headers: new HttpHeaders({
+        authorization: _authToken,
+      }),
+    };
+    return this.http
+      .get(environment.apiUrl + 'cust/quote-docs-by-user', httpOptions2)
+      .pipe(retry(1), catchError(this.handleError));
+  }
   updateCustId(postData: any) {
     debugger;
     const _authToken = localStorage.getItem('App/auth')?.toString();
