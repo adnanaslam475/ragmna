@@ -108,9 +108,15 @@ export const messages = {
         'steps': 'STEPS TO OBRAIN YOUR VALUATION:',
         'generalsteps': 'General information of your assets',
         'contct': 'Your contact information',
+        'contactus': 'Contact Us',
+        'privacy': 'Privacy policy',
+        'termscond': 'Terms & Conditions',
+        'services': 'Services',
+        'support': 'Support',
+
 
         'ifassets': 'If the assets are within the categories, pay and obtain the valuer.',
-
+        'rights': '© 2022 Ragmna_Hobitality All rights reserved.',
         "quotes": {
             "qno": "Quote No",
             "customer": "Customer Name",
@@ -128,6 +134,10 @@ export const messages = {
         "title2": "Quotes And Save Money",
         "realestate": "اصول العقارية",
         'land': 'بلد',
+        'rights': '© 2022 Ragmna_Hobitality جميع الحقوق محفوظة.',
+        'contactus': 'اتصل بنا',
+        'privacy': 'سياسة الخصوصية',
+        'termscond': 'البنود و الظروف',
         "instit": "منشأت اقتصادية",
         'realstateeval': 'التثمين العقاري:',
         'getval': 'احصل على قيمة عقارك مع المقيم الرسمي المعتمد',
@@ -139,8 +149,8 @@ export const messages = {
         'generalsteps': 'معلومات عامة عن الأصول الخاصة بك',
         'contct': 'معلومات الاتصال الخاصة بك',
         'ifassets': 'إذا كانت الأصول ضمن الفئات ، ادفع واحصل على المثمن.',
-
-
+        'services': 'خدمات',
+        'support': 'الدعم',
 
         'gettrueval': 'احصل على القيمة الحقيقية لعملك باتباع أفضل الممارسات',
         'select': 'يختار',

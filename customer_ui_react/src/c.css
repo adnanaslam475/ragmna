@@ -7006,6 +7006,9 @@ fieldset:disabled .btn {
 .font-monospace {
   font-family: var(--bs-font-monospace) !important;
 }
+.b-1{
+  border: 1px solid red;
+}
 .fs-1 {
   font-size: calc(1.375rem + 1.5vw) !important;
 }

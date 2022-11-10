@@ -28,19 +28,12 @@ const Navbar = ({ modalHandler }) => {
   return (
     <>
       <AppBar
-        lang={lang}
-        // dir={dir}
+      // dir={dir}
       >
-        <Nav
-          lang={lang}
-          //  dir={dir}
-        >
+        <Nav>
           <img src={L} alt="" />
           <Bars />
-          <NavMenu
-            //  dir={dir}
-            lang={lang}
-          >
+          <NavMenu>
             {[
               { id: "realestate" },
               { id: "instit" },

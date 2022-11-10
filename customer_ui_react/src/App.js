@@ -165,7 +165,7 @@ function App() {
       locale={lang}
       defaultLocale={LOCALES.ENGLISH}>
       <Header modalHandler={() => setOpenLoginModal(true)} />
-      <div
+      <div dir={dir}
         style={{ minHeight: '600px', }}
         className='first__section d-flex flex-column m-auto align-items-center justify-content-center'>
         <h1>
@@ -174,7 +174,7 @@ function App() {
         <p>
           <FormattedMessage id='banner_p' />
         </p>
-        <div className='d-flex flex-row'>
+        <div className='d-flex flex-row' >
           {arr.map(v => <div
             key={v.name} onClick={() => setselect(v.name)}
             className='text-center outerone'>
@@ -199,32 +199,34 @@ function App() {
           <img src={XMLID_1_} alt='' className='m-auto' />
         </Grid>
         <Grid item md={6} xs={12} lg={6} xl={6} sm={6} className='d-flex flex-column m-auto'>
-          <h2>
-            <FormattedMessage id='abouttheplatform' />
-          </h2>
-          <p><FormattedMessage id='ourgoal' values={{
-            b: (chunks) => <strong>{chunks}</strong>
-          }} /></p>
+          <div dir={dir}>
+            <h2 >
+              <FormattedMessage id='abouttheplatform' />
+            </h2>
+            <p><FormattedMessage id='ourgoal' values={{
+              b: (chunks) => <strong>{chunks}</strong>
+            }} /></p>
+          </div>
         </Grid>
       </Grid>
 
       {/* //second  info section  */}
       <Grid className='first m-auto' container>
         <Grid item md={6} xs={12} lg={6} xl={6} sm={6} className='d-flex flex-column m-auto'>
-          <h2>
+          <div dir={dir}>  <h2>
             <FormattedMessage id='ourproducts' />
           </h2>
-          <FormattedMessage id='obtaineval' />
-          <ul>
-            <li>
-              <FormattedMessage id='realstateeval' />
-              <p><FormattedMessage id='getval' /></p>
-            </li>
-            <li><FormattedMessage id='businessval' />
-              <p><FormattedMessage id='gettrueval' /></p>
-            </li>
-          </ul>
-
+            <FormattedMessage id='obtaineval' />
+            <ul>
+              <li>
+                <FormattedMessage id='realstateeval' />
+                <p><FormattedMessage id='getval' /></p>
+              </li>
+              <li><FormattedMessage id='businessval' />
+                <p><FormattedMessage id='gettrueval' /></p>
+              </li>
+            </ul>
+          </div>
         </Grid>
         <Grid item md={6} className='d-flex' xs={12} lg={6} xl={6} sm={6}>
           <img src={XMLID_1_} alt='' className='m-auto' />
@@ -238,18 +240,18 @@ function App() {
           <img src={XMLID_1_} alt='' className='m-auto' />
         </Grid>
         <Grid item md={6} xs={12} lg={6} xl={6} sm={6} className='d-flex flex-column m-auto'>
-          <h2>
+          <div dir={dir}> <h2>
             <FormattedMessage id='ourproducts' />
           </h2>
-          <FormattedMessage id='obtaineval' />
-          <ul>
-            <li>
-              <FormattedMessage id='mequip' />
-            </li>
-            <li><FormattedMessage id='vahiceldamage' />
-              <p><FormattedMessage id='gettrueval' /></p>
-            </li>
-          </ul>
+            <FormattedMessage id='obtaineval' />
+            <ul>
+              <li>
+                <FormattedMessage id='mequip' />
+              </li>
+              <li><FormattedMessage id='vahiceldamage' />
+                <p><FormattedMessage id='gettrueval' /></p>
+              </li>
+            </ul></div>
         </Grid>
       </Grid>
 
@@ -257,27 +259,28 @@ function App() {
 
       <Grid className='first m-auto' container>
         <Grid item md={6} xs={12} lg={6} xl={6} sm={6} className='d-flex flex-column m-auto'>
-          <h2>
+          <div dir={dir}> <h2>
             <FormattedMessage id='steps' />
           </h2>
-          <ul>
-            <li>
-              <FormattedMessage id='generalsteps' />
-            </li>
-            <li>
-              <FormattedMessage id='contct' />
-            </li>
-            <li>
-              <FormattedMessage id='ifassets' />
-            </li>
-          </ul>
+            <ul>
+              <li>
+                <FormattedMessage id='generalsteps' />
+              </li>
+              <li>
+                <FormattedMessage id='contct' />
+              </li>
+              <li>
+                <FormattedMessage id='ifassets' />
+              </li>
+            </ul>
+          </div>
         </Grid>
         <Grid item md={6} className='d-flex' xs={12} lg={6} xl={6} sm={6}>
           <img src={XMLID_1_} alt='' className='m-auto' />
         </Grid>
       </Grid>
 
-      <Alert className='ml-auto mr-auto mt-5 mb-5 text-center d-flex align-items-center justify-content-center'
+      <Alert dir={dir} className='ml-auto mr-auto mt-5 mb-5 text-center d-flex align-items-center justify-content-center'
         style={{ maxWidth: '500px', }} severity="success">
         <FormattedMessage id='urquote' />
         <p>{qoutenumber}</p>
