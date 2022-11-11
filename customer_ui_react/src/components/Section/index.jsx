@@ -98,6 +98,7 @@ function Section({
   intl: { formatMessage },
   countries,
   regions,
+  quoteno,
   districts,
   cities,
   conditions,
@@ -110,7 +111,7 @@ function Section({
   const prevStep = usePrevious(activeStep);
 
   const [compmanyDetails, setCompanyDetails] = useState([]);
-
+  const [iscityrestricted, setisscityrestricted] = useState(0);
   const [FirstStepInput, setFirstStepInputs] = useState({
     fname: "",
     lname: "",
@@ -125,13 +126,15 @@ function Section({
 
   const [ThirdStepInputs, setThirdStepInputs] = useState({
     typeofproperty: "",
-    totalProperty: "",
-    totalEvaluatorNeed: "",
+    totalprop: "",
+    totalevalutor: "",
     country: "",
     region: "",
     city: "",
     district: "",
-    landSize: "",
+    isCityRestricted: "",
+    purposeid: "",
+    land_size: "",
   });
 
   const handleChangefirst = (e) => {
@@ -158,7 +161,7 @@ function Section({
     !!err && seterr(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let i = Object.values(
       activeStep == 1 ? FirstStepInput : ThirdStepInputs
@@ -175,8 +178,65 @@ function Section({
     // // activeStep == 3 &&
     // setCompanyDetails((p) => [...p, ThirdStepInputs]);
   };
+  const handlesave = async () => {
+    try {
+      const userobj = {
+        quoteno,
+        ...FirstStepInput,
+      };
+      const companypay = {
+        quoteno: "Q10239",
+        companyname: "adnan",
+        companyaddress: "aslam",
+        companyphone: 3152982411,
+      };
+      const {
+        totalprop,
+        totalevalutor,
+        typeofproperty,
+        region,
+        country,
+        city,
+        district,
+        land_size,
+        purposeid,
+      } = ThirdStepInputs;
+      const details = {
+        quoteno,
+        typecd: typeofproperty,
+        region,
+        country,
+        city,
+        district,
+        land_size,
+        // building_size: ThirdStepInputs.,
+        isrestricted: iscityrestricted,
+        purposeid,
+        totalprop,
+        totalevalutor,
+      };
+      // const []
+      const res = await axios.post(
+        "https://dev-pvq-api.herokuapp.com/cust/company-info",
+        userobj,
+        {}
+      );
+      const rescom = await axios.post(
+        "https://dev-pvq-api.herokuapp.com/cust/company-info",
+        companypay,
+        {}
+      );
+      const resdetails = await axios.post(
+        "https://dev-pvq-api.herokuapp.com/cust/property-info",
+        details,
+        {}
+      );
+    } catch (error) {
+      console.log("ererer", error);
+    }
+  };
 
-  console.log("ererer", err, ThirdStepInputs);
+  // console.log("ererer", err, ThirdStepInputs);
 
   return (
     <div
@@ -259,7 +319,6 @@ function Section({
                       lg="6"
                       xs="12"
                       // dir={dir}
-                      // lang={lang}
                       xl="6"
                       xxl="6"
                       id={v.id}
@@ -291,7 +350,7 @@ function Section({
                       </InputGroup>
                       {err == v.id && (
                         <p className="clr-red mt-1">
-                          <FormattedMessage id="pleasechose" />
+                          <FormattedMessage id="pleaseenter" />
                           <FormattedMessage id={v.id} />
                         </p>
                       )}
@@ -381,8 +440,8 @@ function Section({
                     </Form.Select>
                     {err == "typeofproperty" && (
                       <p className="clr-red mt-1 error">
-                        <FormattedMessage id="pleasechose" />
-                        <FormattedMessage id="typeofproperty" />
+                        <FormattedMessage id="typeerr" />
+                        {/* <FormattedMessage id="typeofproperty" /> */}
                       </p>
                     )}
                   </Form.Group>
@@ -390,22 +449,30 @@ function Section({
                     {
                       id: "totalprop",
                       type: "number",
-                      name: "totalProperty",
+                      name: "totalprop",
                       p: "typetotalprop",
-                      error: "",
+                      error: "typeerr",
+                    },
+                    {
+                      id: "selectpurpose",
+                      type: "select",
+                      name: "purposeid",
+                      p: "selectpurpose",
+                      error: "purposeerr",
                     },
                     {
                       id: "totaleva",
                       type: "number",
-                      name: "totalEvaluatorNeed",
+                      name: "totalevalutor",
                       p: "typetotaleval",
-                      error: "",
+                      error: "noofevaerr",
                     },
                     {
                       id: "selectcountry",
                       name: "country",
                       type: "select",
                       options: countries,
+                      error: "countryerr",
                     },
                     {
                       id: "selectregion",
@@ -414,6 +481,7 @@ function Section({
                         (v) => v.fk_country_id == ThirdStepInputs.country
                       ),
                       name: "region",
+                      error: "regionerr",
                     },
                     {
                       id: "selectcity",
@@ -424,6 +492,7 @@ function Section({
                           v.fk_country_id == ThirdStepInputs.country &&
                           v.fk_region_id == ThirdStepInputs.region
                       ),
+                      error: "cityerr",
                     },
                     {
                       id: "selectdistrict",
@@ -435,82 +504,112 @@ function Section({
                           v.fk_city_id == ThirdStepInputs.city
                       ),
                       name: "district",
+                      error: "districterr",
+                    },
+                    {
+                      id: "isthiscity",
+                      type: "select",
+                      name: "isCityRestricted",
+                      p: "typelandsize",
+                      options: [
+                        { title: "Yes", title_ar: "نعم" },
+                        { title: "No", title_ar: "رقم" },
+                      ],
                     },
                     {
                       id: "landsize",
                       type: "number",
-                      name: "landSize",
+                      name: "land_size",
                       p: "typelandsize",
                     },
-                  ].map((v) => (
-                    <Form.Group
-                      as={Col}
-                      md="6"
-                      sm="6"
-                      key={v.id}
-                      lg="6"
-                      xs="12"
-                      className="mt-4 position-relative"
-                      xl="6"
-                      xxl="6"
-                      controlId={v.id}
-                    >
-                      <Form.Label className="lbl fs-5">
-                        <FormattedMessage id={v.id} />
-                      </Form.Label>
-                      {/(text|number)/.test(v.type) && (
-                        <InputGroup size="lg" className="mb-3 h-60px">
-                          <Form.Control
-                            value={ThirdStepInputs[v.name]}
-                            type={v.type}
-                            name={v.name}
-                            id={v.name}
-                            onChange={handleChangethird}
-                            className="auth__input bl-none"
-                            size="lg"
-                            placeholder={formatMessage({
-                              id: v.p,
-                            })}
-                          />
-                        </InputGroup>
-                      )}
-                      {v.type == "select" && (
-                        <Form.Select
-                          size="lg"
-                          onChange={handleChangethird}
-                          name={v.name}
-                          placeholder={v.id}
-                          value={ThirdStepInputs[v.name]}
-                          id={v.name}
-                          className="h-60px bg-gray lbl fs-5 rounded-3 mb-3"
-                        >
-                          <option value="" selected disabled>
-                            <FormattedMessage id={v.id} />
-                          </option>
-                          {v.options?.map((val, i) => {
-                            return (
-                              <option key={i} value={val.id}>
-                                {lang === "en-US" ? val?.title : val?.title_ar}
-                              </option>
-                            );
-                          })}
-                        </Form.Select>
-                      )}
-                      {err == v.name && (
-                        <p className="clr-red mt-1 error">
-                          <FormattedMessage
-                            id={
-                              v.type === "select"
-                                ? "pleasechose"
-                                : "pleaseenter"
-                            }
-                          />
+                  ]
+                    .filter((v) =>
+                      iscityrestricted == 1 ? v : v.id !== "isthiscity"
+                    )
+                    .map((v) => (
+                      <Form.Group
+                        as={Col}
+                        md="6"
+                        sm="6"
+                        key={v.id}
+                        lg="6"
+                        xs="12"
+                        className="mt-4 position-relative"
+                        xl="6"
+                        xxl="6"
+                        controlId={v.id}
+                      >
+                        <Form.Label className="lbl fs-5">
                           <FormattedMessage id={v.id} />
-                          {/* <FormattedMessage id={v.error} /> */}
-                        </p>
-                      )}
-                    </Form.Group>
-                  ))}
+                        </Form.Label>
+                        {/(text|number)/.test(v.type) && (
+                          <InputGroup size="lg" className="mb-3 h-60px">
+                            <Form.Control
+                              value={ThirdStepInputs[v.name]}
+                              type={v.type}
+                              name={v.name}
+                              id={v.name}
+                              onChange={handleChangethird}
+                              className="auth__input bl-none"
+                              size="lg"
+                              placeholder={formatMessage({
+                                id: v.p,
+                              })}
+                            />
+                          </InputGroup>
+                        )}
+                        {v.type == "select" && (
+                          <Form.Select
+                            size="lg"
+                            onChange={(e) => {
+                              if (
+                                ["city"].includes(
+                                  e.target.name || e.target.value
+                                )
+                              ) {
+                                const isres = cities.find(
+                                  (v) => v.id == e.target.value
+                                );
+                                setisscityrestricted(isres.isrestricted);
+                              }
+                              handleChangethird(e);
+                            }}
+                            name={v.name}
+                            placeholder={v.id}
+                            value={ThirdStepInputs[v.name]}
+                            id={v.name}
+                            className="h-60px bg-gray lbl fs-5 rounded-3 mb-3"
+                          >
+                            <option value="" selected disabled>
+                              <FormattedMessage id={v.id} />
+                            </option>
+                            {v.options?.map((val, i) => {
+                              return (
+                                <option key={i} value={val.id}>
+                                  {lang === "en-US"
+                                    ? val?.title
+                                    : val?.title_ar}
+                                </option>
+                              );
+                            })}
+                          </Form.Select>
+                        )}
+                        {err == v.name && (
+                          <p className="clr-red mt-1 error">
+                            <FormattedMessage
+                              id={v.error}
+                              // id={
+                              //   v.type === "select"
+                              //     ? "pleasechose"
+                              //     : "pleaseenter"
+                              // }
+                            />
+                            {/* <FormattedMessage id={v.id} /> */}
+                            {/* <FormattedMessage id={v.error} /> */}
+                          </p>
+                        )}
+                      </Form.Group>
+                    ))}
                 </Row>
               )}
               <Grid
