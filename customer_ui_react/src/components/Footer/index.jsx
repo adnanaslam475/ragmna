@@ -1,9 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import {
-  FormControl,
-  Grid,
-} from "@mui/material";
+import { FormControl, Grid } from "@mui/material";
 import whatsapp from "../../assets/WhatsApp.svg";
 
 import L from "../../assets/Logo.jpeg";
@@ -53,8 +50,9 @@ function Footer() {
             { img: insta, link: "" },
             { img: linkedin, link: "" },
             { img: snap, link: "" },
-          ].map((v) => (
+          ].map((v, i) => (
             <a
+              key={i}
               className="m-1"
               href="https://tabiyat.pk"
               target="_blank"

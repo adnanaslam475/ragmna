@@ -21,10 +21,10 @@ import realestateblack from "./assets/realestateblack.svg";
 
 import macineryblack from "./assets/macineryblack.svg";
 import macinerywhite from "./assets/macinerywhite.svg";
-
+import { useSnackbar } from 'notistack'
 import accidentwhite from "./assets/accidentwhite.svg";
 import accidentblack from "./assets/accidentblack.svg";
-import { Alert, Grid } from "@mui/material";
+import { Alert, CircularProgress, Grid } from "@mui/material";
 
 // import Fotoerabove from './assets/footerabove.svg'
 // import Fotoerblw from './assets/footerbelow.svg'
@@ -51,7 +51,9 @@ function App() {
   const [conditions, setconditions] = useState([]);
   const [openLoginmodal, setOpenLoginModal] = useState(false);
   const [{ dir, lang }, dispatch] = useAuthStore();
+  const { enqueueSnackbar } = useSnackbar();
 
+  const [loading, setloadging] = useState(true)
   useEffect(() => {
     const l = localStorage.getItem("lang");
     if (!!l) {
@@ -62,7 +64,7 @@ function App() {
   const purposelistF = async () => {
     try {
       const purposelist = await axios.get(
-        "https://dev-pvq-api.herokuapp.com/cust/purpose-list"
+        `${process.env.REACT_APP_DEV_BASE}/cust/purpose-list`
       );
       setpurposes(purposelist.data.items);
     } catch (error) {
@@ -74,7 +76,7 @@ function App() {
   const ctylistF = async () => {
     try {
       const citylist = await axios.get(
-        "https://dev-pvq-api.herokuapp.com/cust/city-list"
+        `${process.env.REACT_APP_DEV_BASE}/cust/city-list`
       );
       setcities(citylist.data.items);
     } catch (error) {
@@ -86,7 +88,7 @@ function App() {
   const countryF = async () => {
     try {
       const citylist = await axios.get(
-        "https://dev-pvq-api.herokuapp.com/cust/country-list"
+        `${process.env.REACT_APP_DEV_BASE}/cust/country-list`
       );
       setcountries(citylist.data.items);
     } catch (error) {
@@ -98,7 +100,7 @@ function App() {
   const districtf = async () => {
     try {
       const districts = await axios.get(
-        "https://dev-pvq-api.herokuapp.com/cust/district-list"
+        `${process.env.REACT_APP_DEV_BASE}/cust/district-list`
       );
       setdistricts(districts.data.items);
     } catch (error) {
@@ -110,7 +112,7 @@ function App() {
   const rgnF = async () => {
     try {
       const rgns = await axios.get(
-        "https://dev-pvq-api.herokuapp.com/cust/region-list"
+        `${process.env.REACT_APP_DEV_BASE}/cust/region-list`
       );
       setregions(rgns.data.items);
     } catch (error) {
@@ -122,7 +124,7 @@ function App() {
   const cnditionf = async () => {
     try {
       const cndition = await axios.get(
-        "https://dev-pvq-api.herokuapp.com/cust/condition-list"
+        `${process.env.REACT_APP_DEV_BASE}/cust/condition-list`
       );
       setconditions(cndition.data.items);
     } catch (error) {
@@ -130,10 +132,11 @@ function App() {
     } finally {
     }
   };
+
   const qoute = async () => {
     try {
       const res = await axios.post(
-        "https://dev-pvq-api.herokuapp.com/cust/new-quote",
+        `${process.env.REACT_APP_DEV_BASE}/cust/new-quote`,
         {
           title: "Real Estate",
           category: "LAND",
@@ -142,8 +145,9 @@ function App() {
       );
       setQouteNumber(res.data?.data);
     } catch (error) {
-      console.log("eroere", error);
+      console.log("qoutefetcherr", error);
     } finally {
+      setloadging(false)
     }
   };
 
@@ -156,8 +160,7 @@ function App() {
     rgnF();
     cnditionf();
   }, []);
-
-  console.log("purpose", dir);
+  const modalHandler = () => setOpenLoginModal(!openLoginmodal)
 
   return (
     <IntlProvider
@@ -165,11 +168,11 @@ function App() {
       locale={lang}
       defaultLocale={LOCALES.ENGLISH}
     >
-      <Header modalHandler={() => setOpenLoginModal(true)} />
+      <Header modalHandler={modalHandler} />
       <div
         dir={dir}
         style={{ minHeight: "600px" }}
-        className="first__section d-flex flex-column m-auto align-items-center justify-content-center"
+        className="first__section d-flex flex-column align-items-center justify-content-center"
       >
         <h1>
           <FormattedMessage id="banner" />
@@ -177,7 +180,7 @@ function App() {
         <p>
           <FormattedMessage id="banner_p" />
         </p>
-        <div className="d-flex flex-row">
+        <div className="d-flex flex-row" style={{ border: '1px solid blue' }}>
           {arr.map((v) => (
             <div
               key={v.name}
@@ -188,6 +191,7 @@ function App() {
                 <div
                   className="inner d-flex align-items-center justify-content-center"
                   style={{
+                    border: '1px solid red',
                     backgroundColor: v.name == seletc ? "blue" : "white",
                   }}
                 >
@@ -354,11 +358,12 @@ function App() {
         className="ml-auto mr-auto mt-5 mb-5 text-center d-flex align-items-center justify-content-center"
         style={{ maxWidth: "500px", border: "1px solid" }}
         severity="success"
+        icon={false}
       >
-        <p style={{ margin: "15px 0 0 0" }}>
+        {loading ? <CircularProgress style={{ color: 'green' }} className='d-flex align-items-center' /> : <p style={{ margin: "15px 0 0 0" }}>
           <FormattedMessage id="urquote" />
           {qoutenumber}
-        </p>
+        </p>}
       </Alert>
       <Section
         regions={regions}
@@ -370,8 +375,7 @@ function App() {
         conditions={conditions}
       />
       <Footer />
-      {/* <AuthModal /> */}
-      {openLoginmodal && <AuthModal />}
+      {openLoginmodal && <AuthModal modalHandler={modalHandler} />}
     </IntlProvider>
   );
 }

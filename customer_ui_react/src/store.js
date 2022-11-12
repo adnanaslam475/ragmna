@@ -9,13 +9,15 @@ export const initialState = {
   data: [],
   lang,
   dir: lang === 'en-US' ? 'rtl' : 'ltr',
-  openLoginmodal: false
+  openLoginmodal: false,
+  user: authData
 };
 
 export const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case "AUTH":
-      return { ...state, };
+      JSON.stringify(localStorage.setItem("user", action.payload));
+      return { ...state, user: action.payload };
     case "LANG":
       localStorage.setItem('lang', action.payload)
       return {

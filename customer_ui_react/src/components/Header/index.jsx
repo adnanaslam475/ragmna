@@ -6,9 +6,10 @@ import {
   MenuItem,
   Select,
   FormControl,
+  Typography,
 } from "@mui/material";
 import { Nav, NavLink, Bars, NavMenu } from "./NavbarElements";
-
+import loginicon from "../../assets/loginicon.svg";
 import L from "../../assets/Logo.jpeg";
 import arabicflag from "../../assets/arabiflag.png";
 import USFLAG from "../../assets/United-states_flag_icon_round 1.svg";
@@ -23,14 +24,12 @@ const Navbar = ({ modalHandler }) => {
     dispatch({ type: "LANG", payload: e.target.value });
   };
 
-  console.log("dir", dir, lang);
-
   return (
     <>
       <AppBar
       // dir={dir}
       >
-        <Nav>
+        <Nav style={{ textAlign: "center" }}>
           <img src={L} alt="" />
           <Bars />
           <NavMenu>
@@ -52,6 +51,12 @@ const Navbar = ({ modalHandler }) => {
               </NavLink>
             ))}
           </NavMenu>
+          <div onClick={modalHandler}>
+            <NavLink className="lbl">
+              <img alt="" src={loginicon} className="mr-10" />
+              <FormattedMessage id="signin" />
+            </NavLink>
+          </div>
           <FormControl
             className="slect"
             variant="standard"
