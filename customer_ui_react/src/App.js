@@ -159,7 +159,9 @@ function App() {
     districtf();
     rgnF();
     cnditionf();
+
   }, []);
+
   const modalHandler = () => setOpenLoginModal(!openLoginmodal)
 
   return (
@@ -171,16 +173,16 @@ function App() {
       <Header modalHandler={modalHandler} />
       <div
         dir={dir}
-        style={{ minHeight: "600px" }}
-        className="first__section d-flex flex-column align-items-center justify-content-center"
+        style={{ minHeight: "600px", padding:'0 10% 0 10%' }}
+        className="p3 text-center first__section d-flex flex-column align-items-center justify-content-center"
       >
         <h1>
           <FormattedMessage id="banner" />
         </h1>
-        <p>
+        <p className="lbl">
           <FormattedMessage id="banner_p" />
         </p>
-        <div className="d-flex flex-row" style={{ border: '1px solid blue' }}>
+        <div className="d-flex circles" >
           {arr.map((v) => (
             <div
               key={v.name}
@@ -191,7 +193,6 @@ function App() {
                 <div
                   className="inner d-flex align-items-center justify-content-center"
                   style={{
-                    border: '1px solid red',
                     backgroundColor: v.name == seletc ? "blue" : "white",
                   }}
                 >
@@ -218,8 +219,8 @@ function App() {
 
       {/* //first info section  */}
       <Grid className="first m-auto" container>
-        <Grid item md={6} className="d-flex" xs={12} lg={6} xl={6} sm={6}>
-          <img src={XMLID_1_} alt="" className="m-auto" />
+        <Grid item md={6} className="d-flex align-items-center justify-content-center mar" xs={12} lg={6} xl={6} sm={6}>
+          <img src={XMLID_1_} alt="" className="w-85" />
         </Grid>
         <Grid
           item
@@ -228,7 +229,7 @@ function App() {
           lg={6}
           xl={6}
           sm={6}
-          className="d-flex flex-column m-auto"
+          className="d-flex flex-column m-auto mar"
         >
           <div dir={dir}>
             <h2>
@@ -255,7 +256,7 @@ function App() {
           lg={6}
           xl={6}
           sm={6}
-          className="d-flex flex-column m-auto"
+          className="d-flex flex-column m-auto mar"
         >
           <div dir={dir}>
             <h2>
@@ -278,15 +279,15 @@ function App() {
             </ul>
           </div>
         </Grid>
-        <Grid item md={6} className="d-flex" xs={12} lg={6} xl={6} sm={6}>
-          <img src={XMLID_1_} alt="" className="m-auto" />
+        <Grid item md={6} className="d-flex align-items-center justify-content-center mar" xs={12} lg={6} xl={6} sm={6}>
+          <img src={XMLID_1_} alt="" className="w-85" />
         </Grid>
       </Grid>
 
       {/* <------------------third info section--------------> */}
       <Grid className="first m-auto" container>
-        <Grid item md={6} className="d-flex" xs={12} lg={6} xl={6} sm={6}>
-          <img src={XMLID_1_} alt="" className="m-auto" />
+        <Grid item md={6} className="d-flex align-items-center justify-content-center mar" xs={12} lg={6} xl={6} sm={6}>
+          <img src={XMLID_1_} alt="" className="w-85" />
         </Grid>
         <Grid
           item
@@ -295,7 +296,7 @@ function App() {
           lg={6}
           xl={6}
           sm={6}
-          className="d-flex flex-column m-auto"
+          className="d-flex flex-column m-auto mar"
         >
           <div dir={dir}>
             {" "}
@@ -328,7 +329,7 @@ function App() {
           lg={6}
           xl={6}
           sm={6}
-          className="d-flex flex-column m-auto"
+          className="d-flex flex-column m-auto mar"
         >
           <div dir={dir}>
             {" "}
@@ -348,15 +349,15 @@ function App() {
             </ul>
           </div>
         </Grid>
-        <Grid item md={6} className="d-flex" xs={12} lg={6} xl={6} sm={6}>
-          <img src={XMLID_1_} alt="" className="m-auto" />
+        <Grid item md={6} className="d-flex align-items-center justify-content-center mar" xs={12} lg={6} xl={6} sm={6}>
+          <img src={XMLID_1_} alt="" className="w-85" />
         </Grid>
       </Grid>
 
       <Alert
         dir={dir}
         className="ml-auto mr-auto mt-5 mb-5 text-center d-flex align-items-center justify-content-center"
-        style={{ maxWidth: "500px", border: "1px solid" }}
+        style={{ maxWidth: "500px", }}
         severity="success"
         icon={false}
       >

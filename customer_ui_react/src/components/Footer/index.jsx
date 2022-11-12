@@ -1,25 +1,21 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { FormControl, Grid } from "@mui/material";
-import whatsapp from "../../assets/WhatsApp.svg";
-
-import L from "../../assets/Logo.jpeg";
-import arabicflag from "../../assets/arabiflag.png";
-import USFLAG from "../../assets/United-states_flag_icon_round 1.svg";
-import { useAuthStore } from "../../store";
-import "./footer.scss";
-
+import { Grid } from "@mui/material";
 import fb from "../../assets/fb.svg";
 import snap from "../../assets/snap.svg";
 import twitter from "../../assets/twitter.svg";
 import linkedin from "../../assets/linkedin.svg";
 import insta from "../../assets/insta.svg";
+import whatsapp from "../../assets/WhatsApp.svg";
+
+import "./footer.scss";
+
 
 function Footer() {
   return (
     <footer className="footer__section">
       <Grid container className="con">
-        <Grid className="pt-5" item xs={12} sm={4} lg={4} xl={4} md={4}>
+        <Grid className="pt-5" item xs={6} sm={4} lg={4} xl={4} md={4}>
           <h5>
             <FormattedMessage id="services" />
           </h5>
@@ -29,7 +25,7 @@ function Footer() {
             </p>
           ))}
         </Grid>
-        <Grid className="pt-5" item xs={12} sm={4} lg={4} xl={4} md={4}>
+        <Grid className="pt-5" item xs={6} sm={4} lg={4} xl={4} md={4}>
           <h5>
             <FormattedMessage id="support" />
           </h5>
@@ -58,7 +54,7 @@ function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className="" src={v.img} alt="" />
+              <img className="mt-1" src={v.img} alt="" />
             </a>
           ))}
           <p className="mt-3">

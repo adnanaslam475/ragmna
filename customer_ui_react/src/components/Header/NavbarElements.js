@@ -27,7 +27,7 @@ export const NavLink = styled(Link)`
 `;
 
 export const Bars = styled(FaBars)`
-  display: none;
+display: none;
   color: #808080;
   @media screen and (max-width: 768px) {
     display: block;
@@ -44,15 +44,13 @@ export const NavMenu = styled.div`
   display: flex;
   align-items: center;
   margin-right: -24px;
-  /* Second Nav */
-  /* margin-right: 24px; */
-  /* Third Nav */
+   
   /* width: 100vw;
   white-space: nowrap; */
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
+  `;
+// @media screen and (max-width: 768px) {
+//   display: none;
+// }
 
 export const NavBtn = styled.nav`
   display: flex;

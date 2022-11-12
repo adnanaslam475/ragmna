@@ -7,7 +7,7 @@ export const lang = localStorage.getItem("lang");
 
 export const initialState = {
   data: [],
-  lang,
+  lang: lang || 'en-US',
   dir: lang === 'en-US' ? 'rtl' : 'ltr',
   openLoginmodal: false,
   user: authData

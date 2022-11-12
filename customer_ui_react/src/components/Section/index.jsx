@@ -334,14 +334,14 @@ function Section({
           {/* // add your company personal info step 1 */}
           <div className="d-flex flex-column align-items-center">
             {activeStep < 4 && (
-              <>
-                <h1>
+              <div className="txt-center">
+                <h1 className="">
                   <FormattedMessage id={arr[activeStep - 1]} />
                 </h1>
                 <p className="mb-5">
                   <FormattedMessage id="personalquote" />
                 </p>
-              </>
+              </div>
             )}
             <Grid
               container
@@ -748,7 +748,7 @@ function Section({
                   {activeStep > 1 && (
                     <Button
                       color="#627792"
-                      className="mt-2 mb-2 previous__btn bg-graybtn color-white"
+                      className="mt-2 mb-2 previous__btn color-white submitbtn"
                       size="lg"
                       onClick={() => setActiveStep((p) => p - 1)}
                     >
@@ -756,7 +756,9 @@ function Section({
                     </Button>
                   )}
                   <Button
-                    className="mt-2 mb-2 submitbtn"
+                    className={`mt-2 mb-2 submitbtn ${
+                      activeStep === 1 && "right-0"
+                    }`}
                     size="lg"
                     type="submit"
                   >
@@ -765,20 +767,6 @@ function Section({
                     />
                   </Button>
                 </Grid>
-                {/* {activeStep == 4 && (
-                  <Grid
-                    container
-                    className="d-flex justify-content-center align-items-center mt-5"
-                  >
-                    <Button
-                      className="mt-2 mb-2 submitbtn"
-                      size="lg"
-                      type="submit"
-                    >
-                      <FormattedMessage id={"order"} />
-                    </Button>
-                  </Grid>
-                )} */}
               </Form>
             </Grid>
           </div>
